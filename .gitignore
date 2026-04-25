@@ -32,6 +32,10 @@ Thumbs.db
 # Word doc lock files
 ~$*.docx
 
+# Local source materials (not part of the codebase)
+Claude-by-Anthropic-for-Word*.docx
+Photos/
+
 # Brainstorming companion (local-only mockups & state)
 .superpowers/
 
