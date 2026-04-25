@@ -53,3 +53,4 @@ Photos/
 .supabase/
 supabase/.branches/
 supabase/.temp/
+test-results/
