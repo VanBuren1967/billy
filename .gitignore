@@ -35,6 +35,9 @@ Thumbs.db
 # Brainstorming companion (local-only mockups & state)
 .superpowers/
 
+# Git worktrees (isolated working copies)
+.worktrees/
+
 # Vercel
 .vercel
 
