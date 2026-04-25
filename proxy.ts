@@ -7,6 +7,9 @@ import { getUserRole } from '@/lib/auth/get-user-role';
 
 const PUBLIC_PATHS = [
   '/',
+  '/about',
+  '/pricing',
+  '/faq',
   '/login',
   '/auth/callback',
   '/auth/sign-out',
