@@ -30,8 +30,13 @@ describe('RLS — coaches and athletes are isolated', () => {
   let coachBUserId: string;
   let coachAId: string;
   let coachBId: string;
-  let athleteAClient: ReturnType<typeof createClient>;
-  let athleteBClient: ReturnType<typeof createClient>;
+  // SupabaseClient generics in v2.104+ infer narrowly from the createClient call site
+  // — the helper-returned client doesn't fit ReturnType<typeof createClient>'s shape.
+  // Test only needs a thin reference for chaining .from(...).select(...).
+  /* eslint-disable @typescript-eslint/no-explicit-any */
+  let athleteAClient: any;
+  let athleteBClient: any;
+  /* eslint-enable @typescript-eslint/no-explicit-any */
   let athleteARowId: string;
   let athleteBRowId: string;
 
