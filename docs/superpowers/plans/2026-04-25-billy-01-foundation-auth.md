@@ -4,9 +4,11 @@
 
 **Goal:** Stand up the Next.js + Supabase + Vercel + Sentry foundation with magic-link auth and role-based access, ending with an authenticated user reaching a role-appropriate empty dashboard in production.
 
-**Architecture:** Single Next.js 15 (App Router) repo on Vercel. Supabase provides Postgres + magic-link auth + RLS. Two role spaces (`/coach/*`, `/app/*`) gated by Next.js middleware *and* Postgres RLS. Sentry captures errors. CI runs lint + types + tests on every PR.
+**Architecture:** Single Next.js 16 (App Router) repo on Vercel. Supabase provides Postgres + magic-link auth + RLS. Two role spaces (`/coach/*`, `/app/*`) gated by Next.js middleware *and* Postgres RLS. Sentry captures errors. CI runs lint + types + tests on every PR.
 
-**Tech Stack:** Next.js 15 (App Router, TypeScript strict), Supabase JS v2 (`@supabase/ssr`), Tailwind v3, Zod, Vitest + Testing Library, Playwright, Sentry, ESLint + Prettier, pnpm, GitHub Actions.
+**Tech Stack:** Next.js 16 (App Router, TypeScript strict, React 19), Supabase JS v2 (`@supabase/ssr`), **Tailwind v4 (CSS-based config via `@theme`)**, Zod, Vitest + Testing Library, Playwright, Sentry, ESLint + Prettier, pnpm, GitHub Actions.
+
+**Toolchain note (2026-04-25):** Next.js 16 was released between this plan being written and Task 1 being executed. `pnpm create next-app@latest` now defaults to Next 16 + React 19 + Tailwind v4 + `next.config.ts` (not `.mjs`). The plan has been updated to match. Functionally equivalent for everything we're building.
 
 **Spec reference:** `docs/superpowers/specs/2026-04-25-billy-coaching-platform-design.md`
 
@@ -19,11 +21,11 @@
 | Path | Purpose |
 |---|---|
 | `package.json`, `pnpm-lock.yaml`, `tsconfig.json` | Project root config |
-| `next.config.mjs` | Next.js + Sentry config |
+| `next.config.ts` | Next.js + Sentry config (Next 16 default is `.ts`) |
 | `.env.example` | Documented env var template (committed) |
 | `.env.local` | Real local env vars (gitignored) |
 | `app/layout.tsx` | Root layout with Vault aesthetic (fonts, theme) |
-| `app/globals.css` | Tailwind + Vault color tokens |
+| `app/globals.css` | Tailwind v4 `@theme` block defines Vault color tokens — no separate `tailwind.config.ts` |
 | `app/page.tsx` | Public landing placeholder |
 | `app/(auth)/login/page.tsx` | Magic-link login form |
 | `app/(auth)/auth/callback/route.ts` | Magic-link redirect handler |
@@ -72,9 +74,9 @@ The user must perform these account-side actions before Task 1 — these are not
 
 - [ ] **Step 1: Scaffold Next.js into the existing repo**
 
-The repo is already initialized with `.gitignore` and `docs/`. Scaffold Next.js *into the current directory* without overwriting existing files.
+The repo is already initialized with `.gitignore` and `docs/`. Scaffold Next.js *into the current directory*.
 
-Run from `C:/Users/van/Desktop/billy`:
+Run from the worktree root:
 
 ```bash
 pnpm create next-app@latest . \
@@ -84,12 +86,13 @@ pnpm create next-app@latest . \
   --src-dir false \
   --eslint \
   --import-alias "@/*" \
-  --use-pnpm
+  --use-pnpm \
+  --yes
 ```
 
-When asked "would you like to overwrite ___" for `.gitignore`, choose **No**. For all other prompts, accept defaults.
+> **Note:** `--yes` accepts all defaults non-interactively, including overwriting `.gitignore`. Back up the existing `.gitignore` before scaffolding and restore it after. Or merge any new entries Next adds (typically `.next/`, `*.tsbuildinfo`) into the original.
 
-Expected: directory now contains `package.json`, `app/`, `tailwind.config.ts`, etc.
+Expected: directory now contains `package.json`, `app/`, `next.config.ts`, etc. (Tailwind v4 does **not** generate a `tailwind.config.ts` — config lives in `app/globals.css`.)
 
 - [ ] **Step 2: Tighten TypeScript settings to strict**
 
@@ -269,57 +272,56 @@ git commit -m "chore: add prettier config and unified npm scripts"
 ## Task 4: Apply the "Vault" base theme (colors, fonts, layout)
 
 **Files:**
-- Modify: `app/globals.css`, `app/layout.tsx`, `tailwind.config.ts`
+- Modify: `app/globals.css`, `app/layout.tsx`
 - Create: `app/page.tsx` (replace default)
 
-- [ ] **Step 1: Define Vault tokens in Tailwind**
+> **Tailwind v4 note:** Tailwind v4 ships with `create-next-app` and uses **CSS-based configuration** via `@theme` blocks in `globals.css` — there is no `tailwind.config.ts` file. All design tokens live in CSS custom properties inside `@theme`. The classes `bg-ink-950`, `text-bone`, `text-gold`, etc. are auto-generated from the variable names. This is a deliberate Tailwind v4 architectural choice.
 
-Replace `tailwind.config.ts` with:
-
-```ts
-import type { Config } from 'tailwindcss';
-
-export default {
-  content: ['./app/**/*.{ts,tsx}', './components/**/*.{ts,tsx}'],
-  theme: {
-    extend: {
-      colors: {
-        ink: { 950: '#080808', 900: '#0a0a0a', 800: '#0c0c0c', 700: '#16140f' },
-        bone: { DEFAULT: '#f4f0e8', muted: '#a39d8a', faint: '#6a6457' },
-        gold: { DEFAULT: '#c9a14c', dim: '#9a7a36' },
-        hairline: { DEFAULT: '#1a1814', strong: '#1f1d18' },
-      },
-      fontFamily: {
-        serif: ['"Spectral"', 'Georgia', 'serif'],
-        sans: ['Inter', 'system-ui', 'sans-serif'],
-      },
-      letterSpacing: {
-        wider: '0.05em',
-        widest: '0.2em',
-      },
-    },
-  },
-  plugins: [],
-} satisfies Config;
-```
-
-- [ ] **Step 2: Replace `app/globals.css`**
+- [ ] **Step 1: Replace `app/globals.css` with Vault tokens (Tailwind v4 syntax)**
 
 ```css
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+
+@theme {
+  --color-ink-950: #080808;
+  --color-ink-900: #0a0a0a;
+  --color-ink-800: #0c0c0c;
+  --color-ink-700: #16140f;
+
+  --color-bone: #f4f0e8;
+  --color-bone-muted: #a39d8a;
+  --color-bone-faint: #6a6457;
+
+  --color-gold: #c9a14c;
+  --color-gold-dim: #9a7a36;
+
+  --color-hairline: #1a1814;
+  --color-hairline-strong: #1f1d18;
+
+  --font-serif: 'Spectral', Georgia, serif;
+  --font-sans: 'Inter', system-ui, sans-serif;
+
+  --tracking-wider: 0.05em;
+  --tracking-widest: 0.2em;
+}
 
 @layer base {
   html, body {
-    @apply bg-ink-950 text-bone antialiased;
+    background-color: var(--color-ink-950);
+    color: var(--color-bone);
+    -webkit-font-smoothing: antialiased;
     font-feature-settings: 'tnum' 1, 'cv11' 1;
   }
-  ::selection { @apply bg-gold/30 text-bone; }
+  ::selection {
+    background-color: color-mix(in srgb, var(--color-gold) 30%, transparent);
+    color: var(--color-bone);
+  }
 }
 ```
 
-- [ ] **Step 3: Replace `app/layout.tsx` with Vault root layout**
+> **Step 2 deleted** — Tailwind v4 has no separate config file. Tokens above are the entire config.
+
+- [ ] **Step 2: Replace `app/layout.tsx` with Vault root layout**
 
 ```tsx
 import type { Metadata } from 'next';
@@ -349,7 +351,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 }
 ```
 
-- [ ] **Step 4: Replace `app/page.tsx` with a minimal Vault landing**
+- [ ] **Step 3: Replace `app/page.tsx` with a minimal Vault landing**
 
 ```tsx
 export default function Home() {
@@ -382,7 +384,7 @@ export default function Home() {
 }
 ```
 
-- [ ] **Step 5: Verify visually**
+- [ ] **Step 4: Verify visually**
 
 ```bash
 pnpm dev
@@ -390,7 +392,7 @@ pnpm dev
 
 Open `http://localhost:3000`. Expected: black page with serif headline, gold accent, bordered "Inquire" button. Stop server.
 
-- [ ] **Step 6: Commit**
+- [ ] **Step 5: Commit**
 
 ```bash
 git add -A
@@ -1643,17 +1645,16 @@ export async function register() {
 }
 ```
 
-- [ ] **Step 3: Wrap `next.config.mjs` with Sentry**
+- [ ] **Step 3: Wrap `next.config.ts` with Sentry**
 
-Replace `next.config.mjs`:
+Replace `next.config.ts`:
 
-```js
+```ts
+import type { NextConfig } from 'next';
 import { withSentryConfig } from '@sentry/nextjs';
 
-/** @type {import('next').NextConfig} */
-const nextConfig = {
+const nextConfig: NextConfig = {
   reactStrictMode: true,
-  experimental: { typedRoutes: true },
 };
 
 export default withSentryConfig(nextConfig, {
