@@ -442,7 +442,9 @@ git commit -m "feat: apply Vault aesthetic baseline (colors, fonts, landing)"
 pnpm exec supabase init
 ```
 
-Expected: creates `supabase/` directory with `config.toml` and `seed.sql`.
+Expected: creates `supabase/` directory with `config.toml` and `.gitignore`. (CLI 1.226 does not generate a `seed.sql`.)
+
+**Windows Docker Desktop tweak:** before `supabase start`, edit `supabase/config.toml` and set `[analytics] enabled = false`. The bundled `vector` analytics container fails its healthcheck on Windows + Docker Desktop because it can't reach `/var/run/docker.sock` from inside the Linux container, which causes the entire stack to tear down. Disabling analytics is local-dev-only and does NOT affect production Supabase. Add a comment in the config explaining why so future contributors don't re-enable it.
 
 - [ ] **Step 2: Start the local Supabase stack**
 
@@ -500,10 +502,12 @@ Expected: drops and recreates the local DB, applies the migration. Output ends w
 - [ ] **Step 5: Verify tables exist**
 
 ```bash
-pnpm exec supabase db dump --schema public
+pnpm exec supabase db dump --local --schema public
 ```
 
-Expected: output includes `CREATE TABLE public.coaches` and `CREATE TABLE public.athletes`.
+(The `--local` flag is required on CLI 1.226 to target the local stack rather than a linked remote project.)
+
+Expected: output includes `CREATE TABLE` statements for `public.coaches` and `public.athletes`.
 
 - [ ] **Step 6: Commit**
 
