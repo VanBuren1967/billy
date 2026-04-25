@@ -1,7 +1,9 @@
 import { test, expect } from '@playwright/test';
 import { getMagicLinkFor, clearInbucket } from './helpers/inbucket';
 
-test('magic-link flow lands on /login?error=account_not_yet_linked for unlinked user', async ({ page }) => {
+test('magic-link flow lands on /login?error=account_not_yet_linked for unlinked user', async ({
+  page,
+}) => {
   const email = `e2e-unlinked-${Date.now()}@example.com`;
   await clearInbucket(email);
 

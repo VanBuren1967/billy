@@ -10,17 +10,14 @@ export default function LoginPage() {
 
   return (
     <main className="mx-auto flex min-h-screen max-w-md flex-col items-start justify-center gap-6 px-6">
-      <p className="text-xs uppercase tracking-widest text-gold">Sign in</p>
-      <h1 className="font-serif text-3xl text-bone">Enter your email.</h1>
-      <p className="text-sm text-bone-muted">
+      <p className="text-gold text-xs tracking-widest uppercase">Sign in</p>
+      <h1 className="text-bone font-serif text-3xl">Enter your email.</h1>
+      <p className="text-bone-muted text-sm">
         We&apos;ll send a one-tap sign-in link. No passwords.
       </p>
 
       {state.ok ? (
-        <p
-          role="status"
-          className="border-l-2 border-gold pl-3 text-sm text-bone"
-        >
+        <p role="status" className="border-gold text-bone border-l-2 pl-3 text-sm">
           Link sent. Check your inbox (and spam).
         </p>
       ) : (
@@ -36,7 +33,7 @@ export default function LoginPage() {
             autoComplete="email"
             aria-invalid={state.error ? true : undefined}
             aria-describedby={state.error ? 'email-error' : undefined}
-            className="border border-hairline-strong bg-ink-900 px-3 py-2 text-bone outline-none focus:border-gold"
+            className="border-hairline-strong bg-ink-900 text-bone focus:border-gold border px-3 py-2 outline-none"
             placeholder="you@email.com"
           />
           {state.error && (
@@ -47,7 +44,7 @@ export default function LoginPage() {
           <button
             type="submit"
             disabled={pending}
-            className="border border-gold px-4 py-2 text-xs uppercase tracking-widest text-gold transition hover:bg-gold hover:text-ink-950 disabled:opacity-50"
+            className="border-gold text-gold hover:bg-gold hover:text-ink-950 border px-4 py-2 text-xs tracking-widest uppercase transition disabled:opacity-50"
           >
             {pending ? 'Sending…' : 'Send link'}
           </button>

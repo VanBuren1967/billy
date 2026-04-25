@@ -49,13 +49,21 @@ describe('RLS — coaches and athletes are isolated', () => {
 
     const { data: rowA } = await admin
       .from('coaches')
-      .insert({ auth_user_id: coachAUserId, display_name: 'Coach A', email: `coach-a-${Date.now()}@test.local` })
+      .insert({
+        auth_user_id: coachAUserId,
+        display_name: 'Coach A',
+        email: `coach-a-${Date.now()}@test.local`,
+      })
       .select('id')
       .single();
     coachAId = rowA!.id;
     const { data: rowB } = await admin
       .from('coaches')
-      .insert({ auth_user_id: coachBUserId, display_name: 'Coach B', email: `coach-b-${Date.now()}@test.local` })
+      .insert({
+        auth_user_id: coachBUserId,
+        display_name: 'Coach B',
+        email: `coach-b-${Date.now()}@test.local`,
+      })
       .select('id')
       .single();
     coachBId = rowB!.id;
@@ -67,14 +75,24 @@ describe('RLS — coaches and athletes are isolated', () => {
 
     const { data: athA } = await admin
       .from('athletes')
-      .insert({ coach_id: coachAId, auth_user_id: aa.userId, name: 'Athlete A', email: `ath-a-${Date.now()}@test.local` })
+      .insert({
+        coach_id: coachAId,
+        auth_user_id: aa.userId,
+        name: 'Athlete A',
+        email: `ath-a-${Date.now()}@test.local`,
+      })
       .select('id')
       .single();
     athleteARowId = athA!.id;
 
     const { data: athB } = await admin
       .from('athletes')
-      .insert({ coach_id: coachBId, auth_user_id: ab.userId, name: 'Athlete B', email: `ath-b-${Date.now()}@test.local` })
+      .insert({
+        coach_id: coachBId,
+        auth_user_id: ab.userId,
+        name: 'Athlete B',
+        email: `ath-b-${Date.now()}@test.local`,
+      })
       .select('id')
       .single();
     athleteBRowId = athB!.id;

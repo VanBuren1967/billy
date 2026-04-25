@@ -1,0 +1,15 @@
+# Force LF line endings for all text files across all platforms.
+# Keeps Windows checkouts consistent with Linux CI and prevents prettier
+# format:check failures caused by core.autocrlf=true rewriting LF→CRLF.
+* text=auto eol=lf
+
+# Lockfiles and binary fingerprints — leave to git's default handling.
+pnpm-lock.yaml -text
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.webp binary
+*.ico binary
+*.woff binary
+*.woff2 binary

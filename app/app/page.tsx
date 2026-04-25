@@ -2,14 +2,16 @@ import { createClient } from '@/lib/supabase/server';
 
 export default async function AthleteDashboard() {
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   return (
     <div className="flex flex-col gap-6">
-      <p className="text-xs uppercase tracking-widest text-gold">Today</p>
-      <h1 className="font-serif text-4xl text-bone">Welcome back.</h1>
+      <p className="text-gold text-xs tracking-widest uppercase">Today</p>
+      <h1 className="text-bone font-serif text-4xl">Welcome back.</h1>
       <p className="text-bone-muted">Signed in as {user?.email}.</p>
-      <p className="border-l-2 border-hairline-strong pl-3 text-sm text-bone-muted">
+      <p className="border-hairline-strong text-bone-muted border-l-2 pl-3 text-sm">
         Your program and check-ins will appear here once Plan 3 ships.
       </p>
     </div>

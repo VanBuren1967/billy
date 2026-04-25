@@ -12,7 +12,7 @@ function mockSupabase(opts: {
       select: vi.fn().mockReturnThis(),
       eq: vi.fn().mockReturnThis(),
       maybeSingle: vi.fn().mockResolvedValue({
-        data: table === 'coaches' ? opts.coach ?? null : opts.athlete ?? null,
+        data: table === 'coaches' ? (opts.coach ?? null) : (opts.athlete ?? null),
       }),
     })),
   } as never;
@@ -25,9 +25,7 @@ describe('getUserRole', () => {
   });
 
   it('returns coach when coach row exists', async () => {
-    const role = await getUserRole(
-      mockSupabase({ user: { id: 'u1' }, coach: { id: 'c1' } }),
-    );
+    const role = await getUserRole(mockSupabase({ user: { id: 'u1' }, coach: { id: 'c1' } }));
     expect(role).toEqual({ kind: 'coach', coachId: 'c1' });
   });
 
