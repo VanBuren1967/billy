@@ -241,7 +241,7 @@ Edit `package.json` to:
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
+    "lint": "eslint",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "typecheck": "tsc --noEmit",
@@ -250,6 +250,13 @@ Edit `package.json` to:
     "test:e2e": "playwright test"
   }
 }
+```
+
+> **Note:** `next lint` was **removed in Next.js 16**. Use `eslint` directly. The flat-config `eslint.config.mjs` from the scaffold handles the rest.
+
+```diff
+- "lint": "next lint"
++ "lint": "eslint"
 ```
 
 2. Add an `engines` block at the top level (right after `version`):
