@@ -590,8 +590,10 @@ export function createClient() {
 `lib/supabase/server.ts`:
 
 ```ts
-import { createServerClient } from '@supabase/ssr';
+import { createServerClient, type CookieOptions } from '@supabase/ssr';
 import { cookies } from 'next/headers';
+
+type CookieToSet = { name: string; value: string; options: CookieOptions };
 
 export async function createClient() {
   const cookieStore = await cookies();
@@ -603,7 +605,7 @@ export async function createClient() {
         getAll() {
           return cookieStore.getAll();
         },
-        setAll(cookiesToSet) {
+        setAll(cookiesToSet: CookieToSet[]) {
           try {
             cookiesToSet.forEach(({ name, value, options }) =>
               cookieStore.set(name, value, options),
@@ -618,13 +620,17 @@ export async function createClient() {
 }
 ```
 
+> **Note on the `CookieToSet` type:** strict TypeScript with `noImplicitAny` requires an explicit annotation on the `setAll` callback parameter — `@supabase/ssr` types `setAll` with a broader union that doesn't narrow inside the callback.
+
 - [ ] **Step 3: Create middleware client (cookie refresh on every request)**
 
 `lib/supabase/middleware.ts`:
 
 ```ts
-import { createServerClient } from '@supabase/ssr';
+import { createServerClient, type CookieOptions } from '@supabase/ssr';
 import { NextResponse, type NextRequest } from 'next/server';
+
+type CookieToSet = { name: string; value: string; options: CookieOptions };
 
 export async function updateSession(request: NextRequest) {
   let response = NextResponse.next({ request });
@@ -637,7 +643,7 @@ export async function updateSession(request: NextRequest) {
         getAll() {
           return request.cookies.getAll();
         },
-        setAll(cookiesToSet) {
+        setAll(cookiesToSet: CookieToSet[]) {
           cookiesToSet.forEach(({ name, value }) => request.cookies.set(name, value));
           response = NextResponse.next({ request });
           cookiesToSet.forEach(({ name, value, options }) =>
