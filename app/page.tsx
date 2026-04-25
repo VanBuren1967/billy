@@ -13,13 +13,13 @@ export default function Home() {
       <div className="flex gap-3 pt-2">
         <a
           href="/request-to-join"
-          className="border-gold text-gold hover:bg-gold hover:text-ink-950 border px-5 py-2 text-xs tracking-widest uppercase transition"
+          className="border-gold text-gold hover:bg-gold hover:text-ink-950 focus-visible:outline-gold border px-6 py-3 text-xs tracking-widest uppercase transition focus-visible:outline-2 focus-visible:outline-offset-2"
         >
           Inquire
         </a>
         <a
           href="/login"
-          className="text-bone-muted hover:text-bone px-5 py-2 text-xs tracking-widest uppercase transition"
+          className="text-bone-muted hover:text-bone focus-visible:outline-gold px-6 py-3 text-xs tracking-widest uppercase transition focus-visible:outline-2 focus-visible:outline-offset-2"
         >
           Sign in
         </a>
