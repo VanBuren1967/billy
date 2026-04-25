@@ -17,20 +17,33 @@ export default function LoginPage() {
       </p>
 
       {state.ok ? (
-        <p className="border-l-2 border-gold pl-3 text-sm text-bone">
+        <p
+          role="status"
+          className="border-l-2 border-gold pl-3 text-sm text-bone"
+        >
           Link sent. Check your inbox (and spam).
         </p>
       ) : (
         <form action={formAction} className="flex w-full flex-col gap-3">
+          <label htmlFor="email" className="sr-only">
+            Email address
+          </label>
           <input
+            id="email"
             name="email"
             type="email"
             required
             autoComplete="email"
+            aria-invalid={state.error ? true : undefined}
+            aria-describedby={state.error ? 'email-error' : undefined}
             className="border border-hairline-strong bg-ink-900 px-3 py-2 text-bone outline-none focus:border-gold"
             placeholder="you@email.com"
           />
-          {state.error && <p className="text-sm text-red-400">{state.error}</p>}
+          {state.error && (
+            <p id="email-error" role="alert" className="text-sm text-red-400">
+              {state.error}
+            </p>
+          )}
           <button
             type="submit"
             disabled={pending}

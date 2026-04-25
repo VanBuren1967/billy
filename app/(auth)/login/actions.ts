@@ -2,6 +2,7 @@
 
 import { z } from 'zod';
 import { createClient } from '@/lib/supabase/server';
+import { SITE_URL } from '@/lib/supabase/env';
 
 const Schema = z.object({ email: z.string().email() });
 
@@ -17,11 +18,11 @@ export async function sendMagicLink(
   }
 
   const supabase = await createClient();
+  // NOTE: SITE_URL/auth/callback must be added to Supabase Dashboard
+  // → Auth → URL Configuration → Redirect URLs before production deploy.
   const { error } = await supabase.auth.signInWithOtp({
     email: parsed.data.email,
-    options: {
-      emailRedirectTo: `${process.env.NEXT_PUBLIC_SITE_URL}/auth/callback`,
-    },
+    options: { emailRedirectTo: `${SITE_URL}/auth/callback` },
   });
 
   if (error) {
