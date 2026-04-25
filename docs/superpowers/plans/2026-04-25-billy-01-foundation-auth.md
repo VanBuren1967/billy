@@ -34,7 +34,7 @@
 | `app/coach/page.tsx` | Empty coach dashboard |
 | `app/app/layout.tsx` | Athlete-section layout (wraps `/app/*`) |
 | `app/app/page.tsx` | Empty athlete dashboard |
-| `middleware.ts` | Role-based route gating |
+| `proxy.ts` | Role-based route gating (Next 16 renamed `middleware.ts` → `proxy.ts`) |
 | `lib/supabase/client.ts` | Browser Supabase client |
 | `lib/supabase/server.ts` | Server Supabase client (RSC + Route Handlers) |
 | `lib/supabase/middleware.ts` | Middleware-context Supabase client (cookie refresh) |
@@ -973,9 +973,11 @@ export async function getUserRole(supabase: SupabaseClient): Promise<UserRole> {
 }
 ```
 
-- [ ] **Step 2: Write the middleware**
+- [ ] **Step 2: Write the proxy (formerly "middleware")**
 
-`middleware.ts` (at repo root, NOT inside `app/`):
+> **Next 16 rename:** the file convention `middleware.ts` was deprecated in Next 16 and renamed to `proxy.ts`. The exported function is now named `proxy` instead of `middleware`. Behavior is identical.
+
+`proxy.ts` (at repo root, NOT inside `app/`):
 
 ```ts
 import { NextResponse, type NextRequest } from 'next/server';
@@ -998,7 +1000,7 @@ function isPublic(pathname: string) {
   return PUBLIC_PATHS.includes(pathname) || pathname.startsWith('/_next') || pathname.startsWith('/api/webhooks');
 }
 
-export async function middleware(request: NextRequest) {
+export async function proxy(request: NextRequest) {
   const { response, supabase } = await updateSession(request);
   const { pathname } = request.nextUrl;
 
@@ -1075,7 +1077,7 @@ Expected: passes.
 - [ ] **Step 5: Commit**
 
 ```bash
-git add middleware.ts lib/auth app/(auth)/auth/callback/route.ts
+git add proxy.ts lib/auth 'app/(auth)/auth/callback/route.ts'
 git commit -m "feat(auth): role-based middleware and callback redirect"
 ```
 
