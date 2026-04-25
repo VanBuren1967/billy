@@ -229,9 +229,11 @@ docs
 .superpowers
 ```
 
-- [ ] **Step 2: Add npm scripts**
+- [ ] **Step 2: Add npm scripts, engines, and packageManager**
 
-Edit `package.json` `scripts` block to be exactly:
+Edit `package.json` to:
+
+1. Replace the `scripts` block with exactly:
 
 ```json
 {
@@ -249,6 +251,27 @@ Edit `package.json` `scripts` block to be exactly:
   }
 }
 ```
+
+2. Add an `engines` block at the top level (right after `version`):
+
+```json
+{
+  "engines": {
+    "node": ">=22",
+    "pnpm": ">=10"
+  }
+}
+```
+
+3. Add a `packageManager` field at the top level (run `pnpm --version` to get the exact local version, then use it):
+
+```json
+{
+  "packageManager": "pnpm@10.x.y"
+}
+```
+
+These pin Node + pnpm versions across fresh clones — small writes, big dividends across a months-long build.
 
 - [ ] **Step 3: Run formatter once**
 
