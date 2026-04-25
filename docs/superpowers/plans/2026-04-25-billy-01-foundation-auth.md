@@ -61,7 +61,7 @@ The user must perform these account-side actions before Task 1 — these are not
 - [ ] **PF-3.** Create a Sentry project at https://sentry.io (Next.js platform). Note the DSN.
 - [ ] **PF-4.** Create a GitHub repo `billy` (private). Note the SSH or HTTPS URL.
 - [ ] **PF-5.** Install `pnpm` globally if not present: `npm install -g pnpm` (verify: `pnpm --version` ≥ 9).
-- [ ] **PF-6.** Install Supabase CLI: `npm install -g supabase` (verify: `supabase --version` ≥ 1.180).
+- [ ] **PF-6.** ~~Global Supabase CLI install~~ — **superseded.** Supabase deprecated `npm install -g supabase`. We install Supabase CLI as a project dev dependency in **Task 2** instead. All `supabase` commands in this plan run as `pnpm exec supabase ...`.
 
 ---
 
@@ -164,7 +164,7 @@ git commit -m "chore: scaffold Next.js 15 app router with strict TypeScript"
 pnpm add @supabase/supabase-js@^2 @supabase/ssr@^0.5 zod@^3 clsx@^2
 ```
 
-- [ ] **Step 2: Install dev dependencies (testing, types, lint helpers)**
+- [ ] **Step 2: Install dev dependencies (testing, types, lint helpers, Supabase CLI)**
 
 ```bash
 pnpm add -D \
@@ -172,7 +172,8 @@ pnpm add -D \
   @testing-library/react@^16 @testing-library/jest-dom@^6 jsdom@^25 \
   @playwright/test@^1.48 \
   prettier@^3 prettier-plugin-tailwindcss@^0.6 \
-  @types/node@^22
+  @types/node@^22 \
+  supabase@^1.226
 ```
 
 - [ ] **Step 3: Verify install succeeded**
@@ -406,7 +407,7 @@ git commit -m "feat: apply Vault aesthetic baseline (colors, fonts, landing)"
 - [ ] **Step 1: Initialize Supabase in the repo**
 
 ```bash
-supabase init
+pnpm exec supabase init
 ```
 
 Expected: creates `supabase/` directory with `config.toml` and `seed.sql`.
@@ -414,7 +415,7 @@ Expected: creates `supabase/` directory with `config.toml` and `seed.sql`.
 - [ ] **Step 2: Start the local Supabase stack**
 
 ```bash
-supabase start
+pnpm exec supabase start
 ```
 
 Expected: Docker containers spin up; output shows local API URL (typically `http://localhost:54321`), Studio URL, anon key, service_role key.
@@ -459,7 +460,7 @@ create index idx_athletes_auth_user on public.athletes(auth_user_id);
 - [ ] **Step 4: Apply migration**
 
 ```bash
-supabase db reset
+pnpm exec supabase db reset
 ```
 
 Expected: drops and recreates the local DB, applies the migration. Output ends with "Finished supabase db reset."
@@ -467,7 +468,7 @@ Expected: drops and recreates the local DB, applies the migration. Output ends w
 - [ ] **Step 5: Verify tables exist**
 
 ```bash
-supabase db dump --schema public
+pnpm exec supabase db dump --schema public
 ```
 
 Expected: output includes `CREATE TABLE public.coaches` and `CREATE TABLE public.athletes`.
@@ -872,7 +873,7 @@ create policy "athlete updates own row"
 - [ ] **Step 2: Apply migration**
 
 ```bash
-supabase db reset
+pnpm exec supabase db reset
 ```
 
 Expected: both migrations apply cleanly. Last line: "Finished supabase db reset."
@@ -1393,7 +1394,7 @@ test('public pages render without auth', async ({ page }) => {
 Local Supabase must be running. Verify:
 
 ```bash
-supabase status
+pnpm exec supabase status
 ```
 
 Then:
@@ -1786,8 +1787,8 @@ Expected: deployment succeeds. Vercel returns a `https://billy-*.vercel.app` URL
 In a terminal:
 
 ```bash
-supabase link --project-ref <your-prod-project-ref>
-supabase db push
+pnpm exec supabase link --project-ref <your-prod-project-ref>
+pnpm exec supabase db push
 ```
 
 Expected: both migrations apply against the production database.
@@ -1823,7 +1824,7 @@ git push --tags
 - **Glance at Vercel Analytics** for traffic anomalies (~monthly).
 
 ## Local development
-1. `supabase start` — boot local DB.
+1. `pnpm exec supabase start` — boot local DB.
 2. `pnpm dev` — Next.js at localhost:3000.
 3. Magic-link emails go to Inbucket: http://localhost:54324.
 
