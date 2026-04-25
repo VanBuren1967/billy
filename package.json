@@ -20,6 +20,7 @@
     "test:e2e": "playwright test"
   },
   "dependencies": {
+    "@sentry/nextjs": "^10.50.0",
     "@supabase/ssr": "^0.5.2",
     "@supabase/supabase-js": "^2.104.1",
     "clsx": "^2.1.1",
