@@ -8,6 +8,10 @@ dist/
 build/
 out/
 
+# Next.js auto-generated (regenerated on every build)
+next-env.d.ts
+*.tsbuildinfo
+
 # Env files (NEVER commit)
 .env
 .env.local
