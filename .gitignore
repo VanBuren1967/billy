@@ -43,6 +43,9 @@ Photos/
 # Brainstorming companion (local-only mockups & state)
 .superpowers/
 
+# Session logs (raw transcripts + curated handoff — local-only context for resume)
+.session-logs/
+
 # Git worktrees (isolated working copies)
 .worktrees/
 
