@@ -8,7 +8,7 @@ export type InviteAthleteArgs = {
 };
 
 export type InviteAthleteResult =
-  | { ok: true; athleteId: string; alreadyExisted: boolean }
+  | { ok: true; athleteId: string; alreadyExisted: boolean; linkedExistingUser?: boolean }
   | { ok: false; reason: 'duplicate_active' | 'invite_failed'; message: string };
 
 /**
@@ -89,7 +89,49 @@ export async function inviteAthlete(args: InviteAthleteArgs): Promise<InviteAthl
     data: { athlete_id: athleteId, coach_id: args.coachId, name: args.name },
   });
   if (inviteErr) {
-    return { ok: false, reason: 'invite_failed', message: inviteErr.message };
+    // Edge case: the email already has an auth.users row (former coach, prior
+    // signup attempt, leftover dev account). inviteUserByEmail refuses. Since
+    // the user can already sign in with /login on their own, just link our
+    // athletes row to their existing auth_user_id and mark active. The next
+    // time they sign in they'll land on /app as this coach's athlete.
+    const alreadyRegistered =
+      /already (been )?registered/i.test(inviteErr.message) ||
+      // @ts-expect-error: AuthApiError carries `code` at runtime in newer versions.
+      inviteErr.code === 'email_exists';
+    if (!alreadyRegistered) {
+      return { ok: false, reason: 'invite_failed', message: inviteErr.message };
+    }
+
+    const { data: usersList, error: listErr } = await admin.auth.admin.listUsers({
+      page: 1,
+      perPage: 1000,
+    });
+    if (listErr) {
+      return { ok: false, reason: 'invite_failed', message: listErr.message };
+    }
+    const existingUser = usersList?.users.find((u) => u.email?.toLowerCase() === email);
+    if (!existingUser) {
+      return {
+        ok: false,
+        reason: 'invite_failed',
+        message: 'Email reported as registered but no matching auth user found.',
+      };
+    }
+
+    const { error: updateErr } = await admin
+      .from('athletes')
+      .update({
+        auth_user_id: existingUser.id,
+        status: 'active',
+        accepted_at: new Date().toISOString(),
+        updated_at: new Date().toISOString(),
+      })
+      .eq('id', athleteId);
+    if (updateErr) {
+      return { ok: false, reason: 'invite_failed', message: updateErr.message };
+    }
+
+    return { ok: true, athleteId, alreadyExisted, linkedExistingUser: true };
   }
 
   return { ok: true, athleteId, alreadyExisted };

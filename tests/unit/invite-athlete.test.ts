@@ -2,7 +2,7 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 
 const adminMock = {
   from: vi.fn(),
-  auth: { admin: { inviteUserByEmail: vi.fn() } },
+  auth: { admin: { inviteUserByEmail: vi.fn(), listUsers: vi.fn() } },
 };
 
 vi.mock('@/lib/supabase/admin', () => ({
@@ -42,6 +42,8 @@ describe('inviteAthlete', () => {
     adminMock.from.mockReset();
     adminMock.auth.admin.inviteUserByEmail.mockReset();
     adminMock.auth.admin.inviteUserByEmail.mockResolvedValue({ error: null });
+    adminMock.auth.admin.listUsers.mockReset();
+    adminMock.auth.admin.listUsers.mockResolvedValue({ data: { users: [] }, error: null });
     process.env.NEXT_PUBLIC_SITE_URL = 'http://localhost:3000';
   });
 
@@ -96,5 +98,43 @@ describe('inviteAthlete', () => {
     });
     const r = await inviteAthlete({ coachId: 'c1', name: 'Eve', email: 'eve@example.com' });
     expect(r).toEqual({ ok: false, reason: 'invite_failed', message: 'rate limited' });
+  });
+
+  it('links to existing auth user when email is already registered', async () => {
+    adminMock.from.mockReturnValue(makeChain({ lookup: { data: null, error: null } }));
+    adminMock.auth.admin.inviteUserByEmail.mockResolvedValue({
+      error: { message: 'A user with this email address has already been registered' },
+    });
+    adminMock.auth.admin.listUsers.mockResolvedValue({
+      data: {
+        users: [{ id: 'existing-auth-id', email: 'frank@example.com' }],
+      },
+      error: null,
+    });
+    const r = await inviteAthlete({ coachId: 'c1', name: 'Frank', email: 'frank@example.com' });
+    expect(r).toEqual({
+      ok: true,
+      athleteId: 'new-athlete-id',
+      alreadyExisted: false,
+      linkedExistingUser: true,
+    });
+    expect(adminMock.auth.admin.listUsers).toHaveBeenCalled();
+  });
+
+  it('returns invite_failed when already-registered branch cannot find the auth user', async () => {
+    adminMock.from.mockReturnValue(makeChain({ lookup: { data: null, error: null } }));
+    adminMock.auth.admin.inviteUserByEmail.mockResolvedValue({
+      error: { message: 'A user with this email address has already been registered' },
+    });
+    adminMock.auth.admin.listUsers.mockResolvedValue({
+      data: { users: [{ id: 'someone-else-id', email: 'someone-else@example.com' }] },
+      error: null,
+    });
+    const r = await inviteAthlete({ coachId: 'c1', name: 'Greta', email: 'greta@example.com' });
+    expect(r).toEqual({
+      ok: false,
+      reason: 'invite_failed',
+      message: 'Email reported as registered but no matching auth user found.',
+    });
   });
 });
