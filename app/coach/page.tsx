@@ -10,14 +10,8 @@ async function loadCounts(): Promise<Counts> {
       .from('join_requests')
       .select('id', { count: 'exact', head: true })
       .eq('status', 'pending'),
-    supabase
-      .from('athletes')
-      .select('id', { count: 'exact', head: true })
-      .eq('status', 'invited'),
-    supabase
-      .from('athletes')
-      .select('id', { count: 'exact', head: true })
-      .eq('status', 'active'),
+    supabase.from('athletes').select('id', { count: 'exact', head: true }).eq('status', 'invited'),
+    supabase.from('athletes').select('id', { count: 'exact', head: true }).eq('status', 'active'),
   ]);
   return {
     pending: pendingRes.count ?? 0,

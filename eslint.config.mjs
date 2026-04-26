@@ -12,6 +12,8 @@ const eslintConfig = defineConfig([
     'out/**',
     'build/**',
     'next-env.d.ts',
+    // Local-only directory containing build artifacts of dev worktrees.
+    '.worktrees/**',
   ]),
 ]);
 

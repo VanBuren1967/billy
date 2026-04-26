@@ -55,7 +55,7 @@ export function AthletesTable({ athletes }: { athletes: Athlete[] }) {
             <th className="px-5 py-3 font-normal">Email</th>
             <th className="px-5 py-3 font-normal">Status</th>
             <th className="px-5 py-3 font-normal">Joined</th>
-            <th className="px-5 py-3 font-normal sr-only">Actions</th>
+            <th className="sr-only px-5 py-3 font-normal">Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -63,7 +63,9 @@ export function AthletesTable({ athletes }: { athletes: Athlete[] }) {
             <tr key={a.id} className="border-hairline border-b last:border-0">
               <td className="text-bone px-5 py-4 font-serif">{a.name}</td>
               <td className="text-bone-muted px-5 py-4">{a.email}</td>
-              <td className={`px-5 py-4 text-xs tracking-widest uppercase ${STATUS_COLOR[a.status]}`}>
+              <td
+                className={`px-5 py-4 text-xs tracking-widest uppercase ${STATUS_COLOR[a.status]}`}
+              >
                 {STATUS_LABEL[a.status]}
               </td>
               <td className="text-bone-muted px-5 py-4">{fmt(a.accepted_at ?? a.invited_at)}</td>

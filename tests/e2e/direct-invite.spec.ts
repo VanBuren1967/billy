@@ -3,8 +3,8 @@ import { createClient } from '@supabase/supabase-js';
 import { ensureCoachAndLogin } from './helpers/coach-session';
 
 test.describe('Coach direct invite', () => {
-  test('invites an athlete via /coach/athletes/invite', async ({ context, baseURL }) => {
-    await ensureCoachAndLogin(context, baseURL!);
+  test('invites an athlete via /coach/athletes/invite', async ({ context }) => {
+    await ensureCoachAndLogin(context);
 
     const page = await context.newPage();
     const athleteEmail = `athlete+${Date.now()}@example.com`;
@@ -15,8 +15,9 @@ test.describe('Coach direct invite', () => {
     await page.getByRole('button', { name: /Send invite/i }).click();
 
     await expect(page).toHaveURL(/\/coach\/athletes$/);
-    await expect(page.getByText(athleteEmail)).toBeVisible();
-    await expect(page.getByRole('cell', { name: 'Invited' })).toBeVisible();
+    const newRow = page.getByRole('row').filter({ hasText: athleteEmail });
+    await expect(newRow).toBeVisible();
+    await expect(newRow.getByRole('cell', { name: 'Invited' })).toBeVisible();
 
     const admin = createClient(
       process.env.NEXT_PUBLIC_SUPABASE_URL!,

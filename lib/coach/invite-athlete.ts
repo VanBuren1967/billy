@@ -21,9 +21,7 @@ export type InviteAthleteResult =
  * - If status='active', we return { ok: false, reason: 'duplicate_active' } — the
  *   caller (UI) decides what to tell the coach.
  */
-export async function inviteAthlete(
-  args: InviteAthleteArgs,
-): Promise<InviteAthleteResult> {
+export async function inviteAthlete(args: InviteAthleteArgs): Promise<InviteAthleteResult> {
   const admin = createAdminClient();
   const email = args.email.trim().toLowerCase();
 

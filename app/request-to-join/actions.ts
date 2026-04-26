@@ -8,7 +8,11 @@ import { requestReceivedEmail } from '@/lib/email/templates/request-received';
 
 export type SubmitJoinRequestState =
   | { kind: 'idle' }
-  | { kind: 'error'; message: string; fields?: { name?: string; email?: string; message?: string } };
+  | {
+      kind: 'error';
+      message: string;
+      fields?: { name?: string; email?: string; message?: string };
+    };
 
 export async function submitJoinRequest(
   _prev: SubmitJoinRequestState,

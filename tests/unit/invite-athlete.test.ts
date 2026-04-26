@@ -91,7 +91,9 @@ describe('inviteAthlete', () => {
 
   it('returns invite_failed when Supabase invite errors', async () => {
     adminMock.from.mockReturnValue(makeChain({ lookup: { data: null, error: null } }));
-    adminMock.auth.admin.inviteUserByEmail.mockResolvedValue({ error: { message: 'rate limited' } });
+    adminMock.auth.admin.inviteUserByEmail.mockResolvedValue({
+      error: { message: 'rate limited' },
+    });
     const r = await inviteAthlete({ coachId: 'c1', name: 'Eve', email: 'eve@example.com' });
     expect(r).toEqual({ ok: false, reason: 'invite_failed', message: 'rate limited' });
   });

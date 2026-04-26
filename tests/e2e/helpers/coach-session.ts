@@ -7,7 +7,7 @@ import { clearInbucket, getMagicLinkFor } from './inbucket';
  * the real /login form so we get a valid PKCE session (admin.generateLink
  * produces implicit-flow tokens that our /auth/callback route doesn't accept).
  */
-export async function ensureCoachAndLogin(context: BrowserContext, _baseURL: string) {
+export async function ensureCoachAndLogin(context: BrowserContext) {
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
   const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY!;
   const admin = createClient(supabaseUrl, serviceKey, {

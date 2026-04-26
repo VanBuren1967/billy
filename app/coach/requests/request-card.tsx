@@ -55,9 +55,7 @@ export function RequestCard({ request }: { request: Request }) {
           </form>
         </div>
       ) : (
-        <p className="text-bone-faint mt-6 text-xs tracking-widest uppercase">
-          {request.status}
-        </p>
+        <p className="text-bone-faint mt-6 text-xs tracking-widest uppercase">{request.status}</p>
       )}
     </article>
   );
