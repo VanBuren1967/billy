@@ -41,7 +41,7 @@ export default async function AthletePage({ params }: { params: Promise<{ id: st
         <p className="text-bone-muted">{athlete.email}</p>
       </header>
 
-      <dl className="border-hairline-strong grid grid-cols-1 gap-x-8 gap-y-6 border p-6 sm:grid-cols-2">
+      <dl className="border-hairline-strong grid grid-cols-1 gap-x-8 gap-y-6 border-2 p-6 sm:grid-cols-2">
         <div>
           <dt className="text-bone-faint text-xs tracking-widest uppercase">Status</dt>
           <dd className="text-bone mt-1 font-serif">{athlete.status}</dd>
@@ -64,7 +64,7 @@ export default async function AthletePage({ params }: { params: Promise<{ id: st
         </div>
       </dl>
 
-      <section className="border-hairline-strong border p-6">
+      <section className="border-hairline-strong border-2 p-6">
         <p className="text-bone-faint text-xs tracking-widest uppercase">Coming soon</p>
         <p className="text-bone-muted mt-2 text-sm">
           Programs, workouts, and check-ins will appear here once Plan 3 ships.

@@ -34,7 +34,7 @@ function fmt(dt: string | null) {
 export function AthletesTable({ athletes }: { athletes: Athlete[] }) {
   if (athletes.length === 0) {
     return (
-      <div className="border-hairline-strong border p-12 text-center">
+      <div className="border-hairline-strong border-2 p-12 text-center">
         <p className="text-bone-muted">No athletes yet.</p>
         <Link
           href="/coach/athletes/invite"
@@ -47,7 +47,7 @@ export function AthletesTable({ athletes }: { athletes: Athlete[] }) {
   }
 
   return (
-    <div className="border-hairline-strong overflow-x-auto border">
+    <div className="border-hairline-strong overflow-x-auto border-2">
       <table className="w-full text-left text-sm">
         <thead className="border-hairline-strong text-bone-faint border-b text-xs tracking-widest uppercase">
           <tr>

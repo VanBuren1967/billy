@@ -39,7 +39,7 @@ export default function AboutPage() {
           </p>
         </div>
 
-        <figure className="border-hairline-strong bg-ink-900 mt-16 border p-3">
+        <figure className="border-hairline-strong bg-ink-900 mt-16 border-2 p-3">
           <Image
             src="/images/hs-nationals-2026.jpg"
             alt="USA Powerlifting High School Nationals — Nebraska 2026"

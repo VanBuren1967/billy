@@ -67,7 +67,7 @@ export default function Home() {
             work isn&apos;t theoretical &mdash; it&apos;s tested under the bar in front of judges.
           </p>
 
-          <figure className="border-hairline-strong bg-ink-950 mt-10 border p-3">
+          <figure className="border-hairline-strong bg-ink-950 mt-10 border-2 p-3">
             <Image
               src="/images/team-jaguars-nationals.jpg"
               alt="William Steele with the Jaguars powerlifting team at Powerlifting America Nationals"

@@ -18,7 +18,7 @@ export function RequestCard({ request }: { request: Request }) {
   const isPending = request.status === 'pending';
 
   return (
-    <article className="border-hairline-strong bg-ink-900 border p-6">
+    <article className="border-hairline-strong bg-ink-900 border-2 p-6">
       <header className="flex items-start justify-between gap-4">
         <div>
           <h3 className="text-bone font-serif text-xl">{request.name}</h3>

@@ -61,7 +61,7 @@ export default async function CoachDashboard() {
           <Link
             key={c.label}
             href={c.href}
-            className="border-hairline-strong hover:border-gold focus-visible:outline-gold flex flex-col gap-3 border p-6 transition focus-visible:outline-2 focus-visible:outline-offset-2"
+            className="border-hairline-strong hover:border-gold focus-visible:outline-gold flex flex-col gap-3 border-2 p-6 transition focus-visible:outline-2 focus-visible:outline-offset-2"
           >
             <p className="text-bone-faint text-xs tracking-widest uppercase">{c.label}</p>
             <p className="text-bone font-serif text-5xl">{c.value}</p>
@@ -70,7 +70,7 @@ export default async function CoachDashboard() {
         ))}
       </section>
 
-      <section className="border-hairline-strong border p-6">
+      <section className="border-hairline-strong border-2 p-6">
         <p className="text-bone-faint text-xs tracking-widest uppercase">Coming soon</p>
         <p className="text-bone-muted mt-2 text-sm">
           Programs, workout logging, weekly check-ins, and athlete alerts ship in Plan 3.

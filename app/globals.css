@@ -14,7 +14,9 @@
   --color-gold-dim: #9a7a36;
 
   --color-hairline: #1a1814;
-  --color-hairline-strong: #1f1d18;
+  /* Gold band for card containers — clearly visible against ink-950, but
+     dimmer than the primary gold (#c9a14c) used for CTAs. */
+  --color-hairline-strong: #9a7a36;
 
   --font-serif: 'Spectral', Georgia, serif;
   --font-sans: 'Inter', system-ui, sans-serif;

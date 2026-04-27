@@ -70,7 +70,7 @@ export default function PricingPage() {
           {TIERS.map((tier) => (
             <article
               key={tier.name}
-              className={`border p-8 ${
+              className={`border-2 p-8 ${
                 tier.highlighted ? 'border-gold bg-ink-900' : 'border-hairline-strong bg-ink-900/40'
               }`}
             >
