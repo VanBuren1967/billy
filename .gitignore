@@ -49,6 +49,9 @@ Photos/
 # Git worktrees (isolated working copies)
 .worktrees/
 
+# Local dev convenience launcher (Windows PowerShell shortcut)
+shell.cmd
+
 # Vercel
 .vercel
 
