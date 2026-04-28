@@ -36,7 +36,11 @@ create policy program_days_coach_insert on public.program_days
   ));
 
 create policy program_days_coach_update on public.program_days
-  for update using (program_id in (
+  for update
+  using (program_id in (
+    select id from public.programs where coach_id = public.auth_coach_id()
+  ))
+  with check (program_id in (
     select id from public.programs where coach_id = public.auth_coach_id()
   ));
 
@@ -61,7 +65,13 @@ create policy program_exercises_coach_insert on public.program_exercises
   ));
 
 create policy program_exercises_coach_update on public.program_exercises
-  for update using (program_day_id in (
+  for update
+  using (program_day_id in (
+    select pd.id from public.program_days pd
+      join public.programs p on p.id = pd.program_id
+    where p.coach_id = public.auth_coach_id()
+  ))
+  with check (program_day_id in (
     select pd.id from public.program_days pd
       join public.programs p on p.id = pd.program_id
     where p.coach_id = public.auth_coach_id()
