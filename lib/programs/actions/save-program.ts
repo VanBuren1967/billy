@@ -28,7 +28,10 @@ async function bumpVersion(programId: string, expectedVersion: number) {
     .from('programs').update({ version: expectedVersion + 1 })
     .eq('id', programId).eq('version', expectedVersion)
     .select('id, version').maybeSingle();
-  if (error) return { ok: false as const, reason: 'db_error' as const, message: GENERIC_DB_ERROR, _logged: error.message };
+  if (error) {
+    Sentry.captureException(new Error(`saveProgram.bumpVersion: ${error.message}`));
+    return { ok: false as const, reason: 'db_error' as const, message: GENERIC_DB_ERROR };
+  }
   if (!data) {
     const { data: cur } = await supabase.from('programs').select('version').eq('id', programId).maybeSingle();
     captureVersionConflict({
@@ -45,10 +48,7 @@ export async function saveProgramHeader(input: unknown): Promise<Result<{ progra
   await getCurrentCoach();
   const supabase = await createClient();
   const bump = await bumpVersion(p.data.programId, p.data.programVersion);
-  if (!bump.ok) {
-    if (bump.reason === 'db_error' && '_logged' in bump) Sentry.captureException(new Error(`saveProgramHeader.bump: ${bump._logged}`));
-    return bump;
-  }
+  if (!bump.ok) return bump;
 
   const { error } = await supabase.from('programs').update({
     name: p.data.name,
