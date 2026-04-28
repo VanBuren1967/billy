@@ -2,12 +2,27 @@ import Link from 'next/link';
 import { getCurrentAthlete } from '@/lib/athletes/get-current-athlete';
 import { getActiveProgram } from '@/lib/athletes/get-active-program';
 import { computeCurrentWeek, computeTodayDay } from '@/lib/athletes/program-time';
+import { createClient } from '@/lib/supabase/server';
 
 export const metadata = { title: 'Today · Steele & Co.' };
 
 export default async function AppDashboard() {
   const athlete = await getCurrentAthlete();
   const tree = await getActiveProgram();
+
+  let completedDayIds = new Set<string>();
+  if (tree) {
+    const supabase = await createClient();
+    const dayIdList = tree.days.map((d) => d.id);
+    if (dayIdList.length > 0) {
+      const { data: logs = [] } = await supabase
+        .from('workout_logs')
+        .select('program_day_id, status')
+        .in('program_day_id', dayIdList)
+        .eq('status', 'completed');
+      completedDayIds = new Set((logs ?? []).map((l) => l.program_day_id));
+    }
+  }
 
   if (!tree) {
     return (
@@ -43,21 +58,30 @@ export default async function AppDashboard() {
       <section className="border-hairline-strong border bg-[#0c0c0c] p-6">
         <p className="text-gold text-xs tracking-widest uppercase">Today</p>
         {todaysWorkout ? (
-          <>
-            <h2 className="text-bone mt-2 font-serif text-2xl">{todaysWorkout.name}</h2>
-            <p className="text-bone-muted mt-2 text-sm">
-              {tree.exercises.filter((e) => e.programDayId === todaysWorkout.id).length} exercises
-            </p>
-            <Link href="/app/program" className="text-gold mt-4 inline-block text-xs tracking-widest uppercase">
-              View today&rsquo;s workout →
-            </Link>
-          </>
+          completedDayIds.has(todaysWorkout.id) ? (
+            <>
+              <h2 className="text-bone mt-2 font-serif text-2xl">{todaysWorkout.name}</h2>
+              <p className="text-gold mt-2 text-sm tracking-widest uppercase">✓ Completed</p>
+              <Link href={`/app/workout/${todaysWorkout.id}`} className="text-bone-faint mt-3 inline-block text-xs">
+                Review →
+              </Link>
+            </>
+          ) : (
+            <>
+              <h2 className="text-bone mt-2 font-serif text-2xl">{todaysWorkout.name}</h2>
+              <p className="text-bone-muted mt-2 text-sm">
+                {tree.exercises.filter((e) => e.programDayId === todaysWorkout.id).length} exercises
+              </p>
+              <Link href={`/app/workout/${todaysWorkout.id}`}
+                className="border-gold text-gold mt-4 inline-block border px-6 py-2 text-xs tracking-widest uppercase">
+                Log workout →
+              </Link>
+            </>
+          )
         ) : (
           <>
             <h2 className="text-bone mt-2 font-serif text-2xl">Rest day</h2>
-            <p className="text-bone-muted mt-2 text-sm">
-              No workout scheduled today. Recover well.
-            </p>
+            <p className="text-bone-muted mt-2 text-sm">No workout scheduled today. Recover well.</p>
           </>
         )}
       </section>
@@ -71,9 +95,12 @@ export default async function AppDashboard() {
                 <p className="text-bone-faint text-xs">Day {d.dayNumber}</p>
                 <p className="text-bone font-serif text-lg">{d.name}</p>
               </div>
-              {d.dayNumber === todayDay && (
-                <span className="text-gold text-xs tracking-widest uppercase">Today</span>
-              )}
+              <div className="flex items-center gap-3">
+                {completedDayIds.has(d.id) && <span className="text-gold text-xs" aria-label="Completed">✓</span>}
+                {d.dayNumber === todayDay && (
+                  <span className="text-gold text-xs tracking-widest uppercase">Today</span>
+                )}
+              </div>
             </li>
           ))}
         </ul>

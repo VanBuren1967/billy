@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { createClient } from '@/lib/supabase/server';
+import { listRecentWorkoutLogs } from '@/lib/workouts/list-recent-logs';
 
 export const metadata = { title: 'Athlete — Steele & Co.' };
 
@@ -25,6 +26,8 @@ export default async function AthletePage({ params }: { params: Promise<{ id: st
 
   if (error || !data) notFound();
   const athlete = data as Athlete;
+
+  const recentLogs = await listRecentWorkoutLogs(id, 10);
 
   return (
     <div className="flex flex-col gap-12">
@@ -69,6 +72,39 @@ export default async function AthletePage({ params }: { params: Promise<{ id: st
         <p className="text-bone-muted mt-2 text-sm">
           Programs, workouts, and check-ins will appear here once Plan 3 ships.
         </p>
+      </section>
+
+      <section className="flex flex-col gap-3">
+        <h2 className="text-bone-muted text-xs tracking-widest uppercase">Recent workouts</h2>
+        {recentLogs.length === 0 ? (
+          <p className="text-bone-faint text-sm">No workouts logged yet.</p>
+        ) : (
+          <ul className="border-hairline-strong border divide-y divide-[#1a1814]">
+            {recentLogs.map((l) => (
+              <li key={l.id} className="flex items-baseline justify-between px-4 py-3">
+                <div>
+                  <p className="text-bone font-serif">
+                    Week {l.weekNumber} · Day {l.dayNumber} — {l.programDayName ?? 'Unknown day'}
+                  </p>
+                  {l.painNotes && <p className="text-rose-400/80 mt-1 text-xs">Pain: {l.painNotes.slice(0, 80)}</p>}
+                  {l.generalNotes && <p className="text-bone-muted mt-1 text-xs">{l.generalNotes.slice(0, 80)}</p>}
+                </div>
+                <div className="text-right">
+                  {l.status === 'completed' ? (
+                    <span className="text-gold text-xs tracking-widest uppercase">✓ Done</span>
+                  ) : (
+                    <span className="text-bone-faint text-xs tracking-widest uppercase">In progress</span>
+                  )}
+                  {l.completedAt && (
+                    <p className="text-bone-faint mt-1 text-xs">
+                      {new Date(l.completedAt).toLocaleDateString()}
+                    </p>
+                  )}
+                </div>
+              </li>
+            ))}
+          </ul>
+        )}
       </section>
     </div>
   );

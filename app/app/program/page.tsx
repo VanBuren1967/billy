@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { getCurrentAthlete } from '@/lib/athletes/get-current-athlete';
 import { getActiveProgram } from '@/lib/athletes/get-active-program';
 import { computeCurrentWeek } from '@/lib/athletes/program-time';
+import { createClient } from '@/lib/supabase/server';
 import { ProgramTree } from './program-tree';
 
 export const metadata = { title: 'Program · Steele & Co.' };
@@ -9,6 +10,20 @@ export const metadata = { title: 'Program · Steele & Co.' };
 export default async function ProgramPage() {
   await getCurrentAthlete();
   const tree = await getActiveProgram();
+
+  let completedDayIdArray: string[] = [];
+  if (tree) {
+    const supabase = await createClient();
+    const dayIdList = tree.days.map((d) => d.id);
+    if (dayIdList.length > 0) {
+      const { data: logs = [] } = await supabase
+        .from('workout_logs')
+        .select('program_day_id, status')
+        .in('program_day_id', dayIdList)
+        .eq('status', 'completed');
+      completedDayIdArray = (logs ?? []).map((l) => l.program_day_id);
+    }
+  }
 
   if (!tree) {
     return (
@@ -35,7 +50,7 @@ export default async function ProgramPage() {
           {tree.program.startDate && ` · starts ${tree.program.startDate}`}
         </p>
       </header>
-      <ProgramTree tree={tree} currentWeek={currentWeek} />
+      <ProgramTree tree={tree} currentWeek={currentWeek} completedDayIds={completedDayIdArray} />
     </main>
   );
 }

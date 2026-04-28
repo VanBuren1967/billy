@@ -4,10 +4,11 @@ import { useState } from 'react';
 import type { ActiveProgramTree } from '@/lib/athletes/get-active-program';
 
 export function ProgramTree({
-  tree, currentWeek,
-}: { tree: ActiveProgramTree; currentWeek: number }) {
+  tree, currentWeek, completedDayIds,
+}: { tree: ActiveProgramTree; currentWeek: number; completedDayIds: string[] }) {
   const weeks = Array.from(new Set(tree.days.map((d) => d.weekNumber))).sort((a, b) => a - b);
   const [open, setOpen] = useState<Set<number>>(new Set([currentWeek]));
+  const completedSet = new Set(completedDayIds);
 
   if (weeks.length === 0) {
     return <p className="text-bone-muted">No weeks yet.</p>;
@@ -54,6 +55,7 @@ export function ProgramTree({
                     key={d.id}
                     day={d}
                     exercises={tree.exercises.filter((e) => e.programDayId === d.id)}
+                    isCompleted={completedSet.has(d.id)}
                   />
                 ))}
               </div>
@@ -66,17 +68,19 @@ export function ProgramTree({
 }
 
 function DayCard({
-  day, exercises,
+  day, exercises, isCompleted,
 }: {
   day: ActiveProgramTree['days'][number];
   exercises: ActiveProgramTree['exercises'];
+  isCompleted?: boolean;
 }) {
   return (
     <article className="border-l-2 border-[#1f1d18] pl-4">
-      <header>
+      <header className="flex items-baseline justify-between">
         <h3 className="text-bone font-serif text-lg">
           Day {day.dayNumber} — {day.name}
         </h3>
+        {isCompleted && <span className="text-gold text-xs tracking-widest uppercase" aria-label="Completed">✓ Completed</span>}
       </header>
       {exercises.length === 0 ? (
         <p className="text-bone-faint mt-2 text-xs">No exercises programmed for this day.</p>
