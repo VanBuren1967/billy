@@ -18,7 +18,11 @@ const BASE_URL = `http://localhost:${PORT}`;
 
 export default defineConfig({
   testDir: './tests/e2e',
-  fullyParallel: true,
+  // workers: 1 because all auth-using specs share coach+e2e@example.com via
+  // Inbucket. Parallel runs collide on the mailbox + auth.admin.createUser.
+  // Long-term fix: a global-setup fixture with reusable storageState.
+  fullyParallel: false,
+  workers: 1,
   retries: 0,
   reporter: 'list',
   use: {
