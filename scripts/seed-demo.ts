@@ -46,25 +46,37 @@ async function main() {
   }
   const coachId = coach!.id;
 
-  // 3. Athletes
+  // 3. Athletes — each gets an auth user so they can sign in and see /app.
   const athleteSeeds = [
     { name: 'Alex Reyes', email: 'alex@demo.local' },
     { name: 'Morgan Chen', email: 'morgan@demo.local' },
     { name: 'Riley Park', email: 'riley@demo.local' },
   ];
   const athleteIds: { id: string; name: string }[] = [];
+  const allUsers = await admin.auth.admin.listUsers({ page: 1, perPage: 200 });
   for (const a of athleteSeeds) {
-    const { data: ex } = await admin.from('athletes').select('id, name').eq('coach_id', coachId).eq('email', a.email).maybeSingle();
+    // Auth user
+    let athleteAuth = allUsers.data?.users.find((u) => u.email === a.email);
+    if (!athleteAuth) {
+      const { data, error } = await admin.auth.admin.createUser({ email: a.email, email_confirm: true });
+      if (error) throw error;
+      athleteAuth = data.user!;
+    }
+    // Athletes row (link auth_user_id if missing)
+    const { data: ex } = await admin.from('athletes').select('id, name, auth_user_id').eq('coach_id', coachId).eq('email', a.email).maybeSingle();
     if (ex) {
+      if (!ex.auth_user_id) {
+        await admin.from('athletes').update({ auth_user_id: athleteAuth.id }).eq('id', ex.id);
+      }
       athleteIds.push({ id: ex.id, name: ex.name });
       continue;
     }
     const { data } = await admin.from('athletes').insert({
-      coach_id: coachId, name: a.name, email: a.email, is_active: true,
+      coach_id: coachId, auth_user_id: athleteAuth.id, name: a.name, email: a.email, is_active: true,
     }).select('id, name').single();
     athleteIds.push({ id: data!.id, name: data!.name });
   }
-  console.log(`  · ${athleteIds.length} athletes ready`);
+  console.log(`  · ${athleteIds.length} athletes ready (with auth users)`);
 
   // 4. Template: 5/3/1 Strength Block (4 weeks)
   const { data: existingTpl } = await admin.from('programs')
