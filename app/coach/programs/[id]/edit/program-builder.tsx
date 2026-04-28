@@ -147,7 +147,7 @@ function Header({
             });
           }
         }}
-        className="text-bone bg-transparent font-serif text-3xl outline-none"
+        className="text-bone bg-transparent font-serif text-3xl outline-none focus:border-b focus:border-gold/60"
       />
       <p className="text-bone-muted text-xs">
         {data.program.blockType} · {data.program.totalWeeks} weeks · version {data.program.version}
@@ -181,25 +181,25 @@ function EditableDay({
                   const r = await saveProgramDay({
                     programDayId: day.id, programVersion,
                     weekNumber: day.weekNumber, dayNumber: day.dayNumber,
-                    name, notes: null,
+                    name, notes: day.notes,
                   });
                   onResult(r);
                 });
               }
             }}
-            className="text-bone ml-2 bg-transparent font-serif outline-none"
+            className="text-bone ml-2 bg-transparent font-serif outline-none focus:border-b focus:border-gold/60"
           />
         </h3>
         <div className="flex gap-1 text-xs">
-          <button onClick={() => startTransition(async () => {
+          <button type="button" aria-label={`Move Day ${day.dayNumber} up`} onClick={() => startTransition(async () => {
             const r = await reorderProgramDay({ id: day.id, programVersion, direction: 'up' });
             onResult(r);
           })} className="text-bone-faint hover:text-bone">▲</button>
-          <button onClick={() => startTransition(async () => {
+          <button type="button" aria-label={`Move Day ${day.dayNumber} down`} onClick={() => startTransition(async () => {
             const r = await reorderProgramDay({ id: day.id, programVersion, direction: 'down' });
             onResult(r);
           })} className="text-bone-faint hover:text-bone">▼</button>
-          <button onClick={() => {
+          <button type="button" aria-label={`Remove Day ${day.dayNumber}`} onClick={() => {
             if (!confirm(`Remove Day ${day.dayNumber}?`)) return;
             startTransition(async () => {
               const r = await removeProgramDay({ programDayId: day.id, programVersion });
@@ -251,6 +251,10 @@ function EditableExerciseRow({
   const [, startTransition] = useTransition();
   const [draft, setDraft] = useState({ ...e });
 
+  // Re-sync local draft when the exercise prop changes (e.g., after router.refresh).
+  // eslint-disable-next-line react-hooks/set-state-in-effect
+  useEffect(() => { setDraft({ ...e }); }, [e]);
+
   function save() {
     startTransition(async () => {
       const r = await saveProgramExercise({
@@ -268,45 +272,45 @@ function EditableExerciseRow({
       <td className="py-1.5">
         <input value={draft.groupLabel ?? ''} maxLength={20}
           onChange={(ev) => setDraft({ ...draft, groupLabel: ev.target.value || null })}
-          onBlur={save} className="text-gold w-12 bg-transparent text-center outline-none" />
+          onBlur={save} className="text-gold w-12 bg-transparent text-center outline-none focus:border-b focus:border-gold/60" />
       </td>
       <td className="py-1.5">
         <input value={draft.name} maxLength={120}
           onChange={(ev) => setDraft({ ...draft, name: ev.target.value })}
-          onBlur={save} className="text-bone bg-transparent outline-none" />
+          onBlur={save} className="text-bone bg-transparent outline-none focus:border-b focus:border-gold/60" />
       </td>
       <td className="py-1.5">
         <input type="number" value={draft.sets} min={1} max={50}
           onChange={(ev) => setDraft({ ...draft, sets: Number(ev.target.value) })}
-          onBlur={save} className="text-bone w-12 bg-transparent text-right outline-none" />
+          onBlur={save} className="text-bone w-12 bg-transparent text-right outline-none focus:border-b focus:border-gold/60" />
         <span className="text-bone-faint">×</span>
         <input value={draft.reps} maxLength={40}
           onChange={(ev) => setDraft({ ...draft, reps: ev.target.value })}
-          onBlur={save} className="text-bone ml-1 w-20 bg-transparent outline-none" />
+          onBlur={save} className="text-bone ml-1 w-20 bg-transparent outline-none focus:border-b focus:border-gold/60" />
       </td>
       <td className="py-1.5">
         <input type="number" value={draft.loadPct ?? ''} min={0} max={150} step="0.5" placeholder="%"
           onChange={(ev) => setDraft({ ...draft, loadPct: ev.target.value === '' ? null : Number(ev.target.value) })}
-          onBlur={save} className="text-bone w-16 bg-transparent text-right outline-none" />
+          onBlur={save} className="text-bone w-16 bg-transparent text-right outline-none focus:border-b focus:border-gold/60" />
         <input type="number" value={draft.loadLbs ?? ''} min={0} max={2500} placeholder="lb"
           onChange={(ev) => setDraft({ ...draft, loadLbs: ev.target.value === '' ? null : Number(ev.target.value) })}
-          onBlur={save} className="text-bone ml-1 w-16 bg-transparent text-right outline-none" />
+          onBlur={save} className="text-bone ml-1 w-16 bg-transparent text-right outline-none focus:border-b focus:border-gold/60" />
       </td>
       <td className="py-1.5">
         <input type="number" value={draft.rpe ?? ''} min={0} max={10} step="0.5"
           onChange={(ev) => setDraft({ ...draft, rpe: ev.target.value === '' ? null : Number(ev.target.value) })}
-          onBlur={save} className="text-bone w-12 bg-transparent text-right outline-none" />
+          onBlur={save} className="text-bone w-12 bg-transparent text-right outline-none focus:border-b focus:border-gold/60" />
       </td>
       <td className="py-1.5 text-xs whitespace-nowrap">
-        <button onClick={() => startTransition(async () => {
+        <button type="button" aria-label={`Move ${e.name} up`} onClick={() => startTransition(async () => {
           const r = await reorderProgramExercise({ id: e.id, programVersion, direction: 'up' });
           onResult(r);
         })} className="text-bone-faint hover:text-bone">▲</button>
-        <button onClick={() => startTransition(async () => {
+        <button type="button" aria-label={`Move ${e.name} down`} onClick={() => startTransition(async () => {
           const r = await reorderProgramExercise({ id: e.id, programVersion, direction: 'down' });
           onResult(r);
         })} className="text-bone-faint hover:text-bone ml-1">▼</button>
-        <button onClick={() => {
+        <button type="button" aria-label={`Remove ${e.name}`} onClick={() => {
           if (!confirm(`Remove ${e.name}?`)) return;
           startTransition(async () => {
             const r = await removeProgramExercise({ programExerciseId: e.id, programVersion });
