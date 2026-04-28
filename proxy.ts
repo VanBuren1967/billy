@@ -25,7 +25,8 @@ function isPublic(pathname: string) {
     PUBLIC_PATHS.includes(pathname) ||
     pathname.startsWith('/_next') ||
     pathname.startsWith('/api/webhooks') ||
-    pathname.startsWith('/request-to-join/')
+    pathname.startsWith('/request-to-join/') ||
+    pathname.startsWith('/dev/')
   );
 }
 
