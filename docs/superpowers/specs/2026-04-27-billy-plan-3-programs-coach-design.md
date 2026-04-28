@@ -80,36 +80,90 @@ This plan ships **only the coach side**. Athletes still cannot see their program
 
 ## 4. Schema changes
 
-Migration: `supabase/migrations/<ts>_plan_3_program_groups_and_archive.sql`.
+**Important reality check:** the `programs`, `program_days`, and `program_exercises` tables defined in the V1 design spec **do not yet exist** in Billy's live schema (Plan 1 created `coaches` + `athletes`; Plan 2 added `join_requests`). Plan 3 is therefore both a *create* and a *grouping* migration — not just an `ALTER`.
 
-### 4.1 New column: `program_exercises.group_label`
+Migrations introduced by this plan:
+- `supabase/migrations/0006_programs_tables.sql` — creates `programs`, `program_days`, `program_exercises` per the V1 design spec, with `group_label` baked into the column list at creation time.
+- `supabase/migrations/0007_programs_rls.sql` — RLS policies + `auth_coach_id()` helper function.
+
+### 4.1 `programs` table (created in 0006)
+
+Per V1 spec section 6.2, with `is_active` and `version` columns included from the start:
 
 ```sql
-ALTER TABLE program_exercises
-  ADD COLUMN group_label text;
-COMMENT ON COLUMN program_exercises.group_label IS
-  'Optional grouping label like "A", "B" for supersets/circuits. Null = standalone. Exercises in the same program_day with the same group_label form a block (A1/A2/A3...) ordered by position.';
+create table public.programs (
+  id uuid primary key default gen_random_uuid(),
+  coach_id uuid not null references public.coaches(id) on delete cascade,
+  athlete_id uuid references public.athletes(id) on delete set null,
+  name text not null,
+  block_type text not null check (block_type in ('hypertrophy','strength','peak','general')),
+  start_date date,
+  end_date date,
+  total_weeks integer not null check (total_weeks between 1 and 52),
+  notes text,
+  is_template boolean not null default false,
+  is_active boolean not null default true,
+  version integer not null default 1,
+  created_at timestamptz not null default now()
+);
+create index programs_coach_id_idx on public.programs(coach_id);
+create index programs_athlete_id_idx on public.programs(athlete_id);
+create index programs_is_template_idx on public.programs(is_template);
 ```
 
-No constraint enforcing single-letter — keep it flexible (a coach might use "Block 1"). Validation in Zod.
+### 4.2 `program_days` table (created in 0006)
 
-### 4.2 Soft-archival columns
+```sql
+create table public.program_days (
+  id uuid primary key default gen_random_uuid(),
+  program_id uuid not null references public.programs(id) on delete cascade,
+  week_number integer not null check (week_number > 0),
+  day_number integer not null check (day_number > 0),
+  name text not null,
+  notes text,
+  unique (program_id, week_number, day_number)
+);
+create index program_days_program_id_idx on public.program_days(program_id);
+```
 
-`programs.is_active` already exists per V1 spec data model. Verify it does in the live schema; add if missing.
+### 4.3 `program_exercises` table (created in 0006)
 
-`program_days.is_active` and `program_exercises.is_active` — **not added in V1.** Coach can fully edit these via the builder. Hard-delete is allowed except when blocked by referenced logs (which can't exist until Plan 4 ships, but the FK will be there for forward safety).
+`group_label` is included from the start — no separate ALTER:
 
-### 4.3 RLS implications of new column
+```sql
+create table public.program_exercises (
+  id uuid primary key default gen_random_uuid(),
+  program_day_id uuid not null references public.program_days(id) on delete cascade,
+  position integer not null,
+  name text not null,
+  sets integer not null check (sets > 0),
+  reps text not null,
+  load_pct numeric check (load_pct is null or load_pct between 0 and 150),
+  load_lbs numeric check (load_lbs is null or load_lbs >= 0),
+  rpe numeric check (rpe is null or rpe between 0 and 10),
+  group_label text,
+  notes text
+);
+create index program_exercises_program_day_id_idx on public.program_exercises(program_day_id);
+comment on column public.program_exercises.group_label is
+  'Optional grouping label like "A", "B" for supersets/circuits. Null = standalone. Exercises in the same program_day with the same group_label form a block ordered by position.';
+```
 
-`group_label` doesn't need its own policy — it inherits the existing per-coach RLS on `program_exercises` (which traverses `program_day_id → program_id → coach_id`). Section 7.2 has the policy SQL.
+### 4.4 Soft-archival behavior
 
-### 4.4 FK forward-compat for Plan 4
+`programs.is_active` is created with the table (default `true`). `program_days.is_active` and `program_exercises.is_active` — **not added in V1.** Coach can fully edit/remove these via the builder. Hard-delete is allowed; FK from `set_logs.program_exercise_id` (introduced in Plan 4) will be `ON DELETE RESTRICT` for safe forward-compat once logs exist.
 
-Plan 4 will introduce `set_logs.program_exercise_id`. To make removal-after-logging safe, this plan defines the FK with `ON DELETE RESTRICT` once it lands. In V1 (no logs yet), exercise removal is a hard-delete; once Plan 4 ships, attempting to delete an exercise with logs will surface a friendly error.
+### 4.5 RLS policies (created in 0007)
 
-### 4.5 No new tables
+Section 7.2 has the full policy SQL. All three tables get `enable row level security` plus per-coach SELECT/INSERT/UPDATE policies. No DELETE policy on `programs` (soft-archive only via UPDATE). Helper function `auth_coach_id()` defined to keep policies readable.
 
-No new tables in this plan. Audit log is deferred (Sentry breadcrumbs only). Bulk-edit operators are deferred.
+### 4.6 FK forward-compat for Plan 4
+
+Plan 4 will introduce `set_logs.program_exercise_id`. To make removal-after-logging safe, that FK will be `ON DELETE RESTRICT`. In V1 (no logs yet), exercise removal is a hard-delete; once Plan 4 ships, attempting to delete an exercise with logs will surface a friendly error.
+
+### 4.7 No additional tables in V1
+
+Audit log table is deferred (Sentry breadcrumbs only). Bulk-edit operators are deferred. Templates marketplace is deferred.
 
 ---
 
