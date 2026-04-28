@@ -19,7 +19,6 @@ async function makeUserClient(email: string) {
 
 describe('RLS — athlete program viewer SELECT policies', () => {
   let athleteAClient: SupabaseClient;
-  let athleteBClient: SupabaseClient;
   let coachClient: SupabaseClient;
   let athleteAProgramId: string;
   let athleteBProgramId: string;
@@ -32,7 +31,6 @@ describe('RLS — athlete program viewer SELECT policies', () => {
     const aB = await makeUserClient(`athlete-b-vp-${ts}@test.local`);
     coachClient = coach.client;
     athleteAClient = aA.client;
-    athleteBClient = aB.client;
 
     // Coach + 2 athletes.
     const c = await admin.from('coaches').insert({
