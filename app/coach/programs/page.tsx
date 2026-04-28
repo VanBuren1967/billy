@@ -81,6 +81,14 @@ function ProgramCard({ program: p }: { program: Awaited<ReturnType<typeof listPr
         {p.totalWeeks} {p.totalWeeks === 1 ? 'week' : 'weeks'}
         {p.athleteName ? ` · ${p.athleteName}` : ''}
       </p>
+      {!p.isActive && (
+        <form action={`/coach/programs/${p.id}/restore`} method="post" className="mt-3">
+          <button type="submit"
+            className="text-gold hover:text-bone text-xs tracking-widest uppercase">
+            Restore
+          </button>
+        </form>
+      )}
     </li>
   );
 }

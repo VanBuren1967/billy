@@ -8,6 +8,7 @@ import {
   removeProgramDay, removeProgramExercise,
 } from '@/lib/programs/actions/save-program';
 import { reorderProgramDay, reorderProgramExercise } from '@/lib/programs/actions/reorder';
+import { archiveProgram } from '@/lib/programs/actions/archive-program';
 import type { BuilderData, ProgramDay } from './types';
 
 export function ProgramBuilder({ data: initial }: { data: BuilderData }) {
@@ -44,10 +45,33 @@ export function ProgramBuilder({ data: initial }: { data: BuilderData }) {
 
   return (
     <div className="flex flex-col gap-6">
-      <Header data={data} onSave={(p) => startTransition(async () => {
-        const r = await saveProgramHeader({ ...p, programId: data.program.id, programVersion: data.program.version });
-        handleResult(r);
-      })} />
+      <div className="flex items-start justify-between gap-4">
+        <div className="flex-1">
+          <Header data={data} onSave={(p) => startTransition(async () => {
+            const r = await saveProgramHeader({ ...p, programId: data.program.id, programVersion: data.program.version });
+            handleResult(r);
+          })} />
+        </div>
+        <button
+          type="button"
+          aria-label="Archive program"
+          onClick={() => {
+            if (!confirm('Archive this program? You can restore it later from the library.')) return;
+            startTransition(async () => {
+              const r = await archiveProgram({ programId: data.program.id });
+              const res = r as { ok: boolean; message?: string };
+              if (!res.ok) {
+                alert(res.message ?? 'Archive failed');
+                return;
+              }
+              router.push('/coach/programs');
+            });
+          }}
+          className="text-bone-faint hover:text-rose-400 self-start text-xs tracking-widest uppercase"
+        >
+          Archive
+        </button>
+      </div>
 
       {weeks.length === 0 && (
         <div className="border-hairline-strong border p-8 text-center">

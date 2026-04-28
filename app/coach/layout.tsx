@@ -4,6 +4,7 @@ import { SignOutButton } from '@/components/sign-out-button';
 const NAV_LINKS = [
   { href: '/coach', label: 'Dashboard' },
   { href: '/coach/athletes', label: 'Athletes' },
+  { href: '/coach/programs', label: 'Programs' },
   { href: '/coach/requests', label: 'Requests' },
 ];
 
