@@ -1,4 +1,5 @@
 import 'server-only';
+import * as Sentry from '@sentry/nextjs';
 import { createClient } from '@/lib/supabase/server';
 import { getCurrentCoach } from '../get-current-coach';
 
@@ -29,10 +30,10 @@ export async function listPrograms(args: ListProgramsArgs): Promise<ProgramSumma
     .from('programs')
     .select(`
       id, name, block_type, total_weeks, start_date, athlete_id, is_template,
-      is_active, created_at,
+      is_active, updated_at, created_at,
       athlete:athletes(id, name)
     `)
-    .order('created_at', { ascending: false });
+    .order('updated_at', { ascending: false });
 
   if (args.tab === 'templates') {
     q = q.eq('is_template', true);
@@ -47,7 +48,10 @@ export async function listPrograms(args: ListProgramsArgs): Promise<ProgramSumma
   }
 
   const { data, error } = await q;
-  if (error) throw new Error(`list_programs_failed: ${error.message}`);
+  if (error) {
+    Sentry.captureException(new Error(`listPrograms: ${error.message}`));
+    throw new Error('Failed to load programs.');
+  }
 
   return (data ?? []).map((row) => ({
     id: row.id,
@@ -59,6 +63,6 @@ export async function listPrograms(args: ListProgramsArgs): Promise<ProgramSumma
     athleteName: (row.athlete as unknown as { name: string } | null)?.name ?? null,
     isTemplate: row.is_template,
     isActive: row.is_active,
-    updatedAt: row.created_at,
+    updatedAt: row.updated_at,
   }));
 }

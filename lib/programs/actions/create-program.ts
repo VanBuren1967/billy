@@ -1,6 +1,7 @@
 'use server';
 
 import 'server-only';
+import * as Sentry from '@sentry/nextjs';
 import { createClient } from '@/lib/supabase/server';
 import { createProgramSchema, type CreateProgramInput } from '../schemas';
 import { getCurrentCoach } from '../get-current-coach';
@@ -10,6 +11,13 @@ import { buildDeepCopyPayload } from '../duplicate';
 export type CreateProgramResult =
   | { ok: true; programId: string }
   | { ok: false; reason: 'invalid' | 'source_not_found' | 'db_error'; message: string };
+
+const GENERIC_DB_ERROR = 'Failed to save program. Please try again.';
+
+function logAndMaskDbError(operation: string, error: { message: string }): { ok: false; reason: 'db_error'; message: string } {
+  Sentry.captureException(new Error(`createProgram.${operation}: ${error.message}`));
+  return { ok: false, reason: 'db_error', message: GENERIC_DB_ERROR };
+}
 
 export async function createProgram(input: unknown): Promise<CreateProgramResult> {
   const parsed = createProgramSchema.safeParse(input);
@@ -33,7 +41,7 @@ export async function createProgram(input: unknown): Promise<CreateProgramResult
       end_date: args.startDate ? deriveEndDate(args.startDate, args.totalWeeks) : null,
     }).select('id').single();
     if (error || !program) {
-      return { ok: false, reason: 'db_error', message: error?.message ?? 'no row returned' };
+      return logAndMaskDbError('blank_insert', error ?? { message: 'no row returned' });
     }
     programBreadcrumb('program.created', { program_id: program.id, mode: 'blank', is_template: args.isTemplate });
     return { ok: true, programId: program.id };
@@ -46,19 +54,19 @@ export async function createProgram(input: unknown): Promise<CreateProgramResult
     .select('*')
     .eq('id', sourceId)
     .maybeSingle();
-  if (srcErr) return { ok: false, reason: 'db_error', message: srcErr.message };
+  if (srcErr) return logAndMaskDbError('source_lookup', srcErr);
   if (!source) return { ok: false, reason: 'source_not_found', message: 'source program not found or not accessible' };
 
   const { data: srcDays = [], error: dErr } = await supabase
     .from('program_days').select('*').eq('program_id', sourceId);
-  if (dErr) return { ok: false, reason: 'db_error', message: dErr.message };
+  if (dErr) return logAndMaskDbError('days_lookup', dErr);
 
   const dayIds = (srcDays ?? []).map((d) => d.id);
   let srcExercises: typeof srcDays = [];
   if (dayIds.length > 0) {
     const { data, error: eErr } = await supabase
       .from('program_exercises').select('*').in('program_day_id', dayIds);
-    if (eErr) return { ok: false, reason: 'db_error', message: eErr.message };
+    if (eErr) return logAndMaskDbError('exercises_lookup', eErr);
     srcExercises = data ?? [];
   }
 
@@ -83,15 +91,30 @@ export async function createProgram(input: unknown): Promise<CreateProgramResult
     is_active: true,
     version: 1,
   });
-  if (pi) return { ok: false, reason: 'db_error', message: pi.message };
+  if (pi) return logAndMaskDbError('program_insert', pi);
 
   if (payload.days.length > 0) {
     const { error: di } = await supabase.from('program_days').insert(payload.days);
-    if (di) return { ok: false, reason: 'db_error', message: di.message };
+    if (di) {
+      // Best-effort cleanup: drop the orphan program. Postgres will cascade
+      // any partial children. If cleanup fails, the program is left as
+      // is_active=false to hide from default views.
+      const cleanup = await supabase.from('programs').delete().eq('id', payload.program.id);
+      if (cleanup.error) {
+        await supabase.from('programs').update({ is_active: false }).eq('id', payload.program.id);
+      }
+      return logAndMaskDbError('days_insert', di);
+    }
   }
   if (payload.exercises.length > 0) {
     const { error: ei } = await supabase.from('program_exercises').insert(payload.exercises);
-    if (ei) return { ok: false, reason: 'db_error', message: ei.message };
+    if (ei) {
+      const cleanup = await supabase.from('programs').delete().eq('id', payload.program.id);
+      if (cleanup.error) {
+        await supabase.from('programs').update({ is_active: false }).eq('id', payload.program.id);
+      }
+      return logAndMaskDbError('exercises_insert', ei);
+    }
   }
 
   programBreadcrumb('program.created', {
