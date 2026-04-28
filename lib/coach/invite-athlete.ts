@@ -96,7 +96,6 @@ export async function inviteAthlete(args: InviteAthleteArgs): Promise<InviteAthl
     // time they sign in they'll land on /app as this coach's athlete.
     const alreadyRegistered =
       /already (been )?registered/i.test(inviteErr.message) ||
-      // @ts-expect-error: AuthApiError carries `code` at runtime in newer versions.
       inviteErr.code === 'email_exists';
     if (!alreadyRegistered) {
       return { ok: false, reason: 'invite_failed', message: inviteErr.message };
