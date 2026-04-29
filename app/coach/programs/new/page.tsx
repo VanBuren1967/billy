@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { SubmitButton } from '@/components/submit-button';
 import { listPrograms } from '@/lib/programs/actions/list-programs';
 import { BlankProgramForm } from './blank-form';
 
@@ -79,12 +80,17 @@ async function SourcePicker({ tab, mode }: { tab: 'templates' | 'programs'; mode
           {sources.map((s) => (
             <li key={s.id} className="border-hairline-strong border p-4 hover:border-gold">
               <form action={`/coach/programs/new/duplicate?source=${s.id}&mode=${mode}`} method="post">
-                <button type="submit" className="text-bone block w-full text-left">
+                <SubmitButton
+                  pendingLabel={
+                    <span className="text-bone-muted block w-full text-left text-sm">Duplicating…</span>
+                  }
+                  className="text-bone block w-full text-left disabled:opacity-50"
+                >
                   <span className="font-serif text-lg">{s.name}</span>
                   <span className="text-bone-muted ml-3 text-xs">
                     {s.blockType} · {s.totalWeeks} weeks
                   </span>
-                </button>
+                </SubmitButton>
               </form>
             </li>
           ))}

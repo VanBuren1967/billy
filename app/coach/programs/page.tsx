@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { SubmitButton } from '@/components/submit-button';
 import { listPrograms } from '@/lib/programs/actions/list-programs';
 import { ProgramsTabs } from './programs-tabs';
 
@@ -83,10 +84,12 @@ function ProgramCard({ program: p }: { program: Awaited<ReturnType<typeof listPr
       </p>
       {!p.isActive && (
         <form action={`/coach/programs/${p.id}/restore`} method="post" className="mt-3">
-          <button type="submit"
-            className="text-gold hover:text-bone text-xs tracking-widest uppercase">
+          <SubmitButton
+            pendingLabel="Restoring…"
+            className="text-gold hover:text-bone text-xs tracking-widest uppercase disabled:opacity-50"
+          >
             Restore
-          </button>
+          </SubmitButton>
         </form>
       )}
     </li>
