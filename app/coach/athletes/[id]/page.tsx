@@ -48,6 +48,12 @@ export default async function AthletePage({ params }: { params: Promise<{ id: st
   const recentLogs = await listRecentWorkoutLogs(id, 10);
   const recentCheckIns = await listRecentCheckIns(id, 6);
 
+  const { data: publicProfile } = await supabase
+    .from('athlete_public_profiles')
+    .select('id, slug, headline, bio, photo_url, recent_meet_results, is_published, published_at')
+    .eq('athlete_id', id)
+    .maybeSingle();
+
   return (
     <div className="flex flex-col gap-12">
       <Link
@@ -140,6 +146,46 @@ export default async function AthletePage({ params }: { params: Promise<{ id: st
         <p className="text-bone-muted mt-2 text-sm">
           Programs, workouts, and check-ins will appear here once Plan 3 ships.
         </p>
+      </section>
+
+      <section className="border-hairline-strong border bg-[#16140f] p-6">
+        <div className="flex items-baseline justify-between">
+          <h2 className="text-bone-muted text-xs tracking-widest uppercase">Public profile</h2>
+          {publicProfile?.is_published && (
+            <Link href={`/team/${publicProfile.slug}`} className="text-gold text-xs tracking-widest uppercase">
+              View live →
+            </Link>
+          )}
+        </div>
+        {!publicProfile ? (
+          <p className="text-bone-faint mt-3 text-sm">Athlete hasn't created a public profile yet.</p>
+        ) : (
+          <>
+            <p className="text-bone mt-3 font-serif text-xl">{publicProfile.headline}</p>
+            <p className="text-bone-muted mt-2 line-clamp-3 text-sm">{publicProfile.bio.slice(0, 240)}{publicProfile.bio.length > 240 ? '…' : ''}</p>
+            <div className="mt-4 flex items-baseline gap-3">
+              {publicProfile.is_published ? (
+                <>
+                  <p className="text-gold text-xs tracking-widest uppercase">✓ Published</p>
+                  <form action={`/coach/athletes/${id}/profile/unpublish`} method="post">
+                    <button type="submit" className="text-bone-faint hover:text-rose-400 text-xs tracking-widest uppercase">
+                      Unpublish
+                    </button>
+                  </form>
+                </>
+              ) : (
+                <>
+                  <p className="text-bone-muted text-xs tracking-widest uppercase">Awaiting approval</p>
+                  <form action={`/coach/athletes/${id}/profile/approve`} method="post">
+                    <button type="submit" className="border-gold text-gold border px-4 py-2 text-xs tracking-widest uppercase">
+                      Approve & publish
+                    </button>
+                  </form>
+                </>
+              )}
+            </div>
+          </>
+        )}
       </section>
 
       <section className="flex flex-col gap-3">
