@@ -81,6 +81,69 @@ export default async function CoachDashboard() {
         ))}
       </section>
 
+      <section className="flex flex-col gap-3">
+        <h2 className="text-bone-muted text-xs tracking-widest uppercase">Quick actions</h2>
+        <div className="grid grid-cols-1 gap-3 md:grid-cols-3">
+          <Link
+            href="/coach/programs/new?mode=blank"
+            className="border-hairline-strong hover:border-gold flex flex-col gap-2 border bg-[#16140f] p-5 transition"
+          >
+            <p className="text-gold text-xs tracking-widest uppercase">Build template</p>
+            <p className="text-bone font-serif text-lg">New program for everyone</p>
+            <p className="text-bone-muted text-xs">
+              Build once, assign to multiple athletes.
+            </p>
+          </Link>
+          <Link
+            href="/coach/athletes/invite"
+            className="border-hairline-strong hover:border-gold flex flex-col gap-2 border bg-[#16140f] p-5 transition"
+          >
+            <p className="text-gold text-xs tracking-widest uppercase">Invite athlete</p>
+            <p className="text-bone font-serif text-lg">Add a new client</p>
+            <p className="text-bone-muted text-xs">
+              Sends a magic-link invite to their email.
+            </p>
+          </Link>
+          <Link
+            href="/coach/programs"
+            className="border-hairline-strong hover:border-gold flex flex-col gap-2 border bg-[#16140f] p-5 transition"
+          >
+            <p className="text-gold text-xs tracking-widest uppercase">Programs library</p>
+            <p className="text-bone font-serif text-lg">All programs &amp; templates</p>
+            <p className="text-bone-muted text-xs">
+              Edit, archive, assign existing programs.
+            </p>
+          </Link>
+        </div>
+      </section>
+
+      <section className="border-hairline-strong border bg-[#16140f] p-6">
+        <div className="flex items-baseline justify-between">
+          <h2 className="text-bone font-serif text-xl">Donations &amp; revenue</h2>
+          <p className="text-bone-faint text-xs tracking-widest uppercase">Coming soon</p>
+        </div>
+        <p className="text-bone-muted mt-3 text-sm">
+          When Plan 7b ships (after your Stripe Connect onboarding), this card will show
+          total donations received, recent contributions, and per-athlete breakdowns.
+          Donations come from athletes&rsquo; public profiles on{' '}
+          <Link href="/team" className="text-gold underline-offset-4 hover:underline">/team</Link>.
+        </p>
+        <div className="mt-3 flex items-baseline gap-6">
+          <div>
+            <p className="text-bone-faint text-xs tracking-widest uppercase">Total collected</p>
+            <p className="text-bone font-serif text-3xl">$0</p>
+          </div>
+          <div>
+            <p className="text-bone-faint text-xs tracking-widest uppercase">This month</p>
+            <p className="text-bone font-serif text-3xl">$0</p>
+          </div>
+          <div>
+            <p className="text-bone-faint text-xs tracking-widest uppercase">Pending payouts</p>
+            <p className="text-bone font-serif text-3xl">$0</p>
+          </div>
+        </div>
+      </section>
+
       <div className="flex flex-col gap-6">
         {/* 1. Missed workouts */}
         <section className="border-hairline-strong border bg-[#16140f] p-6">
