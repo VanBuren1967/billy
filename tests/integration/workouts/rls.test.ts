@@ -46,10 +46,10 @@ describe('RLS — workout_logs and set_logs', () => {
       coach_id: cArow.data!.id, auth_user_id: aA.userId,
       name: 'A', email: `ath-wl-A-${ts}@test.local`, is_active: true,
     }).select('id').single();
-    const aBrow = await admin.from('athletes').insert({
+    await admin.from('athletes').insert({
       coach_id: cBrow.data!.id, auth_user_id: aB.userId,
       name: 'B', email: `ath-wl-B-${ts}@test.local`, is_active: true,
-    }).select('id').single();
+    });
 
     const pA = await admin.from('programs').insert({
       coach_id: cArow.data!.id, athlete_id: aArow.data!.id, name: 'A',
