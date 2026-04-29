@@ -1,0 +1,1189 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Steele & Co. — Launch Checklist</title>
+<style>
+  :root {
+    --ink: #1a1814;
+    --ink-soft: #4a463e;
+    --paper: #ffffff;
+    --paper-cream: #fbf9f4;
+    --gold: #b08a4a;
+    --gold-soft: #c9a96e;
+    --hairline: #d8d2c2;
+    --rose: #b04848;
+    --green: #4a6b3a;
+  }
+  @page {
+    size: Letter;
+    margin: 0.75in 0.75in 0.85in 0.75in;
+  }
+  html, body {
+    margin: 0;
+    padding: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'Inter', 'Helvetica Neue', Arial, sans-serif;
+    font-size: 10.5pt;
+    line-height: 1.55;
+  }
+  .page {
+    page-break-after: always;
+  }
+  .page:last-child { page-break-after: auto; }
+  .serif { font-family: 'Spectral', Georgia, serif; }
+  .smallcaps {
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    font-size: 8.5pt;
+    font-weight: 500;
+  }
+  .gold { color: var(--gold); }
+  .rose { color: var(--rose); }
+  .muted { color: var(--ink-soft); }
+
+  /* COVER */
+  .cover {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 9in;
+    padding: 0.5in 0;
+  }
+  .cover .label {
+    color: var(--gold);
+    font-size: 9pt;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+  }
+  .cover h1 {
+    font-family: 'Spectral', Georgia, serif;
+    font-weight: 400;
+    font-size: 42pt;
+    line-height: 1.1;
+    margin: 0 0 1rem 0;
+    letter-spacing: -0.01em;
+  }
+  .cover h1 em { font-style: italic; color: var(--gold); }
+  .cover .lede {
+    color: var(--ink-soft);
+    font-size: 12pt;
+    line-height: 1.6;
+    max-width: 5.5in;
+    margin-bottom: 2rem;
+  }
+  .cover .quick {
+    border-top: 1px solid var(--hairline);
+    padding-top: 1.5rem;
+    margin-top: 2rem;
+    font-size: 10pt;
+  }
+  .cover .quick strong {
+    display: block;
+    color: var(--ink);
+    font-weight: 500;
+    margin-bottom: 0.4rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    font-size: 8.5pt;
+  }
+
+  /* SECTION HEADERS */
+  h2.section {
+    font-family: 'Spectral', Georgia, serif;
+    font-size: 24pt;
+    font-weight: 400;
+    margin: 0 0 0.25rem 0;
+    line-height: 1.15;
+  }
+  .section-num {
+    color: var(--gold);
+    font-size: 9pt;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    margin-bottom: 0.6rem;
+    font-weight: 500;
+  }
+  .section-intro {
+    color: var(--ink-soft);
+    margin: 0 0 1.5rem 0;
+    max-width: 5.5in;
+  }
+
+  /* TASK */
+  .task {
+    border-top: 1px solid var(--hairline);
+    padding-top: 1.4rem;
+    margin-top: 1.4rem;
+    page-break-inside: avoid;
+  }
+  .task:first-of-type {
+    border-top: none;
+    padding-top: 0;
+    margin-top: 0;
+  }
+  .task h3 {
+    font-family: 'Spectral', Georgia, serif;
+    font-size: 16pt;
+    font-weight: 400;
+    margin: 0 0 0.3rem 0;
+  }
+  .task .what {
+    color: var(--ink-soft);
+    margin: 0 0 1rem 0;
+  }
+  .task-num {
+    display: inline-block;
+    color: var(--gold);
+    font-weight: 500;
+    margin-right: 0.4rem;
+    letter-spacing: 0.1em;
+  }
+
+  /* RECOMMENDED + ALTERNATIVES boxes */
+  .rec {
+    background: var(--paper-cream);
+    border-left: 3px solid var(--gold);
+    padding: 0.75rem 1rem;
+    margin: 0.5rem 0 1rem 0;
+  }
+  .rec .rec-label {
+    color: var(--gold);
+    font-size: 8.5pt;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    font-weight: 500;
+    margin-bottom: 0.3rem;
+  }
+  .rec strong { font-weight: 600; }
+
+  .alt {
+    border-left: 2px solid var(--hairline);
+    padding-left: 0.8rem;
+    margin: 0.4rem 0 1rem 0;
+    color: var(--ink-soft);
+    font-size: 10pt;
+  }
+  .alt .alt-label {
+    color: var(--ink-soft);
+    font-size: 8.5pt;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    font-weight: 500;
+    margin-bottom: 0.3rem;
+  }
+
+  /* STEP LIST */
+  .steps-label {
+    color: var(--ink);
+    font-size: 8.5pt;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    font-weight: 500;
+    margin: 0.6rem 0 0.4rem 0;
+  }
+  ol.steps {
+    margin: 0 0 1rem 0;
+    padding-left: 1.2rem;
+  }
+  ol.steps li {
+    margin-bottom: 0.35rem;
+  }
+  ol.steps li code,
+  p code {
+    background: var(--paper-cream);
+    padding: 1px 5px;
+    border-radius: 2px;
+    font-family: 'Menlo', Consolas, monospace;
+    font-size: 9.5pt;
+    color: var(--ink);
+  }
+
+  /* META FOOTER */
+  .meta {
+    display: flex;
+    gap: 2rem;
+    flex-wrap: wrap;
+    margin-top: 0.6rem;
+    font-size: 9pt;
+    color: var(--ink-soft);
+  }
+  .meta span strong {
+    color: var(--ink);
+    font-weight: 500;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    font-size: 8pt;
+    margin-right: 0.3rem;
+  }
+
+  /* CALLOUTS */
+  .callout {
+    border: 1px solid var(--hairline);
+    padding: 1rem 1.2rem;
+    margin: 1rem 0;
+    background: var(--paper-cream);
+  }
+  .callout.warn {
+    border-color: var(--rose);
+    background: #fdf4f4;
+  }
+  .callout strong { color: var(--ink); }
+  .callout p { margin: 0.4rem 0; }
+  .callout p:first-child { margin-top: 0; }
+  .callout p:last-child { margin-bottom: 0; }
+
+  /* PHASE INTRO */
+  .phase-marker {
+    text-align: center;
+    padding: 1.5in 0 0.5in 0;
+  }
+  .phase-marker .phase-num {
+    color: var(--gold);
+    font-size: 10pt;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+  }
+  .phase-marker h2 {
+    font-family: 'Spectral', Georgia, serif;
+    font-size: 32pt;
+    font-weight: 400;
+    margin: 0 0 0.6rem 0;
+    line-height: 1.1;
+  }
+  .phase-marker .phase-summary {
+    color: var(--ink-soft);
+    max-width: 4.5in;
+    margin: 0 auto;
+    font-size: 11pt;
+    line-height: 1.6;
+  }
+  .phase-marker .phase-eta {
+    margin-top: 1.5rem;
+    font-size: 9pt;
+    color: var(--gold);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+  }
+
+  ul.checklist {
+    list-style: none;
+    padding-left: 0;
+    margin: 0.5rem 0;
+  }
+  ul.checklist li {
+    padding-left: 1.4rem;
+    text-indent: -1.4rem;
+    margin-bottom: 0.35rem;
+  }
+  ul.checklist li::before {
+    content: '☐';
+    color: var(--gold);
+    margin-right: 0.6rem;
+  }
+
+  table.summary {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1rem 0;
+    font-size: 9.5pt;
+  }
+  table.summary th {
+    text-align: left;
+    border-bottom: 1px solid var(--hairline);
+    padding: 0.4rem 0.6rem;
+    font-size: 8.5pt;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    font-weight: 500;
+  }
+  table.summary td {
+    padding: 0.4rem 0.6rem;
+    border-bottom: 1px solid var(--hairline);
+    vertical-align: top;
+  }
+  table.summary td:first-child {
+    font-weight: 500;
+    width: 22%;
+  }
+</style>
+</head>
+<body>
+
+<!-- COVER -->
+<section class="page cover">
+  <p class="label">Steele &amp; Co. — Launch Checklist</p>
+  <h1>Everything you need to do <em>to ship.</em></h1>
+  <p class="lede">
+    The app is built. The website is built. The athlete bios, the workout logger, the coach
+    dashboard — all working. What&rsquo;s left is the business plumbing: a legal entity,
+    a bank account, a Stripe account, an email domain, and a few pricing decisions.
+    This document walks you through every step.
+  </p>
+  <p class="lede">
+    Read it once end-to-end so you see the full path. Then start at Phase 1.
+    Each task has a recommended option, the alternatives, and the reasoning behind the
+    recommendation. If you have a strong preference for an alternative, take it &mdash; the
+    recommendations are starting points, not mandates.
+  </p>
+
+  <div class="quick">
+    <strong>How to read this</strong>
+    <p>
+      Tasks are grouped into six phases. Phases 1 and 2 happen in parallel.
+      Phase 3 needs Phase 1 done first. Phases 4 and 5 are decisions you can make
+      anytime. Phase 6 is ongoing, after launch.
+    </p>
+    <p style="margin-top: 0.8rem;">
+      Anywhere you see <strong style="color: var(--gold);">Send to Van</strong>, that&rsquo;s a
+      thing the developer needs from you to wire up the system. Send via text or email
+      &mdash; doesn&rsquo;t need to be formal.
+    </p>
+  </div>
+</section>
+
+<!-- PHASE 1 INTRO -->
+<section class="page phase-marker">
+  <p class="phase-num">Phase I</p>
+  <h2>Legal &amp; financial foundation</h2>
+  <p class="phase-summary">
+    Form the company, get a tax ID, open a bank account.
+    These three steps unlock everything else &mdash; Stripe needs them, the IRS needs them,
+    the bank needs them. Start here even if you&rsquo;re unsure about the rest.
+  </p>
+  <p class="phase-eta">Estimated: 1–3 weeks</p>
+</section>
+
+<!-- TASK 1: LLC -->
+<section class="page">
+  <p class="section-num">Phase I · Step 1</p>
+  <h2 class="section">Form an LLC</h2>
+  <p class="section-intro">
+    A formal business entity. Without one you&rsquo;re a sole proprietor by default,
+    which works but gives you no liability protection and looks less credible to
+    payment processors and clients.
+  </p>
+
+  <div class="rec">
+    <p class="rec-label">Recommended</p>
+    <p>
+      <strong>Single-member LLC, filed in your home state.</strong>
+      Cheap (around $100–200), filed online with the Secretary of State,
+      gives you personal-asset protection if a client ever sues, and Stripe
+      treats it as a business with no extra friction.
+    </p>
+  </div>
+
+  <p class="steps-label">Step by step</p>
+  <ol class="steps">
+    <li>Pick a legal name. <em>Recommendation:</em> &ldquo;Steele &amp; Co. LLC&rdquo; or
+      &ldquo;William Steele Coaching LLC&rdquo;. Use your state&rsquo;s Secretary-of-State
+      website to search for name availability before filing.</li>
+    <li>Visit your state&rsquo;s Secretary of State website. Search for
+      &ldquo;register an LLC&rdquo;. Most states have an online filing portal.</li>
+    <li>Fill out the &ldquo;Articles of Organization&rdquo; form. You&rsquo;ll need:
+      legal name, your name + home address (or a registered-agent service&rsquo;s
+      address &mdash; see Alternative below), purpose of business
+      (&ldquo;coaching services&rdquo; is fine), member name (you).</li>
+    <li>Pay the filing fee with a credit card. Submit.</li>
+    <li>Wait for approval. Usually 1–3 weeks; many states offer a same-day
+      expedited filing for an extra ~$50–100 if you&rsquo;re in a hurry.</li>
+    <li>Save the Articles of Organization PDF you receive. <strong style="color: var(--gold);">Send to Van.</strong>
+      The bank and Stripe will both ask for it.</li>
+  </ol>
+
+  <div class="alt">
+    <p class="alt-label">Alternatives</p>
+    <p>
+      <strong>Sole proprietor (no entity).</strong> Free, no paperwork. Stripe accepts it.
+      But your personal assets aren&rsquo;t protected from business liability, and
+      bank-account / business-credit options are limited. <em>Not recommended unless cost is critical.</em>
+    </p>
+    <p style="margin-top: 0.4rem;">
+      <strong>Registered-agent service.</strong> If you don&rsquo;t want your home address on
+      public state filings, pay ~$50–100/year for a registered-agent service
+      (e.g., Northwest Registered Agent, ZenBusiness). Recommended if privacy matters.
+    </p>
+  </div>
+
+  <div class="meta">
+    <span><strong>Time</strong> 1–3 weeks (mostly waiting)</span>
+    <span><strong>Cost</strong> $100–200 + optional ~$50/yr agent</span>
+  </div>
+</section>
+
+<!-- TASK 2: EIN -->
+<section class="page">
+  <p class="section-num">Phase I · Step 2</p>
+  <h2 class="section">Get an EIN</h2>
+  <p class="section-intro">
+    Employer Identification Number. The IRS&rsquo;s tax ID for businesses. Stripe and
+    the bank both require it. Free, takes 30 minutes, instant approval.
+  </p>
+
+  <div class="rec">
+    <p class="rec-label">Recommended</p>
+    <p>
+      Apply directly through <strong>irs.gov</strong>. Don&rsquo;t pay any third-party service.
+      EIN applications are free; sites that charge $200+ are scams.
+    </p>
+  </div>
+
+  <p class="steps-label">Step by step</p>
+  <ol class="steps">
+    <li>Wait until your LLC is approved (you&rsquo;ll need the LLC&rsquo;s legal name on the EIN form).</li>
+    <li>Go to <code>irs.gov/businesses/small-businesses-self-employed/apply-for-an-employer-identification-number-ein-online</code></li>
+    <li>Click &ldquo;Apply Online Now&rdquo;. Note: only available Mon–Fri, 7am–10pm Eastern.</li>
+    <li>On the &ldquo;Identify&rdquo; screen, select <strong>Limited Liability Company (LLC)</strong>.</li>
+    <li>Fill in: your LLC&rsquo;s legal name, state of formation, your name + SSN as the &ldquo;responsible party&rdquo;, business address, primary activity (&ldquo;coaching/training services&rdquo;).</li>
+    <li>Submit. The EIN appears on the screen <strong>immediately</strong> &mdash; do NOT close the tab without saving the confirmation letter (PDF download).</li>
+    <li><strong style="color: var(--gold);">Send to Van.</strong> The EIN itself (a 9-digit number)
+      and the PDF confirmation letter.</li>
+  </ol>
+
+  <div class="callout warn">
+    <p><strong>Don&rsquo;t pay anyone for an EIN.</strong> Search results often show services like
+    &ldquo;EIN Filing Service&rdquo; charging $200+. They&rsquo;re submitting the same free IRS form on your behalf.
+    The official site is <code>irs.gov</code> &mdash; nowhere else.</p>
+  </div>
+
+  <div class="meta">
+    <span><strong>Time</strong> 30 minutes</span>
+    <span><strong>Cost</strong> Free</span>
+  </div>
+</section>
+
+<!-- TASK 3: BANK -->
+<section class="page">
+  <p class="section-num">Phase I · Step 3</p>
+  <h2 class="section">Open a business bank account</h2>
+  <p class="section-intro">
+    Stripe deposits payouts here. Stripe requires a business account (not a personal one)
+    matching the EIN. Mixing business and personal money also creates a tax mess.
+  </p>
+
+  <div class="rec">
+    <p class="rec-label">Recommended</p>
+    <p>
+      <strong>Mercury</strong> (mercury.com). Online-only, no monthly fees, no minimum balance,
+      opens in ~30 minutes online after the LLC is approved. Built for small businesses
+      that don&rsquo;t need to deposit cash. Integrates cleanly with Stripe.
+    </p>
+  </div>
+
+  <p class="steps-label">Step by step</p>
+  <ol class="steps">
+    <li>Go to <code>mercury.com</code>. Click &ldquo;Open an account&rdquo;.</li>
+    <li>Sign up with your business email (recommend the same one you&rsquo;ll use for Stripe).</li>
+    <li>Upload, in order: Articles of Organization (PDF from Step 1), EIN confirmation letter (PDF from Step 2), driver&rsquo;s license (front + back photo), your SSN.</li>
+    <li>Confirm business address (can be your home address; Mercury doesn&rsquo;t require a separate office).</li>
+    <li>Submit. Approval typically takes 1–3 business days.</li>
+    <li>Once approved, log in and grab the <strong>routing number</strong> and
+      <strong>account number</strong> from the dashboard. <strong style="color: var(--gold);">Send to Van</strong> (or save these for the Stripe step yourself &mdash; see Phase III).</li>
+  </ol>
+
+  <div class="alt">
+    <p class="alt-label">Alternatives</p>
+    <p>
+      <strong>Chase Business Complete</strong> or <strong>Bank of America Business Advantage</strong>.
+      Better if you ever need to deposit cash or have a brick-and-mortar habit.
+      Downside: $15–25/month unless you keep ~$2,000+ minimum balance.
+    </p>
+    <p style="margin-top: 0.4rem;">
+      <strong>Novo</strong> or <strong>Bluevine</strong>. Other online business banks similar to Mercury.
+      Mercury is the cleanest in our experience but any of these work.
+    </p>
+  </div>
+
+  <div class="meta">
+    <span><strong>Time</strong> 30 min to apply, 1–3 days to approve</span>
+    <span><strong>Cost</strong> Free (Mercury)</span>
+  </div>
+</section>
+
+<!-- PHASE 2 INTRO -->
+<section class="page phase-marker">
+  <p class="phase-num">Phase II</p>
+  <h2>Email infrastructure</h2>
+  <p class="phase-summary">
+    Pick a domain so emails come from <code>noreply@your-domain.com</code> instead of a generic
+    sandbox address. Required for client emails (paid invoices, magic-link sign-in, donation
+    thank-yous) to actually land in real inboxes.
+  </p>
+  <p class="phase-eta">Estimated: 1 hour · Can run in parallel with Phase I</p>
+</section>
+
+<!-- TASK 4: DOMAIN -->
+<section class="page">
+  <p class="section-num">Phase II · Step 4</p>
+  <h2 class="section">Choose and verify an email domain</h2>
+  <p class="section-intro">
+    Currently emails come from a Resend sandbox address that only delivers to your own inbox.
+    Once a domain is verified, every prospect, client, and donor receives email from
+    <code>noreply@your-domain</code> &mdash; lands in their inbox like any other legitimate email.
+  </p>
+
+  <div class="rec">
+    <p class="rec-label">Recommended</p>
+    <p>
+      <strong>Use <code>mail.steele-co.com</code></strong> (a subdomain of your main domain).
+      Reasoning: keeps the website&rsquo;s DNS (managed by Vercel) separate from email DNS,
+      so changes to one don&rsquo;t risk breaking the other. Industry standard.
+    </p>
+    <p style="margin-top: 0.5rem;">
+      <em>Prerequisite:</em> you (or Van) must already own <code>steele-co.com</code>. If not yet,
+      buy it from <strong>Cloudflare Registrar</strong> ($9.15/year, no markup) or
+      <strong>Namecheap</strong> ($11/year). Other registrars work but tend to upsell aggressively.
+    </p>
+  </div>
+
+  <p class="steps-label">Step by step</p>
+  <ol class="steps">
+    <li>Decide on the domain. <strong style="color: var(--gold);">Send to Van</strong> the
+      domain you want (e.g., <code>mail.steele-co.com</code>).</li>
+    <li>Van will go to <code>resend.com/domains</code> and click &ldquo;Add domain&rdquo;,
+      then send you a list of 4 DNS records to add (an MX record and three TXT records for SPF, DKIM, and DMARC).</li>
+    <li>Log into your domain registrar (Cloudflare / Namecheap / wherever you bought the domain).</li>
+    <li>Find the DNS settings for <code>steele-co.com</code>. Add each of the 4 records Van sent. <em>Copy and paste exactly</em> &mdash; one wrong character and email won&rsquo;t deliver.</li>
+    <li>Save. DNS changes typically take 5–30 minutes to propagate, sometimes a few hours.</li>
+    <li>Tell Van it&rsquo;s done. He&rsquo;ll check Resend&rsquo;s verification screen and confirm.</li>
+    <li>Once verified, Van updates the production environment so all real emails (welcome, paid invoice, donation thank-you, magic link) come from your domain.</li>
+  </ol>
+
+  <div class="alt">
+    <p class="alt-label">Alternatives</p>
+    <p>
+      <strong>Use the apex (<code>steele-co.com</code>) directly.</strong>
+      Works, but if you ever need to add another email provider or change MX records,
+      you&rsquo;re editing the same DNS zone the website depends on. More risk for no gain.
+    </p>
+    <p style="margin-top: 0.4rem;">
+      <strong>Use a different domain entirely</strong> (e.g., <code>mail.cfbcllc.com</code>
+      if you don&rsquo;t want to involve <code>steele-co.com</code>). Works fine; just
+      pick one and tell Van.
+    </p>
+  </div>
+
+  <div class="meta">
+    <span><strong>Time</strong> 30 min for you, ~30 min wait for DNS</span>
+    <span><strong>Cost</strong> $0 if you own the domain, ~$10/yr if buying</span>
+  </div>
+</section>
+
+<!-- PHASE 3 INTRO -->
+<section class="page phase-marker">
+  <p class="phase-num">Phase III</p>
+  <h2>Stripe</h2>
+  <p class="phase-summary">
+    Open the Stripe account, finish identity verification, create the products you&rsquo;ll
+    sell. Required for both paying clients (subscriptions) and donations.
+    Phase I (LLC + EIN + bank) must be complete before starting.
+  </p>
+  <p class="phase-eta">Estimated: 1 day for setup, 24–48h for KYC approval</p>
+</section>
+
+<!-- TASK 5: STRIPE ACCOUNT -->
+<section class="page">
+  <p class="section-num">Phase III · Step 5</p>
+  <h2 class="section">Create your Stripe account</h2>
+  <p class="section-intro">
+    Stripe is the payment processor. They handle credit cards, ACH transfers, the actual
+    money movement. They&rsquo;ll verify your identity (called &ldquo;KYC&rdquo; &mdash; Know Your Customer)
+    using the LLC docs and EIN you already have.
+  </p>
+
+  <div class="rec">
+    <p class="rec-label">Recommended</p>
+    <p>
+      Use the <strong>same email address</strong> for Stripe that you&rsquo;ll use for the
+      &ldquo;failed payment&rdquo; alerts (see Phase IV) and the &ldquo;reply-to&rdquo; on
+      thank-you emails. One inbox to monitor.
+    </p>
+  </div>
+
+  <p class="steps-label">Step by step</p>
+  <ol class="steps">
+    <li>Go to <code>dashboard.stripe.com/register</code></li>
+    <li>Sign up with your business email and a strong password. Set up 2-factor authentication when prompted &mdash; required for an account that handles money.</li>
+    <li>You&rsquo;ll land in the test-mode dashboard. Click <strong>&ldquo;Activate your account&rdquo;</strong> in the top-right.</li>
+    <li>Fill the activation form:
+      <ul style="margin-top: 0.3rem;">
+        <li>Country: United States</li>
+        <li>Business type: <strong>Company</strong> → <strong>LLC</strong></li>
+        <li>Business name: your LLC&rsquo;s legal name (e.g., &ldquo;Steele &amp; Co. LLC&rdquo;)</li>
+        <li>EIN: the 9-digit number from Phase I Step 2</li>
+        <li>Industry: &ldquo;Personal Services&rdquo; → &ldquo;Personal training / fitness&rdquo;</li>
+        <li>Business website: your live website URL (Van can provide if not yet known)</li>
+        <li>Business address: your home or registered-agent address</li>
+        <li>Statement descriptor: &ldquo;STEELE COACHING&rdquo; (or similar &mdash; this is what shows on client credit-card statements; max 22 characters)</li>
+      </ul>
+    </li>
+    <li>Add a representative (you): name, title (Owner), DOB, SSN, home address.</li>
+    <li>Add bank account: routing number + account number from Mercury (Phase I Step 3).</li>
+    <li>Upload a photo of your driver&rsquo;s license.</li>
+    <li>Submit. Stripe usually approves in 24–48 hours. Sometimes hours.</li>
+    <li>While waiting, you can still build products in test mode (see Step 6). Test mode uses fake credit-card numbers and never charges real money.</li>
+    <li>Once approved, <strong style="color: var(--gold);">tell Van</strong>. He&rsquo;ll need the live API key (from Stripe dashboard → Developers → API keys → reveal) to wire production.</li>
+  </ol>
+
+  <div class="callout warn">
+    <p><strong>Keep API keys secret.</strong> Treat the live secret key like a password:
+    don&rsquo;t paste it in chat, email, or screenshots. Send it via 1Password, Bitwarden,
+    or any password manager that supports secure sharing.</p>
+  </div>
+
+  <div class="meta">
+    <span><strong>Time</strong> 1 hour to apply, 24–48h for approval</span>
+    <span><strong>Cost</strong> Free to open. Stripe takes 2.9% + $0.30 per charge.</span>
+  </div>
+</section>
+
+<!-- TASK 6: STRIPE PRODUCT/PRICE -->
+<section class="page">
+  <p class="section-num">Phase III · Step 6</p>
+  <h2 class="section">Create the coaching subscription product</h2>
+  <p class="section-intro">
+    Stripe needs to know what you sell. We create a single &ldquo;Product&rdquo; (Steele &amp; Co.
+    coaching) with one or more &ldquo;Prices&rdquo; (e.g., $200/month). The price ID is what the
+    app references when it bills a client.
+  </p>
+
+  <div class="rec">
+    <p class="rec-label">Recommended</p>
+    <p>
+      <strong>Start with one price tier: $X/month</strong> (you decide the number).
+      Reasoning: keeps invoicing simple, easier accounting, no decision-paralysis for prospects.
+      You can add tiers later in 5 minutes when you have signal on what to differentiate.
+    </p>
+    <p style="margin-top: 0.5rem;">
+      <em>Pricing thought:</em> for hands-on remote coaching with weekly check-ins and video review,
+      $200–$400/month is the typical market. $200 is accessible; $300 signals premium.
+      Pick what reflects your time investment.
+    </p>
+  </div>
+
+  <p class="steps-label">Step by step</p>
+  <ol class="steps">
+    <li>In the Stripe dashboard, switch to <strong>Test mode</strong> (toggle in top-right).
+      We always create products in test mode first, verify everything works, then duplicate to live mode.</li>
+    <li>Sidebar → <strong>Product catalog</strong> → <strong>+ Add product</strong>.</li>
+    <li>Fill:
+      <ul style="margin-top: 0.3rem;">
+        <li>Name: &ldquo;Steele &amp; Co. Coaching&rdquo;</li>
+        <li>Description: &ldquo;Monthly powerlifting coaching subscription&rdquo;</li>
+        <li>Image: optional, can add later</li>
+      </ul>
+    </li>
+    <li>Under &ldquo;Pricing&rdquo;:
+      <ul style="margin-top: 0.3rem;">
+        <li>Pricing model: <strong>Standard pricing</strong></li>
+        <li>Price: enter your number (e.g., 200.00)</li>
+        <li>Billing period: <strong>Monthly</strong></li>
+        <li>Currency: <strong>USD</strong></li>
+        <li>Tax behavior: leave default (we&rsquo;re not collecting sales tax for V1)</li>
+      </ul>
+    </li>
+    <li>Save the product. On the product page, find the <strong>Price ID</strong>
+      (looks like <code>price_1Q...something</code>). Copy it.</li>
+    <li>Switch to <strong>Live mode</strong> (top-right toggle). Repeat steps 2–5 to create the
+      same product in live mode. Copy that Price ID too.</li>
+    <li><strong style="color: var(--gold);">Send to Van</strong> both Price IDs (test and live)
+      and the dollar amount in cents (e.g., $200 = 20000 cents).</li>
+  </ol>
+
+  <div class="alt">
+    <p class="alt-label">Alternative — multi-tier pricing</p>
+    <p>
+      Create three Prices under the same Product: Online ($X/mo), Hybrid ($Y/mo), Meet Prep ($Z one-time).
+      More revenue flexibility but more decisions for prospects and more accounting columns.
+      <em>Recommend deferring this until you have at least 5 paying clients on the simple tier.</em>
+    </p>
+  </div>
+
+  <div class="meta">
+    <span><strong>Time</strong> 15 minutes</span>
+    <span><strong>Cost</strong> Free</span>
+  </div>
+</section>
+
+<!-- TASK 7: STRIPE WEBHOOK (DEFERRED) -->
+<section class="page">
+  <p class="section-num">Phase III · Step 7</p>
+  <h2 class="section">Configure the Stripe webhook (after deployment)</h2>
+  <p class="section-intro">
+    A &ldquo;webhook&rdquo; is how Stripe tells the app when a payment succeeded, failed, or a subscription
+    was updated. The app needs to know so it can mark the client paid, send the receipt email, and
+    update your dashboard. Set up <em>after</em> the production app is deployed.
+  </p>
+
+  <div class="rec">
+    <p class="rec-label">Recommended</p>
+    <p>
+      <strong>Van handles this end-to-end.</strong> You don&rsquo;t need to do anything except confirm
+      the production URL once and copy the webhook signing secret to Van.
+    </p>
+  </div>
+
+  <p class="steps-label">Step by step (when the time comes)</p>
+  <ol class="steps">
+    <li>Van will deploy the app to the production URL (e.g., <code>https://steele-co.com</code>).</li>
+    <li>In Stripe dashboard → <strong>Developers</strong> → <strong>Webhooks</strong> → <strong>+ Add endpoint</strong>.</li>
+    <li>Endpoint URL: <code>https://&lt;your-live-domain&gt;/api/webhooks/stripe</code></li>
+    <li>Listen to the following events (Van will provide a list to copy/paste):
+      <code>invoice.paid</code>, <code>invoice.payment_failed</code>,
+      <code>customer.subscription.created</code>, <code>customer.subscription.updated</code>,
+      <code>customer.subscription.deleted</code>, <code>customer.created</code>,
+      <code>checkout.session.completed</code>, <code>charge.refunded</code>.</li>
+    <li>Click <strong>Add endpoint</strong>. On the resulting page, click
+      <strong>Reveal signing secret</strong> &mdash; starts with <code>whsec_</code>.</li>
+    <li><strong style="color: var(--gold);">Send to Van</strong> the signing secret.
+      He&rsquo;ll set it as the <code>STRIPE_WEBHOOK_SECRET</code> environment variable on the production server.</li>
+    <li>Van triggers a smoke test (creates a test customer, runs the test card
+      <code>4242 4242 4242 4242</code>) to confirm webhooks are flowing.</li>
+  </ol>
+
+  <div class="meta">
+    <span><strong>Time</strong> 10 minutes (when triggered)</span>
+    <span><strong>Cost</strong> Free</span>
+  </div>
+</section>
+
+<!-- PHASE 4 INTRO -->
+<section class="page phase-marker">
+  <p class="phase-num">Phase IV</p>
+  <h2>Pricing &amp; product decisions</h2>
+  <p class="phase-summary">
+    Quick decisions that shape what the app shows and sends. None of these block Phases I–III &mdash;
+    you can answer them anytime, and changing your mind later is easy.
+  </p>
+  <p class="phase-eta">Estimated: 30 minutes total</p>
+</section>
+
+<!-- TASK 8: SUBSCRIPTION PRICE -->
+<section class="page">
+  <p class="section-num">Phase IV · Step 8</p>
+  <h2 class="section">Confirm coaching subscription pricing</h2>
+  <p class="section-intro">
+    The number you&rsquo;ll charge clients per month. Already covered in Step 6 if you set the
+    Stripe Price &mdash; this is just for explicit decision-tracking.
+  </p>
+
+  <div class="rec">
+    <p class="rec-label">Recommended</p>
+    <p>
+      <strong>$250/month</strong> as a starting tier. Reasoning: positions you above
+      template-only services ($50–100), below national-team coaches ($500+), and matches your
+      hands-on-with-video-review value. Adjust up after the first few clients are signed if demand is strong.
+    </p>
+  </div>
+
+  <p class="steps-label">Step by step</p>
+  <ol class="steps">
+    <li>Decide on the monthly amount.</li>
+    <li>If different from the Step 6 product, update the Stripe Price (in test mode, then live).</li>
+    <li><strong style="color: var(--gold);">Send to Van</strong>: the final number.
+      He puts it in the app&rsquo;s seed script.</li>
+  </ol>
+</section>
+
+<!-- TASK 9: DONATION AMOUNTS -->
+<section class="page">
+  <p class="section-num">Phase IV · Step 9</p>
+  <h2 class="section">Confirm suggested donation amounts</h2>
+  <p class="section-intro">
+    The donation page (<code>/team/donate</code>) shows three preset amount buttons plus a custom
+    field. Three numbers nudge donors toward the right ballpark.
+  </p>
+
+  <div class="rec">
+    <p class="rec-label">Recommended</p>
+    <p>
+      <strong>$25 / $50 / $100</strong>, with a custom field for any other amount. Standard for
+      grassroots youth-team fundraising. $25 is accessible to most casual supporters; $100 lets
+      bigger donors land naturally without typing; the custom field accommodates a $1,000 grand-uncle.
+    </p>
+  </div>
+
+  <p class="steps-label">Step by step</p>
+  <ol class="steps">
+    <li>Decide the three amounts.</li>
+    <li><strong style="color: var(--gold);">Send to Van</strong> the three numbers.</li>
+  </ol>
+
+  <div class="alt">
+    <p class="alt-label">Alternatives</p>
+    <p>
+      <strong>$50 / $100 / $250.</strong> If your donor base is wealthier (parents of athletes
+      who travel to Nationals tend to skew higher).
+    </p>
+    <p style="margin-top: 0.4rem;">
+      <strong>Just a custom field, no presets.</strong> Removes anchor effect. Tends to lower
+      average donation. Not recommended.
+    </p>
+  </div>
+</section>
+
+<!-- TASK 10: WHO GETS FAILED-PAYMENT ALERTS -->
+<section class="page">
+  <p class="section-num">Phase IV · Step 10</p>
+  <h2 class="section">Decide who gets failed-payment alerts</h2>
+  <p class="section-intro">
+    When a client&rsquo;s monthly subscription card declines, the app sends an internal alert
+    to a specified email so you can reach out to the client. (Stripe also emails the client
+    directly via its own dunning system &mdash; you don&rsquo;t need to handle that.)
+  </p>
+
+  <div class="rec">
+    <p class="rec-label">Recommended</p>
+    <p>
+      <strong>Your personal email</strong> (the one you check first thing each morning).
+      Reasoning: V1 is single-coach, you handle every client conversation, no need to introduce
+      a shared inbox. Keep it simple.
+    </p>
+  </div>
+
+  <p class="steps-label">Step by step</p>
+  <ol class="steps">
+    <li>Pick the email address.</li>
+    <li><strong style="color: var(--gold);">Send to Van</strong> &mdash; he sets it as the
+      <code>FAILED_PAYMENT_ALERT_EMAIL</code> environment variable.</li>
+  </ol>
+
+  <div class="alt">
+    <p class="alt-label">Alternative</p>
+    <p>
+      <strong>A shared inbox</strong> like <code>coach@steele-co.com</code> if you ever bring on an
+      assistant or want Van to also see failures. Easy to switch later.
+    </p>
+  </div>
+</section>
+
+<!-- TASK 11: THANK-YOU SIGNOFF -->
+<section class="page">
+  <p class="section-num">Phase IV · Step 11</p>
+  <h2 class="section">Confirm thank-you email signoff &amp; reply-to</h2>
+  <p class="section-intro">
+    Donation thank-you emails get sent automatically. They need a signoff (&ldquo;William Steele,
+    Head Coach&rdquo;) and a reply-to address so a donor who hits Reply gets to the right person.
+  </p>
+
+  <div class="rec">
+    <p class="rec-label">Recommended</p>
+    <p>
+      <strong>Signoff:</strong> &ldquo;William Steele &mdash; Head Coach, Steele &amp; Co.&rdquo;<br/>
+      <strong>Reply-to:</strong> <code>william@steele-co.com</code> (or whichever email you check most).
+    </p>
+  </div>
+
+  <p class="steps-label">Step by step</p>
+  <ol class="steps">
+    <li>Decide the signoff line and reply-to address.</li>
+    <li><strong style="color: var(--gold);">Send to Van.</strong></li>
+  </ol>
+</section>
+
+<!-- TASK 12: ABOUT PAGE COPY -->
+<section class="page">
+  <p class="section-num">Phase IV · Step 12</p>
+  <h2 class="section">Review the About-page copy</h2>
+  <p class="section-intro">
+    Your <code>/about</code> page already has draft copy. Read it, edit if needed.
+    Prospective athletes will read this before applying.
+  </p>
+
+  <div class="rec">
+    <p class="rec-label">Recommended</p>
+    <p>
+      <strong>2–3 paragraphs, concrete and specific.</strong> Federations you&rsquo;ve coached in,
+      athletes you&rsquo;ve worked with at meets, what makes your approach distinct.
+      Avoid generic credentials and motivational language &mdash; serious lifters smell it
+      immediately.
+    </p>
+  </div>
+
+  <p class="steps-label">Step by step</p>
+  <ol class="steps">
+    <li>Visit the live site&rsquo;s <code>/about</code> page (Van will share the URL once
+      production is up).</li>
+    <li>Read end-to-end. Does it sound like you? Are the facts right?</li>
+    <li>If you want changes, just send Van the rewritten copy. Easier than doing track-changes.</li>
+    <li>Optional: provide a 1:1 photo (square crop, head-and-shoulders, decent light).
+      Doesn&rsquo;t need to be professional &mdash; iPhone selfie in good window light is fine.</li>
+  </ol>
+</section>
+
+<!-- PHASE 5 INTRO -->
+<section class="page phase-marker">
+  <p class="phase-num">Phase V</p>
+  <h2>Legal documents</h2>
+  <p class="phase-summary">
+    Privacy policy, terms of service, refund policy. Required by Stripe (they&rsquo;ll ask
+    during account activation if not already on the site) and protect you legally.
+    The app has placeholder routes ready &mdash; just need the actual text.
+  </p>
+  <p class="phase-eta">Estimated: 1 hour</p>
+</section>
+
+<!-- TASK 13: LEGAL DOCS -->
+<section class="page">
+  <p class="section-num">Phase V · Step 13</p>
+  <h2 class="section">Generate privacy + terms + refund policy</h2>
+  <p class="section-intro">
+    These are standard legal docs. You don&rsquo;t need a lawyer for V1 &mdash; a generator
+    produces the right text for 95% of small-business cases.
+  </p>
+
+  <div class="rec">
+    <p class="rec-label">Recommended</p>
+    <p>
+      <strong>Termly (free generator)</strong> at <code>termly.io</code>. Each policy takes
+      ~10 minutes via a guided questionnaire. Output is plain HTML you can paste into the app.
+      Good enough for V1; upgrade to a lawyer-reviewed version once revenue justifies it.
+    </p>
+  </div>
+
+  <p class="steps-label">Step by step</p>
+  <ol class="steps">
+    <li>Go to <code>termly.io</code>. Create a free account.</li>
+    <li>Generate <strong>Privacy Policy</strong>:
+      <ul style="margin-top: 0.3rem;">
+        <li>Business type: LLC</li>
+        <li>Do you collect emails? Yes</li>
+        <li>Do you process payments? Yes, via Stripe</li>
+        <li>Do you use cookies? Yes (for sign-in sessions)</li>
+        <li>Do you have a newsletter? Yes</li>
+      </ul>
+      Copy the generated text.
+    </li>
+    <li>Generate <strong>Terms of Service</strong> with the same questionnaire flow.</li>
+    <li>Generate <strong>Refund Policy</strong>. Recommended language:
+      &ldquo;Coaching subscriptions are non-refundable for the current billing period.
+      You may cancel future renewals at any time. Donations are non-refundable.&rdquo;</li>
+    <li><strong style="color: var(--gold);">Send to Van</strong> all three documents.
+      He&rsquo;ll wire them into the existing <code>/privacy</code>, <code>/terms</code>, <code>/refund-policy</code>
+      routes the app already reserves.</li>
+  </ol>
+
+  <div class="alt">
+    <p class="alt-label">Alternatives</p>
+    <p>
+      <strong>Iubenda</strong> (~$30 one-time setup, ~$30/year). More polished output, supports
+      auto-updates if laws change. Worth it once you have a few paying clients.
+    </p>
+    <p style="margin-top: 0.4rem;">
+      <strong>Hire a lawyer.</strong> $500–1,500. Overkill for a single-coach SaaS. Revisit when revenue
+      passes ~$10k/month.
+    </p>
+  </div>
+
+  <div class="meta">
+    <span><strong>Time</strong> 1 hour</span>
+    <span><strong>Cost</strong> Free (Termly)</span>
+  </div>
+</section>
+
+<!-- PHASE 6 INTRO -->
+<section class="page phase-marker">
+  <p class="phase-num">Phase VI</p>
+  <h2>Ongoing operations</h2>
+  <p class="phase-summary">
+    Things you&rsquo;ll do regularly after launch. Not blockers &mdash; included so you know
+    what to expect once paying clients and donors start arriving.
+  </p>
+  <p class="phase-eta">Estimated: ~1 hour/month after first donations</p>
+</section>
+
+<!-- TASK 14: NEWSLETTER -->
+<section class="page">
+  <p class="section-num">Phase VI · Step 14</p>
+  <h2 class="section">Send the monthly donor newsletter</h2>
+  <p class="section-intro">
+    Every donor is automatically added to a newsletter list (with one-click unsubscribe).
+    You commit to a monthly update to keep them engaged. V1 is manual: Van exports the
+    list, you write and send.
+  </p>
+
+  <div class="rec">
+    <p class="rec-label">Recommended</p>
+    <p>
+      <strong>Substack</strong> (substack.com). Free, lets donors read the update without an
+      account, has a clean reader experience. Set up a free publication called
+      &ldquo;Steele &amp; Co. Team Updates&rdquo;. Import the donor CSV the first time, then
+      just write each month.
+    </p>
+  </div>
+
+  <p class="steps-label">Step by step</p>
+  <ol class="steps">
+    <li>Sign up for Substack at <code>substack.com</code>. Pick a publication name.</li>
+    <li>Wait until your first donation arrives (or skip until then).</li>
+    <li>In the app: go to <code>/coach/donations</code>. Click &ldquo;Export newsletter list (CSV)&rdquo;.</li>
+    <li>In Substack: Settings → Subscribers → Import. Upload the CSV.</li>
+    <li>Write a 3-paragraph update: what the team is training, who has a meet coming up,
+      a thank-you. End with one specific name to avoid sounding generic.</li>
+    <li>Send. Substack handles delivery, unsubscribes, archive page.</li>
+    <li>Repeat monthly. The app keeps adding new donors to subsequent CSVs &mdash;
+      you re-import the delta each time. (Eventually we&rsquo;ll automate this.)</li>
+  </ol>
+
+  <div class="alt">
+    <p class="alt-label">Alternatives</p>
+    <p>
+      <strong>Mailchimp</strong> (free tier up to 500 contacts). More design control,
+      more polished. Worth it if you want a branded look matching your website.
+    </p>
+    <p style="margin-top: 0.4rem;">
+      <strong>BCC from Gmail.</strong> Free, zero setup, but unsubscribes don&rsquo;t auto-process,
+      and you&rsquo;re responsible for CAN-SPAM compliance. Only acceptable for &lt;25 donors.
+    </p>
+    <p style="margin-top: 0.4rem;">
+      <strong>Skip the newsletter entirely.</strong> Don&rsquo;t do this. Donors opted in
+      expecting updates &mdash; ghosting them poisons the well for future donations.
+    </p>
+  </div>
+
+  <div class="meta">
+    <span><strong>Time</strong> 1 hour first time, 30 min thereafter</span>
+    <span><strong>Cost</strong> Free</span>
+  </div>
+</section>
+
+<!-- TASK 15: ATHLETE PROFILES -->
+<section class="page">
+  <p class="section-num">Phase VI · Step 15</p>
+  <h2 class="section">Coach athletes through public profiles</h2>
+  <p class="section-intro">
+    Each athlete on your roster can publish a public profile at <code>/team/&lt;name&gt;</code>.
+    These are recruitment surfaces &mdash; prospective clients see real athletes, not stock photos.
+    You approve each one before it goes live.
+  </p>
+
+  <div class="rec">
+    <p class="rec-label">Recommended</p>
+    <p>
+      <strong>Onboarding script:</strong> when you take on a new athlete, send this in your
+      welcome message: &ldquo;Once you&rsquo;re signed in, click &lsquo;Profile&rsquo; in the top nav and
+      fill in your headline, bio, and meet results. I&rsquo;ll review and publish to the team page.&rdquo;
+      Then approve within 24 hours so they feel seen.
+    </p>
+  </div>
+
+  <p class="steps-label">Step by step</p>
+  <ol class="steps">
+    <li>Athlete signs in to the app, clicks <strong>Profile</strong> in top nav, fills the form
+      (headline, bio, optional photo URL, optional recent meet results), saves.</li>
+    <li>App shows the athlete: &ldquo;Pending coach approval. Slug will be /team/<em>their-name</em> once published.&rdquo;</li>
+    <li>You sign in to coach side, go to <strong>Athletes</strong> → click the athlete &mdash;
+      you&rsquo;ll see a &ldquo;Public profile&rdquo; section showing their bio preview.</li>
+    <li>Read the bio. If it&rsquo;s good, click <strong>Approve &amp; publish</strong>.
+      The profile goes live at <code>/team/&lt;slug&gt;</code> within seconds.</li>
+    <li>If you want changes first, message the athlete directly &mdash; they can edit
+      and you re-approve.</li>
+    <li>If something goes wrong later (athlete gets dropped, says something off-color),
+      click <strong>Unpublish</strong> on that same page. Returns the profile to draft state.</li>
+  </ol>
+
+  <div class="meta">
+    <span><strong>Time</strong> ~10 min per athlete onboarded</span>
+    <span><strong>Cost</strong> Free</span>
+  </div>
+</section>
+
+<!-- APPENDIX -->
+<section class="page">
+  <p class="section-num">Appendix A</p>
+  <h2 class="section">Master &ldquo;send to Van&rdquo; checklist</h2>
+  <p class="section-intro">
+    Everything Van needs from you to wire production. Pin this list. Cross items off
+    as you finish them.
+  </p>
+
+  <ul class="checklist">
+    <li><strong>LLC name + Articles of Organization PDF</strong> (Phase I Step 1)</li>
+    <li><strong>EIN (9-digit) + IRS confirmation letter PDF</strong> (Phase I Step 2)</li>
+    <li><strong>Mercury account routing + account number</strong> (Phase I Step 3)</li>
+    <li><strong>Email domain choice</strong> (Phase II Step 4)</li>
+    <li><strong>Confirmation that DNS records are added</strong> (Phase II Step 4)</li>
+    <li><strong>Stripe live API key</strong> (Phase III Step 5; via password manager)</li>
+    <li><strong>Stripe Price IDs</strong> &mdash; both test and live (Phase III Step 6)</li>
+    <li><strong>Stripe webhook signing secret</strong> (Phase III Step 7; via password manager)</li>
+    <li><strong>Coaching subscription monthly amount</strong> (Phase IV Step 8)</li>
+    <li><strong>Donation preset amounts</strong> (Phase IV Step 9)</li>
+    <li><strong>Failed-payment alert email</strong> (Phase IV Step 10)</li>
+    <li><strong>Thank-you email signoff &amp; reply-to address</strong> (Phase IV Step 11)</li>
+    <li><strong>About-page edits + optional photo</strong> (Phase IV Step 12)</li>
+    <li><strong>Privacy + Terms + Refund policy text</strong> (Phase V Step 13)</li>
+  </ul>
+</section>
+
+<!-- APPENDIX B: GLOSSARY -->
+<section class="page">
+  <p class="section-num">Appendix B</p>
+  <h2 class="section">Glossary</h2>
+  <p class="section-intro">
+    Terms that appear above, in plain English.
+  </p>
+
+  <table class="summary">
+    <thead>
+      <tr><th>Term</th><th>What it means</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>LLC</td><td>Limited Liability Company. A business entity that protects your personal assets if the business is sued.</td></tr>
+      <tr><td>EIN</td><td>Employer Identification Number. The IRS&rsquo;s federal tax ID for your business. 9 digits.</td></tr>
+      <tr><td>KYC</td><td>Know Your Customer. The identity-verification process Stripe runs before approving an account.</td></tr>
+      <tr><td>API key</td><td>A long secret string that lets the app talk to Stripe on your behalf. Treat like a password.</td></tr>
+      <tr><td>Webhook</td><td>A URL Stripe pings when an event happens (payment succeeded, etc.) so the app can react.</td></tr>
+      <tr><td>Webhook secret</td><td>A separate password that lets the app verify the webhook came from Stripe and not a forger.</td></tr>
+      <tr><td>DNS</td><td>Domain Name System. The phone book of the internet. You add records here to prove a domain is yours.</td></tr>
+      <tr><td>MX record</td><td>A DNS entry that says &ldquo;email for this domain goes to these servers&rdquo;.</td></tr>
+      <tr><td>SPF / DKIM / DMARC</td><td>Three DNS records that prove your email is legitimately from your domain. Without them, Gmail and Outlook send you to spam.</td></tr>
+      <tr><td>Stripe Customer</td><td>A record of one of your clients in Stripe&rsquo;s system. Holds their payment method and subscription history.</td></tr>
+      <tr><td>Stripe Subscription</td><td>The recurring billing arrangement: customer + price + status (active / past_due / canceled).</td></tr>
+      <tr><td>Stripe Checkout</td><td>The hosted payment page where the client enters their card. Stripe-branded, secure, no work for us.</td></tr>
+      <tr><td>Stripe Customer Portal</td><td>The hosted page where a client can update their card, view invoices, cancel. Stripe-branded.</td></tr>
+      <tr><td>Resend</td><td>The email service the app uses to send transactional emails (welcomes, receipts, thank-yous).</td></tr>
+      <tr><td>MRR</td><td>Monthly Recurring Revenue. Sum of all active subscription amounts. Shown on your dashboard.</td></tr>
+      <tr><td>Past due</td><td>A subscription whose last invoice failed to charge. Stripe retries automatically over a few days.</td></tr>
+      <tr><td>Test mode vs live mode</td><td>Stripe has two parallel universes: test mode uses fake cards and never moves real money; live mode is real. Always build in test first.</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- APPENDIX C: TIMELINE -->
+<section class="page">
+  <p class="section-num">Appendix C</p>
+  <h2 class="section">Suggested timeline</h2>
+  <p class="section-intro">
+    A two-week launch path assuming you start today. Adjust to your own pace &mdash; nothing
+    is on fire, but momentum compounds.
+  </p>
+
+  <table class="summary">
+    <thead>
+      <tr><th>Day</th><th>What you do</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Day 1 (today)</td><td>File LLC online (Phase I Step 1). Pick name, pay fee, submit. Buy <code>steele-co.com</code> if not yet owned (Phase II Step 4 prerequisite).</td></tr>
+      <tr><td>Day 2</td><td>Send Van the email-domain choice (Phase II Step 4). He sets up Resend; you add DNS records once he sends them.</td></tr>
+      <tr><td>Day 3–14</td><td>Wait for LLC approval (state-dependent).</td></tr>
+      <tr><td>Day after LLC approves</td><td>Get EIN online (Phase I Step 2 — 30 min). Open Mercury account (Phase I Step 3 — 30 min).</td></tr>
+      <tr><td>Day after Mercury approves (~2 days later)</td><td>Open Stripe account, submit KYC (Phase III Step 5 — 1 hour).</td></tr>
+      <tr><td>Day after Stripe approves (~24–48h later)</td><td>Create Stripe products in test + live mode (Phase III Step 6 — 15 min). Send Price IDs to Van.</td></tr>
+      <tr><td>Anytime in between</td><td>Generate legal docs (Phase V Step 13 — 1 hour). Confirm pricing, donation amounts, alert emails (Phase IV — 30 min). Review the About page (Phase IV Step 12 — 30 min).</td></tr>
+      <tr><td>Final day</td><td>Van deploys to production. You configure the Stripe webhook (Phase III Step 7 — 10 min). Smoke test together. Launch.</td></tr>
+    </tbody>
+  </table>
+
+  <div class="callout">
+    <p><strong>Realistic launch range: 2–3 weeks from today.</strong> The slow part is waiting
+    for the LLC state filing (1–3 weeks) and Stripe KYC (24–48h). Everything else is hours.</p>
+  </div>
+</section>
+
+</body>
+</html>
