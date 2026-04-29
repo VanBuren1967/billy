@@ -1,5 +1,9 @@
 import Link from 'next/link';
 import { createClient } from '@/lib/supabase/server';
+import { listMissedWorkoutAthletes } from '@/lib/coach-dashboard/list-missed-workouts';
+import { listPainReports } from '@/lib/coach-dashboard/list-pain-reports';
+import { listLowReadinessCheckIns } from '@/lib/coach-dashboard/list-low-readiness';
+import { listRecentActivity } from '@/lib/coach-dashboard/list-recent-activity';
 
 type Counts = { pending: number; invited: number; active: number };
 
@@ -26,6 +30,13 @@ export default async function CoachDashboard() {
     data: { user },
   } = await supabase.auth.getUser();
   const counts = await loadCounts();
+
+  const [missed, pain, lowReady, recent] = await Promise.all([
+    listMissedWorkoutAthletes(),
+    listPainReports(10),
+    listLowReadinessCheckIns(10),
+    listRecentActivity(10),
+  ]);
 
   const cards = [
     {
@@ -70,12 +81,137 @@ export default async function CoachDashboard() {
         ))}
       </section>
 
-      <section className="border-hairline-strong border-2 p-6">
-        <p className="text-bone-faint text-xs tracking-widest uppercase">Coming soon</p>
-        <p className="text-bone-muted mt-2 text-sm">
-          Programs, workout logging, weekly check-ins, and athlete alerts ship in Plan 3.
-        </p>
-      </section>
+      <div className="flex flex-col gap-6">
+        {/* 1. Missed workouts */}
+        <section className="border-hairline-strong border bg-[#16140f] p-6">
+          <div className="flex items-baseline justify-between">
+            <h2 className="text-bone font-serif text-xl">Missed workouts</h2>
+            <p className="text-bone-faint text-xs tracking-widest uppercase">
+              {missed.length === 0 ? 'All clear' : `${missed.length} flagged`}
+            </p>
+          </div>
+          {missed.length === 0 ? (
+            <p className="text-bone-muted mt-3 text-sm">No missed workouts.</p>
+          ) : (
+            <ul className="mt-3 divide-y divide-[#1a1814]">
+              {missed.map((m) => (
+                <li key={m.athleteId}>
+                  <Link
+                    href={`/coach/athletes/${m.athleteId}`}
+                    className="hover:text-gold flex items-baseline justify-between py-2"
+                  >
+                    <span className="text-bone">{m.athleteName}</span>
+                    <span className="text-bone-faint text-xs">
+                      {m.lastLoggedAt
+                        ? `last logged ${new Date(m.lastLoggedAt).toLocaleDateString()}`
+                        : 'never logged'}
+                    </span>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          )}
+        </section>
+
+        {/* 2. Pain reports */}
+        <section className="border-hairline-strong border bg-[#16140f] p-6">
+          <div className="flex items-baseline justify-between">
+            <h2 className="text-bone font-serif text-xl">Pain reports</h2>
+            <p className="text-bone-faint text-xs tracking-widest uppercase">
+              {pain.length === 0 ? 'All clear' : `${pain.length} reported`}
+            </p>
+          </div>
+          {pain.length === 0 ? (
+            <p className="text-bone-muted mt-3 text-sm">No pain reports in the last 14 days.</p>
+          ) : (
+            <ul className="mt-3 divide-y divide-[#1a1814]">
+              {pain.map((p) => (
+                <li key={`${p.source}-${p.id}`}>
+                  <Link
+                    href={`/coach/athletes/${p.athleteId}`}
+                    className="hover:text-gold flex flex-col gap-1 py-2"
+                  >
+                    <div className="flex items-baseline justify-between">
+                      <span className="text-bone">{p.athleteName}</span>
+                      <span className="text-bone-faint text-xs">
+                        {p.source} · {new Date(p.at).toLocaleDateString()}
+                      </span>
+                    </div>
+                    <span className="text-bone-muted text-sm">
+                      {p.painNotes.length > 80 ? `${p.painNotes.slice(0, 80)}…` : p.painNotes}
+                    </span>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          )}
+        </section>
+
+        {/* 3. Low readiness */}
+        <section className="border-hairline-strong border bg-[#16140f] p-6">
+          <div className="flex items-baseline justify-between">
+            <h2 className="text-bone font-serif text-xl">Low readiness</h2>
+            <p className="text-bone-faint text-xs tracking-widest uppercase">
+              {lowReady.length === 0 ? 'All clear' : `${lowReady.length} flagged`}
+            </p>
+          </div>
+          {lowReady.length === 0 ? (
+            <p className="text-bone-muted mt-3 text-sm">
+              No low-readiness check-ins in the last 14 days.
+            </p>
+          ) : (
+            <ul className="mt-3 divide-y divide-[#1a1814]">
+              {lowReady.map((r) => (
+                <li key={r.id}>
+                  <Link
+                    href={`/coach/athletes/${r.athleteId}`}
+                    className="hover:text-gold flex items-baseline justify-between py-2"
+                  >
+                    <span className="text-bone">{r.athleteName}</span>
+                    <span className="text-bone-faint text-xs">
+                      fatigue {r.fatigue} · soreness {r.soreness} · motivation {r.motivation}
+                    </span>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          )}
+        </section>
+
+        {/* 4. Recent activity */}
+        <section className="border-hairline-strong border bg-[#16140f] p-6">
+          <div className="flex items-baseline justify-between">
+            <h2 className="text-bone font-serif text-xl">Recent activity</h2>
+            <p className="text-bone-faint text-xs tracking-widest uppercase">
+              {recent.length === 0 ? 'Nothing yet' : `${recent.length} recent`}
+            </p>
+          </div>
+          {recent.length === 0 ? (
+            <p className="text-bone-muted mt-3 text-sm">No completed workouts yet.</p>
+          ) : (
+            <ul className="mt-3 divide-y divide-[#1a1814]">
+              {recent.map((r) => (
+                <li key={r.id}>
+                  <Link
+                    href={`/coach/athletes/${r.athleteId}`}
+                    className="hover:text-gold flex items-baseline justify-between py-2"
+                  >
+                    <span className="text-bone">{r.athleteName}</span>
+                    <span className="text-bone-faint text-xs">
+                      {r.weekNumber !== null && r.dayNumber !== null
+                        ? `Week ${r.weekNumber} Day ${r.dayNumber}`
+                        : ''}
+                      {r.programDayName ? ` · ${r.programDayName}` : ''}
+                      {' · '}
+                      {new Date(r.completedAt).toLocaleDateString()}
+                    </span>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          )}
+        </section>
+      </div>
     </div>
   );
 }
