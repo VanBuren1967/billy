@@ -1,6 +1,8 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { getPublicProfileBySlug } from '@/lib/public-profiles/get-by-slug';
+import { PublicNav } from '@/components/public-nav';
+import { PublicFooter } from '@/components/public-footer';
 
 export async function generateMetadata({
   params,
@@ -38,7 +40,9 @@ export default async function TeamMemberPage({ params }: { params: Promise<{ slu
   const p = await getPublicProfileBySlug(slug);
   if (!p) notFound();
   return (
-    <main className="mx-auto flex max-w-3xl flex-col gap-8 px-6 py-16">
+    <>
+      <PublicNav />
+      <main className="mx-auto flex max-w-3xl flex-col gap-8 px-6 py-16">
       <header className="flex flex-col gap-2">
         <p className="text-gold text-xs tracking-widest uppercase">Steele &amp; Co. — Team</p>
         <h1 className="text-bone font-serif text-5xl">{p.athleteName}</h1>
@@ -78,6 +82,8 @@ export default async function TeamMemberPage({ params }: { params: Promise<{ slu
           </table>
         </section>
       )}
-    </main>
+      </main>
+      <PublicFooter />
+    </>
   );
 }
