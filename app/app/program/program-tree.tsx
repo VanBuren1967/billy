@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import Link from 'next/link';
 import type { ActiveProgramTree } from '@/lib/athletes/get-active-program';
 
 export function ProgramTree({
@@ -75,11 +76,11 @@ function DayCard({
   isCompleted?: boolean;
 }) {
   return (
-    <article className="border-l-2 border-[#1f1d18] pl-4">
+    <article className="border-l-2 border-[#1f1d18] pl-4 transition-colors hover:border-gold/60">
       <header className="flex items-baseline justify-between">
-        <h3 className="text-bone font-serif text-lg">
-          Day {day.dayNumber} — {day.name}
-        </h3>
+        <Link href={`/app/workout/${day.id}`} className="text-bone hover:text-gold font-serif text-lg">
+          Day {day.dayNumber} — {day.name} <span className="text-bone-faint text-xs">→</span>
+        </Link>
         {isCompleted && <span className="text-gold text-xs tracking-widest uppercase" aria-label="Completed">✓ Completed</span>}
       </header>
       {exercises.length === 0 ? (
