@@ -116,4 +116,31 @@ describe('saveProgramHeaderSchema', () => {
     });
     expect(r.success).toBe(true);
   });
+
+  it('trims leading/trailing whitespace on free-text fields before storing', () => {
+    const r = saveProgramHeaderSchema.safeParse({
+      programId: '00000000-0000-0000-0000-000000000000',
+      programVersion: 1,
+      name: '  Hypertrophy block  ',
+      blockType: 'hypertrophy',
+      totalWeeks: 8,
+      notes: '\n  remember to deload  \n',
+    });
+    expect(r.success).toBe(true);
+    if (r.success) {
+      expect(r.data.name).toBe('Hypertrophy block');
+      expect(r.data.notes).toBe('remember to deload');
+    }
+  });
+
+  it('rejects names that are entirely whitespace', () => {
+    const r = saveProgramHeaderSchema.safeParse({
+      programId: '00000000-0000-0000-0000-000000000000',
+      programVersion: 1,
+      name: '   ',
+      blockType: 'strength',
+      totalWeeks: 4,
+    });
+    expect(r.success).toBe(false);
+  });
 });

@@ -9,10 +9,10 @@ const optionalDate = z.string().date().optional().nullable();
 export const createProgramSchema = z.discriminatedUnion('mode', [
   z.object({
     mode: z.literal('blank'),
-    name: z.string().min(1).max(120),
+    name: z.string().trim().min(1).max(120),
     blockType: blockTypeSchema,
     totalWeeks: z.number().int().min(1).max(52),
-    notes: z.string().max(2000).optional().nullable(),
+    notes: z.string().trim().max(2000).optional().nullable(),
     isTemplate: z.boolean().default(false),
     athleteId: uuid.optional().nullable(),
     startDate: optionalDate,
@@ -31,12 +31,12 @@ export type CreateProgramInput = z.infer<typeof createProgramSchema>;
 export const saveProgramHeaderSchema = z.object({
   programId: uuid,
   programVersion: z.number().int().min(1),
-  name: z.string().min(1).max(120),
+  name: z.string().trim().min(1).max(120),
   blockType: blockTypeSchema,
   totalWeeks: z.number().int().min(1).max(52),
   startDate: optionalDate,
   endDate: optionalDate,
-  notes: z.string().max(2000).optional().nullable(),
+  notes: z.string().trim().max(2000).optional().nullable(),
 });
 export type SaveProgramHeaderInput = z.infer<typeof saveProgramHeaderSchema>;
 
@@ -45,22 +45,22 @@ export const saveProgramDaySchema = z.object({
   programVersion: z.number().int().min(1),
   weekNumber: z.number().int().min(1),
   dayNumber: z.number().int().min(1),
-  name: z.string().min(1).max(120),
-  notes: z.string().max(500).optional().nullable(),
+  name: z.string().trim().min(1).max(120),
+  notes: z.string().trim().max(500).optional().nullable(),
 });
 export type SaveProgramDayInput = z.infer<typeof saveProgramDaySchema>;
 
 export const saveProgramExerciseSchema = z.object({
   programExerciseId: uuid,
   programVersion: z.number().int().min(1),
-  name: z.string().min(1).max(120),
+  name: z.string().trim().min(1).max(120),
   sets: z.number().int().min(1).max(50),
-  reps: z.string().min(1).max(40),
+  reps: z.string().trim().min(1).max(40),
   loadPct: z.number().min(0).max(150).optional().nullable(),
   loadLbs: z.number().min(0).max(2500).optional().nullable(),
   rpe: z.number().min(0).max(10).optional().nullable(),
-  groupLabel: z.string().min(1).max(20).optional().nullable(),
-  notes: z.string().max(500).optional().nullable(),
+  groupLabel: z.string().trim().min(1).max(20).optional().nullable(),
+  notes: z.string().trim().max(500).optional().nullable(),
 });
 export type SaveProgramExerciseInput = z.infer<typeof saveProgramExerciseSchema>;
 

@@ -16,8 +16,8 @@ export type SaveSetLogInput = z.infer<typeof saveSetLogSchema>;
 
 export const saveWorkoutNotesSchema = z.object({
   workoutLogId: z.string().uuid(),
-  painNotes: z.string().max(2000).optional().nullable(),
-  generalNotes: z.string().max(2000).optional().nullable(),
+  painNotes: z.string().trim().max(2000).optional().nullable(),
+  generalNotes: z.string().trim().max(2000).optional().nullable(),
 });
 export type SaveWorkoutNotesInput = z.infer<typeof saveWorkoutNotesSchema>;
 

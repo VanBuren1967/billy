@@ -11,9 +11,9 @@ if (!RESEND_FROM_EMAIL) {
   throw new Error('RESEND_FROM_EMAIL is not set. Add it to .env.local and Vercel env.');
 }
 
-// TODO(prod): swap RESEND_FROM_EMAIL from `onboarding@resend.dev` to a verified
-// domain sender (e.g., `noreply@mail.steele-co.com`) once DNS is configured in
-// the Resend dashboard.
+// Production cutover (RESEND_FROM_EMAIL → verified-domain sender) is an env
+// change in Vercel, not a code change. See
+// docs/superpowers/runbooks/2026-04-27-plan-25-resend-rollout.md for the steps.
 export const resend = new Resend(RESEND_API_KEY);
 export const FROM_EMAIL = RESEND_FROM_EMAIL;
 
