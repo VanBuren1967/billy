@@ -3,7 +3,7 @@ import { getCurrentWeekCheckIn } from '@/lib/check-ins/get-current-week';
 import { listOwnRecentCheckIns } from '@/lib/check-ins/list-own-recent';
 import { CheckInForm } from './check-in-form';
 
-export const metadata = { title: 'Check-in · Steele & Co.' };
+export const metadata = { title: 'Check-in' };
 
 export default async function CheckInPage() {
   await getCurrentAthlete();

@@ -3,7 +3,7 @@ import type { Metadata } from 'next';
 import { PublicNav } from '@/components/public-nav';
 
 export const metadata: Metadata = {
-  title: 'FAQ — Steele & Co.',
+  title: 'FAQ',
   description: 'Common questions about coaching with Steele & Co.',
 };
 

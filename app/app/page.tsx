@@ -5,7 +5,7 @@ import { computeCurrentWeek, computeTodayDay } from '@/lib/athletes/program-time
 import { getCurrentWeekCheckIn } from '@/lib/check-ins/get-current-week';
 import { createClient } from '@/lib/supabase/server';
 
-export const metadata = { title: 'Today · Steele & Co.' };
+export const metadata = { title: 'Today' };
 
 export default async function AppDashboard() {
   const athlete = await getCurrentAthlete();

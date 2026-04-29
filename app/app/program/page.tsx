@@ -5,7 +5,7 @@ import { computeCurrentWeek } from '@/lib/athletes/program-time';
 import { createClient } from '@/lib/supabase/server';
 import { ProgramTree } from './program-tree';
 
-export const metadata = { title: 'Program · Steele & Co.' };
+export const metadata = { title: 'Program' };
 
 export default async function ProgramPage() {
   await getCurrentAthlete();

@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { PublicNav } from '@/components/public-nav';
 import { RequestToJoinForm } from './form';
 
-export const metadata = { title: 'Inquire — Steele & Co.' };
+export const metadata = { title: 'Inquire' };
 
 export default function RequestToJoinPage() {
   return (

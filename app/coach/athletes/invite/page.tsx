@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { DirectInviteForm } from './form';
 
-export const metadata = { title: 'Invite athlete — Steele & Co.' };
+export const metadata = { title: 'Invite athlete' };
 
 export default function InviteAthletePage() {
   return (

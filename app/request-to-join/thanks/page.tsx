@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { PublicNav } from '@/components/public-nav';
 
-export const metadata = { title: 'Inquiry received — Steele & Co.' };
+export const metadata = { title: 'Inquiry received' };
 
 export default function ThanksPage() {
   return (

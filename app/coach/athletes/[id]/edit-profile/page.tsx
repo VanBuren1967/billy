@@ -3,7 +3,7 @@ import { createClient } from '@/lib/supabase/server';
 import { getCurrentCoach } from '@/lib/programs/get-current-coach';
 import { ProfileForm } from './profile-form';
 
-export const metadata = { title: 'Edit profile — Steele & Co.' };
+export const metadata = { title: 'Edit profile' };
 
 export default async function EditProfilePage({
   params,

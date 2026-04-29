@@ -4,7 +4,7 @@ import { ProgramsTabs } from './programs-tabs';
 
 type SearchParams = { tab?: string; archived?: string; block?: string };
 
-export const metadata = { title: 'Programs · Steele & Co.' };
+export const metadata = { title: 'Programs' };
 
 export default async function ProgramsPage({
   searchParams,

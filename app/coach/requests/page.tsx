@@ -1,7 +1,7 @@
 import { createClient } from '@/lib/supabase/server';
 import { RequestCard } from './request-card';
 
-export const metadata = { title: 'Requests — Steele & Co.' };
+export const metadata = { title: 'Requests' };
 
 type Request = {
   id: string;

@@ -4,7 +4,7 @@ import { createClient } from '@/lib/supabase/server';
 import { listRecentWorkoutLogs } from '@/lib/workouts/list-recent-logs';
 import { listRecentCheckIns } from '@/lib/check-ins/list-recent';
 
-export const metadata = { title: 'Athlete — Steele & Co.' };
+export const metadata = { title: 'Athlete' };
 
 type Athlete = {
   id: string;

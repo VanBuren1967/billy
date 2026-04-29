@@ -1,11 +1,36 @@
+import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { getPublicProfileBySlug } from '@/lib/public-profiles/get-by-slug';
 
-export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}): Promise<Metadata> {
   const { slug } = await params;
   const p = await getPublicProfileBySlug(slug);
-  if (!p) return { title: 'Not found · Steele & Co.' };
-  return { title: `${p.athleteName} · Steele & Co.` };
+  if (!p) return { title: 'Not found' };
+
+  const description = p.headline.length > 0 ? p.headline : `${p.athleteName} — Steele & Co.`;
+  const image = p.photoUrl ?? undefined;
+
+  return {
+    title: p.athleteName,
+    description,
+    openGraph: {
+      type: 'profile',
+      title: `${p.athleteName} — Steele & Co.`,
+      description,
+      url: `/team/${p.slug}`,
+      images: image ? [{ url: image, alt: p.athleteName }] : undefined,
+    },
+    twitter: {
+      card: image ? 'summary_large_image' : 'summary',
+      title: `${p.athleteName} — Steele & Co.`,
+      description,
+      images: image ? [image] : undefined,
+    },
+  };
 }
 
 export default async function TeamMemberPage({ params }: { params: Promise<{ slug: string }> }) {

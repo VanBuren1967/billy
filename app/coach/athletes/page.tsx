@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { createClient } from '@/lib/supabase/server';
 import { AthletesTable } from './athletes-table';
 
-export const metadata = { title: 'Athletes — Steele & Co.' };
+export const metadata = { title: 'Athletes' };
 
 type Athlete = {
   id: string;

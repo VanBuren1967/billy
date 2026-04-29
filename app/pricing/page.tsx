@@ -3,7 +3,7 @@ import type { Metadata } from 'next';
 import { PublicNav } from '@/components/public-nav';
 
 export const metadata: Metadata = {
-  title: 'Pricing — Steele & Co.',
+  title: 'Pricing',
   description:
     'Application-based powerlifting coaching. Online and hybrid programs starting at the national-prep level.',
 };

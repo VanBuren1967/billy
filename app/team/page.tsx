@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { listPublicTeam } from '@/lib/public-profiles/list-team';
 
-export const metadata = { title: 'Team · Steele & Co.' };
+export const metadata = { title: 'Team' };
 
 export default async function TeamPage() {
   const profiles = await listPublicTeam();

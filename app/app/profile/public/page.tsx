@@ -3,7 +3,7 @@ import { getCurrentAthlete } from '@/lib/athletes/get-current-athlete';
 import { getOwnPublicProfile } from '@/lib/public-profiles/get-own';
 import { ProfileForm } from './profile-form';
 
-export const metadata = { title: 'Public profile · Steele & Co.' };
+export const metadata = { title: 'Public profile' };
 
 export default async function PublicProfilePage() {
   const athlete = await getCurrentAthlete();

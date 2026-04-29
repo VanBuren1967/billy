@@ -1,6 +1,6 @@
 import Link from 'next/link';
 
-export const metadata = { title: 'Not found · Steele & Co.' };
+export const metadata = { title: 'Not found' };
 
 export default function NotFound() {
   return (

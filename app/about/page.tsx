@@ -4,7 +4,7 @@ import type { Metadata } from 'next';
 import { PublicNav } from '@/components/public-nav';
 
 export const metadata: Metadata = {
-  title: 'About — Steele & Co.',
+  title: 'About',
   description:
     'William Steele is a national-level powerlifting coach building a team of disciplined, competition-ready athletes.',
 };
