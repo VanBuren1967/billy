@@ -14,6 +14,18 @@ type Athlete = {
   invited_at: string | null;
   accepted_at: string | null;
   created_at: string;
+  weight_class: string | null;
+  raw_or_equipped: 'raw' | 'equipped' | null;
+  current_squat_max: number | null;
+  current_bench_max: number | null;
+  current_deadlift_max: number | null;
+  weak_points: string | null;
+  injury_history: string | null;
+  experience_level: string | null;
+  goal: 'hypertrophy' | 'strength' | 'meet_prep' | 'general' | null;
+  meet_date: string | null;
+  meet_name: string | null;
+  coaching_type: 'hybrid' | 'online' | null;
 };
 
 export default async function AthletePage({ params }: { params: Promise<{ id: string }> }) {
@@ -21,12 +33,17 @@ export default async function AthletePage({ params }: { params: Promise<{ id: st
   const supabase = await createClient();
   const { data, error } = await supabase
     .from('athletes')
-    .select('id, name, email, status, invited_at, accepted_at, created_at')
+    .select(
+      'id, name, email, status, invited_at, accepted_at, created_at, ' +
+        'weight_class, raw_or_equipped, current_squat_max, current_bench_max, ' +
+        'current_deadlift_max, weak_points, injury_history, experience_level, ' +
+        'goal, meet_date, meet_name, coaching_type',
+    )
     .eq('id', id)
     .maybeSingle();
 
   if (error || !data) notFound();
-  const athlete = data as Athlete;
+  const athlete = data as unknown as Athlete;
 
   const recentLogs = await listRecentWorkoutLogs(id, 10);
   const recentCheckIns = await listRecentCheckIns(id, 6);
@@ -45,6 +62,55 @@ export default async function AthletePage({ params }: { params: Promise<{ id: st
         <h1 className="text-bone font-serif text-5xl tracking-tight">{athlete.name}</h1>
         <p className="text-bone-muted">{athlete.email}</p>
       </header>
+
+      <section className="border-hairline-strong border bg-[#16140f] p-6">
+        <div className="flex items-baseline justify-between">
+          <h2 className="text-bone-muted text-xs tracking-widest uppercase">Profile</h2>
+          <Link
+            href={`/coach/athletes/${id}/edit-profile`}
+            className="text-gold text-xs tracking-widest uppercase"
+          >
+            Edit →
+          </Link>
+        </div>
+        <dl className="text-bone tabular-nums mt-3 grid grid-cols-2 gap-x-6 gap-y-2 text-sm md:grid-cols-3">
+          <Item label="Weight class" value={athlete.weight_class} />
+          <Item label="Raw / equipped" value={athlete.raw_or_equipped} />
+          <Item label="Goal" value={athlete.goal?.replaceAll('_', ' ')} />
+          <Item
+            label="Squat max"
+            value={athlete.current_squat_max ? `${athlete.current_squat_max} lb` : null}
+          />
+          <Item
+            label="Bench max"
+            value={athlete.current_bench_max ? `${athlete.current_bench_max} lb` : null}
+          />
+          <Item
+            label="Deadlift max"
+            value={athlete.current_deadlift_max ? `${athlete.current_deadlift_max} lb` : null}
+          />
+          <Item label="Coaching type" value={athlete.coaching_type} />
+          <Item label="Experience" value={athlete.experience_level} />
+          <Item
+            label="Next meet"
+            value={
+              athlete.meet_date
+                ? `${athlete.meet_date}${athlete.meet_name ? ` — ${athlete.meet_name}` : ''}`
+                : null
+            }
+          />
+        </dl>
+        {athlete.weak_points && (
+          <p className="text-bone-muted mt-3 text-xs">
+            <strong className="text-bone-faint">Weak points:</strong> {athlete.weak_points}
+          </p>
+        )}
+        {athlete.injury_history && (
+          <p className="text-bone-muted mt-2 text-xs">
+            <strong className="text-bone-faint">Injury history:</strong> {athlete.injury_history}
+          </p>
+        )}
+      </section>
 
       <dl className="border-hairline-strong grid grid-cols-1 gap-x-8 gap-y-6 border-2 p-6 sm:grid-cols-2">
         <div>
@@ -132,6 +198,15 @@ export default async function AthletePage({ params }: { params: Promise<{ id: st
           </ul>
         )}
       </section>
+    </div>
+  );
+}
+
+function Item({ label, value }: { label: string; value: string | number | null | undefined }) {
+  return (
+    <div>
+      <dt className="text-bone-faint text-xs tracking-widest uppercase">{label}</dt>
+      <dd className="text-bone mt-0.5">{value || <span className="text-bone-faint">—</span>}</dd>
     </div>
   );
 }
