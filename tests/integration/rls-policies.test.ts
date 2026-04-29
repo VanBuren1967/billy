@@ -35,7 +35,6 @@ describe('RLS — coaches and athletes are isolated', () => {
   // Test only needs a thin reference for chaining .from(...).select(...).
   /* eslint-disable @typescript-eslint/no-explicit-any */
   let athleteAClient: any;
-  let athleteBClient: any;
   /* eslint-enable @typescript-eslint/no-explicit-any */
   let athleteARowId: string;
   let athleteBRowId: string;
@@ -71,7 +70,6 @@ describe('RLS — coaches and athletes are isolated', () => {
     const aa = await makeUserClient(`athlete-a-${Date.now()}@test.local`);
     athleteAClient = aa.client;
     const ab = await makeUserClient(`athlete-b-${Date.now()}@test.local`);
-    athleteBClient = ab.client;
 
     const { data: athA } = await admin
       .from('athletes')

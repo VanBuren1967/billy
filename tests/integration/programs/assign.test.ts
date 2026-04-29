@@ -60,19 +60,14 @@ describe('assignProgramToAthlete — deep-copy semantics', () => {
       });
     }
 
-    const { data: copyEx } = await admin.from('program_exercises')
-      .select('id, name, program_day_id, program_days(program_id)')
-      .eq('name', 'Squat').limit(20);
-    const copyExRow = copyEx!.find(
-      (r) => (r.program_days as unknown as { program_id: string }).program_id === newProgId,
-    )!;
-    await admin.from('program_exercises').update({ name: 'Pause Squat (copy edit)' }).eq('id', copyExRow.id);
+    const copyDayIds = Array.from(dayIdMap.values());
+    const { data: copyExRow } = await admin.from('program_exercises')
+      .select('id').in('program_day_id', copyDayIds).single();
+    await admin.from('program_exercises').update({ name: 'Pause Squat (copy edit)' }).eq('id', copyExRow!.id);
 
-    const tplExs = await admin.from('program_exercises')
-      .select('id, name, program_days(program_id)').eq('name', 'Squat');
-    const tplStillSquat = tplExs.data!.some(
-      (r) => (r.program_days as unknown as { program_id: string }).program_id === templateId,
-    );
-    expect(tplStillSquat).toBe(true);
+    const templateDayIds = srcDays!.map((d) => d.id);
+    const { data: tplExRow } = await admin.from('program_exercises')
+      .select('name').in('program_day_id', templateDayIds).single();
+    expect(tplExRow!.name).toBe('Squat');
   });
 });

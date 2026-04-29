@@ -88,7 +88,7 @@ describe('RLS — programs / program_days / program_exercises', () => {
   });
 
   it('coach B cannot UPDATE coach A\'s program', async () => {
-    const { error, data } = await coachBClient.from('programs')
+    const { data } = await coachBClient.from('programs')
       .update({ name: 'hijacked' }).eq('id', programAId).select();
     expect(data ?? []).toEqual([]);
   });
