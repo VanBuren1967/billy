@@ -158,7 +158,7 @@ export default async function AthletePage({ params }: { params: Promise<{ id: st
           )}
         </div>
         {!publicProfile ? (
-          <p className="text-bone-faint mt-3 text-sm">Athlete hasn't created a public profile yet.</p>
+          <p className="text-bone-faint mt-3 text-sm">Athlete has not created a public profile yet.</p>
         ) : (
           <>
             <p className="text-bone mt-3 font-serif text-xl">{publicProfile.headline}</p>
