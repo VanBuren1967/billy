@@ -19,7 +19,13 @@ export default async function TeamPage() {
             <li key={p.id} className="border-hairline-strong border bg-[#16140f] p-6">
               {p.photoUrl && (
                 /* eslint-disable-next-line @next/next/no-img-element */
-                <img src={p.photoUrl} alt="" className="mb-4 aspect-square w-full object-cover grayscale" />
+                <img
+                  src={p.photoUrl}
+                  alt=""
+                  loading="lazy"
+                  decoding="async"
+                  className="mb-4 aspect-square w-full object-cover grayscale"
+                />
               )}
               <h2 className="text-bone font-serif text-2xl">
                 <Link href={`/team/${p.slug}`}>{p.athleteName}</Link>

@@ -21,7 +21,13 @@ export default async function TeamMemberPage({ params }: { params: Promise<{ slu
       </header>
       {p.photoUrl && (
         /* eslint-disable-next-line @next/next/no-img-element */
-        <img src={p.photoUrl} alt="" className="border-hairline-strong border-2 grayscale" />
+        <img
+          src={p.photoUrl}
+          alt=""
+          fetchPriority="high"
+          decoding="async"
+          className="border-hairline-strong border-2 grayscale"
+        />
       )}
       <div className="text-bone whitespace-pre-line text-base leading-relaxed">{p.bio}</div>
       {p.recentMeetResults && p.recentMeetResults.length > 0 && (

@@ -1,6 +1,7 @@
 'use server';
 
 import { redirect } from 'next/navigation';
+import * as Sentry from '@sentry/nextjs';
 import { joinRequestSchema } from '@/lib/validation/join-request';
 import { createAdminClient } from '@/lib/supabase/admin';
 import { sendEmail } from '@/lib/email/resend';
@@ -53,7 +54,7 @@ export async function submitJoinRequest(
     const tpl = requestReceivedEmail(parsed.data.name);
     await sendEmail({ to: parsed.data.email, ...tpl });
   } catch (e) {
-    console.error('[request-to-join] confirmation email failed', e);
+    Sentry.captureException(e, { tags: { feature: 'request-to-join', stage: 'confirmation_email' } });
   }
 
   redirect('/request-to-join/thanks');

@@ -36,7 +36,9 @@ describe('RLS — athlete_public_profiles', () => {
     const aB = await makeUserClient(`ath-pp-B-${ts}@test.local`);
     coachAClient = cA.client; coachBClient = cB.client;
     athleteAClient = aA.client; athleteBClient = aB.client;
-    anonClient = createClient(URL, ANON, { auth: { persistSession: false } });
+    anonClient = createClient(URL, ANON, {
+      auth: { persistSession: false, storageKey: `sb-test-anon-${ts}` },
+    });
 
     const cArow = await admin.from('coaches').insert({
       auth_user_id: cA.userId, display_name: 'A', email: `coach-pp-A-${ts}@test.local`,
