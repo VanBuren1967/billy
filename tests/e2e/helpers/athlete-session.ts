@@ -80,6 +80,8 @@ export async function signInAsAthlete(context: BrowserContext, email: string) {
 
 /**
  * Programmatic seed of an assigned program for the given athlete.
+ * Returns ids for the program, the seeded day, and the seeded exercise so
+ * tests can navigate directly to /app/workout/<dayId> without scraping.
  */
 export async function seedAssignedProgramForAthlete(
   coachId: string, athleteId: string, name = 'E2E Assigned',
@@ -94,8 +96,12 @@ export async function seedAssignedProgramForAthlete(
   const { data: day } = await admin.from('program_days').insert({
     program_id: programId, week_number: 1, day_number: 1, name: 'Squat day',
   }).select('id').single();
-  await admin.from('program_exercises').insert({
-    program_day_id: day!.id, position: 1, name: 'Squat', sets: 5, reps: '5', load_pct: 75,
-  });
-  return { programId };
+  const dayId = day!.id;
+
+  const { data: exercise } = await admin.from('program_exercises').insert({
+    program_day_id: dayId, position: 1, name: 'Squat', sets: 5, reps: '5', load_pct: 75,
+  }).select('id').single();
+  const exerciseId = exercise!.id;
+
+  return { programId, dayId, exerciseId };
 }
