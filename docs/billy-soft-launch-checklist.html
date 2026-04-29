@@ -1,0 +1,689 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Steele & Co. — Soft Launch Checklist</title>
+<style>
+  :root {
+    --ink: #1a1814;
+    --ink-soft: #4a463e;
+    --paper: #ffffff;
+    --paper-cream: #fbf9f4;
+    --gold: #b08a4a;
+    --hairline: #d8d2c2;
+    --rose: #b04848;
+  }
+  @page { size: Letter; margin: 0.75in 0.75in 0.85in 0.75in; }
+  html, body {
+    margin: 0; padding: 0; background: var(--paper); color: var(--ink);
+    font-family: 'Inter', 'Helvetica Neue', Arial, sans-serif;
+    font-size: 10.5pt; line-height: 1.55;
+  }
+  .page { page-break-after: always; }
+  .page:last-child { page-break-after: auto; }
+
+  .cover {
+    display: flex; flex-direction: column; justify-content: center;
+    min-height: 9in; padding: 0.5in 0;
+  }
+  .cover .label {
+    color: var(--gold); font-size: 9pt; letter-spacing: 0.25em;
+    text-transform: uppercase; margin-bottom: 1.5rem;
+  }
+  .cover h1 {
+    font-family: 'Spectral', Georgia, serif; font-weight: 400;
+    font-size: 38pt; line-height: 1.1; margin: 0 0 1rem 0;
+    letter-spacing: -0.01em;
+  }
+  .cover h1 em { font-style: italic; color: var(--gold); }
+  .cover .lede {
+    color: var(--ink-soft); font-size: 12pt; line-height: 1.6;
+    max-width: 5.5in; margin-bottom: 1.5rem;
+  }
+  .cover .compare {
+    border-top: 1px solid var(--hairline);
+    padding-top: 1rem; margin-top: 1.5rem;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;
+  }
+  .cover .compare h3 {
+    margin: 0 0 0.4rem 0; font-size: 10pt; letter-spacing: 0.18em;
+    text-transform: uppercase; font-weight: 500;
+  }
+  .cover .compare .col-soft h3 { color: var(--gold); }
+  .cover .compare ul {
+    margin: 0; padding-left: 1.1rem; font-size: 10pt; color: var(--ink-soft);
+  }
+  .cover .compare li { margin-bottom: 0.25rem; }
+
+  h2.section {
+    font-family: 'Spectral', Georgia, serif;
+    font-size: 24pt; font-weight: 400;
+    margin: 0 0 0.25rem 0; line-height: 1.15;
+  }
+  .section-num {
+    color: var(--gold); font-size: 9pt; letter-spacing: 0.25em;
+    text-transform: uppercase; margin-bottom: 0.6rem; font-weight: 500;
+  }
+  .section-intro {
+    color: var(--ink-soft); margin: 0 0 1.5rem 0; max-width: 5.5in;
+  }
+
+  .rec {
+    background: var(--paper-cream); border-left: 3px solid var(--gold);
+    padding: 0.75rem 1rem; margin: 0.5rem 0 1rem 0;
+  }
+  .rec .rec-label {
+    color: var(--gold); font-size: 8.5pt; letter-spacing: 0.2em;
+    text-transform: uppercase; font-weight: 500; margin-bottom: 0.3rem;
+  }
+  .rec strong { font-weight: 600; }
+
+  .alt {
+    border-left: 2px solid var(--hairline); padding-left: 0.8rem;
+    margin: 0.4rem 0 1rem 0; color: var(--ink-soft); font-size: 10pt;
+  }
+  .alt .alt-label {
+    font-size: 8.5pt; letter-spacing: 0.2em; text-transform: uppercase;
+    font-weight: 500; margin-bottom: 0.3rem;
+  }
+
+  .steps-label {
+    font-size: 8.5pt; letter-spacing: 0.2em; text-transform: uppercase;
+    font-weight: 500; margin: 0.6rem 0 0.4rem 0;
+  }
+  ol.steps { margin: 0 0 1rem 0; padding-left: 1.2rem; }
+  ol.steps li { margin-bottom: 0.35rem; }
+  ol.steps li code, p code, td code, li code {
+    background: var(--paper-cream); padding: 1px 5px; border-radius: 2px;
+    font-family: 'Menlo', Consolas, monospace; font-size: 9.5pt;
+  }
+
+  .meta {
+    display: flex; gap: 2rem; flex-wrap: wrap;
+    margin-top: 0.6rem; font-size: 9pt; color: var(--ink-soft);
+  }
+  .meta span strong {
+    color: var(--ink); font-weight: 500;
+    letter-spacing: 0.15em; text-transform: uppercase;
+    font-size: 8pt; margin-right: 0.3rem;
+  }
+
+  .callout {
+    border: 1px solid var(--hairline); padding: 1rem 1.2rem;
+    margin: 1rem 0; background: var(--paper-cream);
+  }
+  .callout.warn { border-color: var(--rose); background: #fdf4f4; }
+  .callout p { margin: 0.4rem 0; }
+  .callout p:first-child { margin-top: 0; }
+  .callout p:last-child { margin-bottom: 0; }
+
+  ul.checklist { list-style: none; padding-left: 0; margin: 0.5rem 0; }
+  ul.checklist li {
+    padding-left: 1.4rem; text-indent: -1.4rem; margin-bottom: 0.35rem;
+  }
+  ul.checklist li::before {
+    content: '☐'; color: var(--gold); margin-right: 0.6rem;
+  }
+
+  table.summary {
+    width: 100%; border-collapse: collapse; margin: 1rem 0; font-size: 9.5pt;
+  }
+  table.summary th {
+    text-align: left; border-bottom: 1px solid var(--hairline);
+    padding: 0.4rem 0.6rem; font-size: 8.5pt; letter-spacing: 0.18em;
+    text-transform: uppercase; color: var(--ink-soft); font-weight: 500;
+  }
+  table.summary td {
+    padding: 0.4rem 0.6rem; border-bottom: 1px solid var(--hairline);
+    vertical-align: top;
+  }
+  table.summary td:first-child { font-weight: 500; width: 22%; }
+</style>
+</head>
+<body>
+
+<!-- COVER -->
+<section class="page cover">
+  <p class="label">Steele &amp; Co. — Soft Launch Checklist</p>
+  <h1>Onboard a few <em>paying friends</em> first.</h1>
+  <p class="lede">
+    The full launch checklist (LLC + EIN + business bank + everything else) takes about
+    two to three weeks before the first dollar moves. If you want to validate the product
+    with three to five paying friends before committing to the paperwork, this slimmer
+    path gets real money flowing in <strong>about two days</strong>.
+  </p>
+  <p class="lede">
+    The trade-off: no liability protection, business income shows up on your personal
+    tax return, and you&rsquo;ll do a small migration when you formalize later. Acceptable
+    for a 60–90 day kick-the-tires phase with people who already trust you.
+  </p>
+
+  <div class="compare">
+    <div class="col-soft">
+      <h3>Soft launch (this doc)</h3>
+      <ul>
+        <li>Stripe as a sole proprietor (using your SSN)</li>
+        <li>Personal checking account for payouts</li>
+        <li>Email domain still verified</li>
+        <li>Privacy/terms/refund still required</li>
+        <li>Donations deferred</li>
+        <li>~2 days to first paying client</li>
+      </ul>
+    </div>
+    <div>
+      <h3>Full launch (other doc)</h3>
+      <ul>
+        <li>LLC + EIN + Mercury</li>
+        <li>Business bank account</li>
+        <li>Stripe as a Company</li>
+        <li>Liability protection</li>
+        <li>Donations active (separate flow)</li>
+        <li>~2–3 weeks to first paying client</li>
+      </ul>
+    </div>
+  </div>
+
+  <p class="lede" style="margin-top: 1.5rem;">
+    <strong>Recommended path:</strong> soft launch first, formalize at 60–90 days once
+    you know the product fits. Pages 6–7 cover how the migration works.
+  </p>
+</section>
+
+<!-- PHASE 1 — STRIPE -->
+<section class="page">
+  <p class="section-num">Phase I · Step 1</p>
+  <h2 class="section">Open a Stripe account as an Individual</h2>
+  <p class="section-intro">
+    Stripe lets sole proprietors accept payments using just their SSN. No LLC, no EIN.
+    KYC is done with your driver&rsquo;s license and a personal bank account.
+    Approval is usually 24–48 hours.
+  </p>
+
+  <div class="rec">
+    <p class="rec-label">Recommended</p>
+    <p>
+      <strong>Sign up at <code>dashboard.stripe.com/register</code>, choose &ldquo;Individual / Sole proprietorship&rdquo;
+      as the business type</strong>, and use your personal SSN. Money lands in your personal
+      checking account.
+    </p>
+  </div>
+
+  <p class="steps-label">Step by step</p>
+  <ol class="steps">
+    <li>Go to <code>dashboard.stripe.com/register</code>. Sign up with the email you check most.</li>
+    <li>Set up 2-factor authentication when prompted &mdash; required for any account that handles money.</li>
+    <li>You&rsquo;ll land in test mode. Click <strong>&ldquo;Activate your account&rdquo;</strong> in the top-right.</li>
+    <li>Country: United States.</li>
+    <li>Business type: <strong>Individual / Sole proprietorship</strong>. (NOT Company.)</li>
+    <li>Business details:
+      <ul style="margin-top: 0.3rem;">
+        <li>Legal name: your name</li>
+        <li>SSN (your personal SSN; sole props use SSN as their tax ID)</li>
+        <li>Date of birth, home address, phone</li>
+        <li>Industry: &ldquo;Personal Services&rdquo; → &ldquo;Personal training / fitness&rdquo;</li>
+        <li>Business website: your live website URL (Van will share once production deploys)</li>
+        <li>Statement descriptor: &ldquo;STEELE COACHING&rdquo; or similar (max 22 chars; this is what shows on client credit-card statements)</li>
+      </ul>
+    </li>
+    <li>Bank account for payouts: routing + account number from your <strong>personal checking account</strong>. Stripe will deposit there.</li>
+    <li>Upload a photo of your driver&rsquo;s license.</li>
+    <li>Submit. Approval typically 24–48 hours.</li>
+    <li>While waiting, you can build the product in test mode (Step 4) and never touch real money.</li>
+    <li>Once approved, Stripe → Developers → API keys → <strong>Reveal live secret key</strong>.
+      <strong style="color: var(--gold);">Send to Van</strong> via password manager (1Password / Bitwarden secure share). Never paste in chat or email.</li>
+  </ol>
+
+  <div class="callout warn">
+    <p><strong>Tax implication:</strong> all coaching revenue counts as self-employment income on your
+    personal tax return (Schedule C). It&rsquo;s not complicated &mdash; TurboTax Self-Employed handles it
+    &mdash; but you&rsquo;ll owe self-employment tax (~15.3%) on top of regular income tax. Set aside ~30% of
+    revenue for taxes. When you migrate to LLC, this gets cleaner (more deductions, optional S-corp election).</p>
+  </div>
+
+  <div class="meta">
+    <span><strong>Time</strong> 1 hour to apply, 24–48h to approve</span>
+    <span><strong>Cost</strong> Free. Stripe takes 2.9% + $0.30 per charge.</span>
+  </div>
+</section>
+
+<!-- STEP 2 — EMAIL DOMAIN -->
+<section class="page">
+  <p class="section-num">Phase I · Step 2</p>
+  <h2 class="section">Verify an email domain</h2>
+  <p class="section-intro">
+    Even in soft-launch mode, emails to clients (paid invoices, magic-link sign-in) need to come from
+    a real domain or they&rsquo;ll land in spam. Same step as the full launch &mdash; can&rsquo;t skip it.
+  </p>
+
+  <div class="rec">
+    <p class="rec-label">Recommended</p>
+    <p>
+      <strong><code>mail.steele-co.com</code></strong> as a subdomain. Same reasoning as the full launch:
+      keeps the website&rsquo;s DNS separate from email DNS. If you don&rsquo;t own
+      <code>steele-co.com</code> yet, buy it from Cloudflare Registrar ($9/year).
+    </p>
+  </div>
+
+  <p class="steps-label">Step by step</p>
+  <ol class="steps">
+    <li>Decide on the domain. <strong style="color: var(--gold);">Send to Van</strong> the choice.</li>
+    <li>Van will set it up in Resend and send you 4 DNS records (1 MX, 3 TXT) to add at the registrar.</li>
+    <li>Log into the registrar (Cloudflare / Namecheap / wherever you bought the domain). Find DNS settings.</li>
+    <li>Paste the 4 records exactly as Van sent them.</li>
+    <li>Save. DNS propagates in 5–30 minutes typically.</li>
+    <li>Tell Van. He confirms verification in Resend and pushes the production env update so all real emails come from your domain.</li>
+  </ol>
+
+  <div class="meta">
+    <span><strong>Time</strong> 30 minutes</span>
+    <span><strong>Cost</strong> $0 if domain owned, ~$10/year if buying</span>
+  </div>
+</section>
+
+<!-- STEP 3 — LEGAL DOCS -->
+<section class="page">
+  <p class="section-num">Phase I · Step 3</p>
+  <h2 class="section">Generate privacy + terms + refund policy</h2>
+  <p class="section-intro">
+    Stripe will not approve a live account without these. Even soft launches need them.
+    Free to generate via <strong>Termly</strong>; takes about an hour total.
+  </p>
+
+  <div class="rec">
+    <p class="rec-label">Recommended</p>
+    <p>
+      <strong>Termly (free)</strong> at <code>termly.io</code>. Generated docs are good
+      enough for V1 sole-prop coaching; upgrade to a lawyer-reviewed version when revenue justifies it.
+    </p>
+  </div>
+
+  <p class="steps-label">Step by step</p>
+  <ol class="steps">
+    <li>Go to <code>termly.io</code>. Free account.</li>
+    <li>Generate <strong>Privacy Policy</strong>:
+      <ul style="margin-top: 0.3rem;">
+        <li>Business type: <strong>Sole Proprietorship</strong></li>
+        <li>Collect emails? Yes</li>
+        <li>Process payments? Yes, via Stripe</li>
+        <li>Use cookies? Yes (sign-in)</li>
+      </ul>
+    </li>
+    <li>Generate <strong>Terms of Service</strong>. Mention coaching is &ldquo;at-will&rdquo; with
+      monthly cancellation, no refunds for current billing period.</li>
+    <li>Generate <strong>Refund Policy</strong>. Suggested: &ldquo;Coaching subscriptions are non-refundable
+      for the current billing period. You may cancel future renewals at any time. Refunds for partial
+      months are at coach discretion.&rdquo;</li>
+    <li><strong style="color: var(--gold);">Send to Van</strong> all three. He wires them into the
+      already-reserved <code>/privacy</code>, <code>/terms</code>, <code>/refund-policy</code> routes.</li>
+  </ol>
+
+  <div class="meta">
+    <span><strong>Time</strong> 1 hour</span>
+    <span><strong>Cost</strong> Free</span>
+  </div>
+</section>
+
+<!-- STEP 4 — PRODUCT IN STRIPE -->
+<section class="page">
+  <p class="section-num">Phase II · Step 4</p>
+  <h2 class="section">Create the coaching product in Stripe</h2>
+  <p class="section-intro">
+    Define what you sell. One Product (&ldquo;Steele &amp; Co. Coaching&rdquo;), one Price ($X/month).
+    The Price ID is what the app uses to bill clients. Identical to the full launch.
+  </p>
+
+  <div class="rec">
+    <p class="rec-label">Recommended for soft launch</p>
+    <p>
+      <strong>Friends-rate of $100/month</strong> as the Price for now. Reasoning: you&rsquo;re
+      asking friends to be guinea pigs in exchange for a discount, and you can raise to your real
+      rate ($250+) when you go to broader market after the soft-launch phase.
+    </p>
+    <p style="margin-top: 0.5rem;">
+      <em>Alternative pricing approach:</em> create the &ldquo;real&rdquo; Price ($250/mo) now, and use
+      Stripe&rsquo;s coupon feature to give your soft-launch friends a 60% off coupon code.
+      Cleaner books, real price visible publicly. See &ldquo;Alternatives&rdquo; below.
+    </p>
+  </div>
+
+  <p class="steps-label">Step by step</p>
+  <ol class="steps">
+    <li>Stripe dashboard → switch to <strong>Test mode</strong> (top-right toggle).</li>
+    <li>Sidebar → <strong>Product catalog</strong> → <strong>+ Add product</strong>.</li>
+    <li>Name: &ldquo;Steele &amp; Co. Coaching&rdquo;. Description: &ldquo;Monthly powerlifting coaching subscription&rdquo;.</li>
+    <li>Pricing: Standard. Price: 100.00 (or your number). Billing period: <strong>Monthly</strong>. Currency: USD.</li>
+    <li>Save. Copy the <strong>Price ID</strong> (looks like <code>price_1Q...</code>).</li>
+    <li>Switch to <strong>Live mode</strong>. Repeat steps 2–5. Copy that Price ID too.</li>
+    <li><strong style="color: var(--gold);">Send to Van</strong> both Price IDs (test + live)
+      and the price in cents (e.g., $100 = 10000).</li>
+  </ol>
+
+  <div class="alt">
+    <p class="alt-label">Alternative — friends discount via coupon</p>
+    <p>
+      Set the public Price at $250/mo. Then in Stripe → Coupons → create a coupon
+      &ldquo;FOUNDING&rdquo; for 60% off, applies forever. When you onboard a friend, paste the coupon
+      code at the bottom of the Checkout link before sending it. Friends pay $100/mo; books still
+      show $250 with a $150 discount line. Cleaner accounting, easier to convert to full price later.
+    </p>
+  </div>
+
+  <div class="meta">
+    <span><strong>Time</strong> 15 minutes</span>
+    <span><strong>Cost</strong> Free</span>
+  </div>
+</section>
+
+<!-- STEP 5 — DECISIONS -->
+<section class="page">
+  <p class="section-num">Phase II · Step 5</p>
+  <h2 class="section">Quick decisions</h2>
+  <p class="section-intro">
+    Three numbers + one address. Don&rsquo;t overthink &mdash; you can change them all later.
+  </p>
+
+  <p class="steps-label">Failed-payment alert email</p>
+  <ol class="steps">
+    <li>The address that gets pinged when a client&rsquo;s monthly card declines.
+      <strong>Recommended:</strong> your personal email (the one you check first). Send to Van.</li>
+  </ol>
+
+  <p class="steps-label">Thank-you signoff &amp; reply-to</p>
+  <ol class="steps">
+    <li>Right now there are no donation thank-you emails to worry about (donations are deferred).
+      For paid-invoice receipts, the signoff is &ldquo;William Steele &mdash; Steele &amp; Co.&rdquo;
+      and the reply-to address is the same as your alert email above. Send to Van if you want different.</li>
+  </ol>
+
+  <p class="steps-label">About-page review</p>
+  <ol class="steps">
+    <li>Visit the live <code>/about</code> page (Van will share the URL).</li>
+    <li>Read end-to-end. Send Van any rewrites &mdash; easier than track-changes.</li>
+    <li>Optional: send a head-and-shoulders photo (iPhone selfie in window light is fine).</li>
+  </ol>
+
+  <div class="meta">
+    <span><strong>Time</strong> 30 minutes total</span>
+    <span><strong>Cost</strong> Free</span>
+  </div>
+</section>
+
+<!-- STEP 6 — ONBOARD FRIENDS -->
+<section class="page">
+  <p class="section-num">Phase III · Step 6</p>
+  <h2 class="section">Onboard your first 3–5 paying friends</h2>
+  <p class="section-intro">
+    The whole point. Use the app the way real coaches will use it: enter the client&rsquo;s
+    name + email, system creates a Stripe Customer, generates a Checkout link, you text it to them.
+    They pay. You start coaching.
+  </p>
+
+  <div class="rec">
+    <p class="rec-label">Recommended</p>
+    <p>
+      Pick <strong>3–5 lifters you already trust to give honest feedback</strong>.
+      Tell them upfront: &ldquo;I&rsquo;m beta-testing a new coaching platform with a few friends
+      at a discount. The price will be $X for as long as you stay. Catch is I want your honest
+      feedback on what&rsquo;s broken.&rdquo;
+    </p>
+  </div>
+
+  <p class="steps-label">Step by step (per friend)</p>
+  <ol class="steps">
+    <li>Sign in to your coach side. Go to <code>/coach/customers/new</code>.</li>
+    <li>Enter their name, email, and select the plan (only one option for now).</li>
+    <li>Submit. The page returns a <strong>Stripe Checkout URL</strong> with a copy button.</li>
+    <li>Text or email them the URL with: &ldquo;Hey [name], here&rsquo;s the payment link to start coaching.
+      One-time card entry, will charge $X today and the same day each month after.&rdquo;</li>
+    <li>They click, enter card, pay. Stripe handles everything &mdash; no PCI work for you.</li>
+    <li>Your <code>/coach</code> dashboard shows them as Active. Invite them as an athlete via
+      <code>/coach/athletes/invite</code> using the same email so they can sign in to the app.</li>
+    <li>You start programming. They start logging workouts. You watch the system work end-to-end.</li>
+  </ol>
+
+  <p class="steps-label">What to watch for during the soft launch</p>
+  <ol class="steps">
+    <li>Did the Checkout link work on mobile (most clients will pay from their phone)?</li>
+    <li>Did the paid-invoice email arrive in their normal inbox (not spam)?</li>
+    <li>Did the magic-link sign-in actually work for them? (This is the most common failure mode.)</li>
+    <li>Does the workout logger feel right on their phone in the gym?</li>
+    <li>Anything they expected and the app didn&rsquo;t do?</li>
+  </ol>
+
+  <div class="callout">
+    <p>Send Van a list of any bugs / friction / missing features after the first 30 days of real use.
+    Most of the polish for v1.5 will come from this list.</p>
+  </div>
+
+  <div class="meta">
+    <span><strong>Time</strong> ~10 min onboarding per friend</span>
+    <span><strong>Cost</strong> Free</span>
+  </div>
+</section>
+
+<!-- STEP 7 — INSURANCE -->
+<section class="page">
+  <p class="section-num">Phase III · Step 7</p>
+  <h2 class="section">Optional but recommended: business liability insurance</h2>
+  <p class="section-intro">
+    As a sole proprietor with no LLC, your personal assets are exposed if a client is injured
+    following a program and decides to sue. The risk is small &mdash; especially with friends &mdash;
+    but $25–35/month closes the gap entirely.
+  </p>
+
+  <div class="rec">
+    <p class="rec-label">Recommended</p>
+    <p>
+      <strong>Hiscox</strong> (<code>hiscox.com</code>) or <strong>Thimble</strong>
+      (<code>thimble.com</code>) for general liability + professional liability tailored
+      for personal trainers / coaches. Both quote in 5 minutes online.
+    </p>
+  </div>
+
+  <p class="steps-label">Step by step</p>
+  <ol class="steps">
+    <li>Go to <code>hiscox.com</code> → &ldquo;Get a quote&rdquo; → category &ldquo;Personal trainer / fitness instructor&rdquo;.</li>
+    <li>Answer a few questions about coaching style (online, in-person, equipment used).</li>
+    <li>Get a quote, typically $25–40/month for $1M of general + $1M of professional liability.</li>
+    <li>Pay monthly. Save the certificate of insurance (PDF) somewhere safe &mdash; some gyms ask for it before letting you train clients on premises.</li>
+  </ol>
+
+  <div class="alt">
+    <p class="alt-label">Alternative — skip it during friends-only phase</p>
+    <p>
+      You can defer until you onboard your first non-friend client. Friends are unlikely to sue
+      and you have higher trust. Recommend buying it before you market publicly.
+    </p>
+  </div>
+
+  <div class="meta">
+    <span><strong>Time</strong> 15 minutes to quote + buy</span>
+    <span><strong>Cost</strong> $25–40/month</span>
+  </div>
+</section>
+
+<!-- STEP 8 — WHEN TO GRADUATE -->
+<section class="page">
+  <p class="section-num">Phase IV · Step 8</p>
+  <h2 class="section">When (and how) to formalize as an LLC</h2>
+  <p class="section-intro">
+    The soft-launch path is meant to be temporary &mdash; 60–90 days of validation, not your
+    permanent setup. Here&rsquo;s when to graduate and how the migration works.
+  </p>
+
+  <p class="steps-label">Triggers — graduate when any of these are true</p>
+  <ol class="steps">
+    <li>You&rsquo;ve had at least 3 paying clients for at least 60 days and you want more.</li>
+    <li>You&rsquo;re about to advertise publicly (paid ads, podcast appearances, anything that brings strangers).</li>
+    <li>Annual revenue projects to $50k+ &mdash; the LLC pays for itself in tax savings (S-corp election).</li>
+    <li>A client has done something risky during a session and you realized you have no liability protection.</li>
+    <li>You want to bring on a second coach. Multi-coach requires an entity.</li>
+  </ol>
+
+  <p class="steps-label">The migration (when it&rsquo;s time)</p>
+  <ol class="steps">
+    <li>Follow the <strong>full launch checklist</strong>: file LLC, get EIN, open Mercury (the &ldquo;other&rdquo; PDF).</li>
+    <li>In Stripe → Settings → Account details → <strong>Update business structure</strong> from
+      Individual to Company. Stripe runs a fresh KYC against the LLC docs.</li>
+    <li>Update bank account from personal checking to Mercury. Stripe deposits switch over after the next payout cycle.</li>
+    <li>Existing clients keep their subscriptions &mdash; nothing changes on their end. Stripe Customer + Subscription IDs persist across the entity migration.</li>
+    <li>Tell Van once Stripe migration is complete. He updates a couple of metadata fields and re-runs a smoke test.</li>
+    <li>Now turn on Plan 7b (donations) if you still want them &mdash; with the LLC in place, donations have a clean home that&rsquo;s separate from coaching revenue.</li>
+  </ol>
+
+  <div class="callout">
+    <p><strong>Total cost of waiting:</strong> roughly nothing. The LLC + EIN + Mercury combo is
+    $100–200 + an hour of paperwork whenever you do it. Doing it later doesn&rsquo;t penalize you;
+    doing it before you have product validation is the wasted motion.</p>
+  </div>
+</section>
+
+<!-- APPENDIX: SEND TO VAN -->
+<section class="page">
+  <p class="section-num">Appendix A</p>
+  <h2 class="section">Master &ldquo;send to Van&rdquo; checklist (soft launch)</h2>
+  <p class="section-intro">
+    Trim version of the full-launch list. Cross items off as you complete them.
+  </p>
+
+  <ul class="checklist">
+    <li><strong>Email domain choice</strong> (Step 2)</li>
+    <li><strong>Confirmation that DNS records are added</strong> (Step 2)</li>
+    <li><strong>Privacy + Terms + Refund policy text</strong> from Termly (Step 3)</li>
+    <li><strong>Stripe live API key</strong> via password manager (Step 1)</li>
+    <li><strong>Stripe Price IDs</strong> &mdash; both test and live (Step 4)</li>
+    <li><strong>Stripe webhook signing secret</strong> via password manager (Van will trigger this once production deploys)</li>
+    <li><strong>Subscription monthly amount in cents</strong> (Step 4)</li>
+    <li><strong>Failed-payment alert email</strong> (Step 5)</li>
+    <li><strong>About-page edits + optional photo</strong> (Step 5)</li>
+  </ul>
+
+  <p style="margin-top: 1.5rem; color: var(--ink-soft);">
+    Notice what&rsquo;s NOT here: LLC docs, EIN, Mercury account, donation amounts, thank-you signoff.
+    Those move to the full-launch list when you graduate.
+  </p>
+</section>
+
+<!-- APPENDIX: TIMELINE -->
+<section class="page">
+  <p class="section-num">Appendix B</p>
+  <h2 class="section">Suggested timeline</h2>
+  <p class="section-intro">
+    A two-day path to your first paid client, assuming Van has the production app deployed.
+  </p>
+
+  <table class="summary">
+    <thead>
+      <tr><th>Day</th><th>What you do</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Day 1 morning</td><td>Sign up for Stripe as Individual / Sole prop with SSN. Submit KYC (Step 1 — 1 hour).</td></tr>
+      <tr><td>Day 1 afternoon</td><td>Send Van the email-domain choice (Step 2). Generate Termly docs (Step 3 — 1 hour). Make pricing decision (Step 4).</td></tr>
+      <tr><td>Day 1 evening</td><td>Add DNS records as Van sends them. Quick decisions in Step 5 (10 min).</td></tr>
+      <tr><td>Day 2 morning</td><td>Stripe approves KYC (typically). Create Product + Price in test + live (Step 4 — 15 min). Send Van the keys + Price IDs.</td></tr>
+      <tr><td>Day 2 afternoon</td><td>Van pushes prod env updates. Smoke test with a test card. You&rsquo;re live.</td></tr>
+      <tr><td>Day 2 evening</td><td>Onboard your first paying friend (Step 6).</td></tr>
+      <tr><td>Day 3+</td><td>Onboard 2–4 more friends over the next week or two. Watch what breaks. Send Van feedback.</td></tr>
+      <tr><td>Day 7</td><td>Buy liability insurance from Hiscox (Step 7 — 15 min). Optional but cheap.</td></tr>
+      <tr><td>Day 60–90</td><td>Decide whether to graduate to LLC. If yes, follow the full-launch PDF.</td></tr>
+    </tbody>
+  </table>
+
+  <div class="callout">
+    <p><strong>Realistic timeline to first paying client:</strong> 2–3 days from when you start.
+    The slow parts (Stripe KYC at 24–48h, DNS propagation at ~30 min) are unavoidable but short.</p>
+  </div>
+</section>
+
+<!-- APPENDIX: WHAT'S DIFFERENT -->
+<section class="page">
+  <p class="section-num">Appendix C</p>
+  <h2 class="section">What&rsquo;s different vs. the full launch</h2>
+  <p class="section-intro">
+    Side-by-side reference. Anything in <strong style="color: var(--gold);">gold</strong> is a soft-launch shortcut.
+  </p>
+
+  <table class="summary">
+    <thead>
+      <tr><th>Aspect</th><th>Soft launch</th><th>Full launch</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Legal entity</td>
+        <td><strong style="color: var(--gold);">None (sole prop)</strong></td>
+        <td>LLC</td>
+      </tr>
+      <tr>
+        <td>Stripe business type</td>
+        <td><strong style="color: var(--gold);">Individual</strong></td>
+        <td>Company</td>
+      </tr>
+      <tr>
+        <td>Tax ID for Stripe</td>
+        <td><strong style="color: var(--gold);">Your SSN</strong></td>
+        <td>EIN</td>
+      </tr>
+      <tr>
+        <td>Bank for Stripe payouts</td>
+        <td><strong style="color: var(--gold);">Personal checking</strong></td>
+        <td>Mercury (business)</td>
+      </tr>
+      <tr>
+        <td>Income tax treatment</td>
+        <td><strong style="color: var(--gold);">Schedule C on personal return</strong></td>
+        <td>Pass-through (LLC default) or S-corp election</td>
+      </tr>
+      <tr>
+        <td>Liability protection</td>
+        <td><strong style="color: var(--gold);">None (insurance recommended)</strong></td>
+        <td>LLC veil + insurance</td>
+      </tr>
+      <tr>
+        <td>Email domain (Resend)</td>
+        <td>Required</td>
+        <td>Required</td>
+      </tr>
+      <tr>
+        <td>Privacy / terms / refund policy</td>
+        <td>Required</td>
+        <td>Required</td>
+      </tr>
+      <tr>
+        <td>Coaching subscriptions</td>
+        <td>Active</td>
+        <td>Active</td>
+      </tr>
+      <tr>
+        <td>Donations (youth team)</td>
+        <td><strong style="color: var(--gold);">Deferred</strong></td>
+        <td>Active</td>
+      </tr>
+      <tr>
+        <td>Public /team page</td>
+        <td>Optional, can stay quiet</td>
+        <td>Live with athlete profiles</td>
+      </tr>
+      <tr>
+        <td>Time to first paying client</td>
+        <td><strong style="color: var(--gold);">~2 days</strong></td>
+        <td>2–3 weeks</td>
+      </tr>
+      <tr>
+        <td>App code</td>
+        <td>Identical</td>
+        <td>Identical</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="callout">
+    <p>
+      <strong>Bottom line:</strong> the soft launch costs you liability protection and tax cleanliness,
+      and defers donations. It buys you 2 weeks of validation time before committing the paperwork.
+      For a kick-the-tires phase with friends, that&rsquo;s the right trade.
+    </p>
+  </div>
+</section>
+
+</body>
+</html>
