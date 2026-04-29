@@ -26,7 +26,8 @@ function isPublic(pathname: string) {
     pathname.startsWith('/_next') ||
     pathname.startsWith('/api/webhooks') ||
     pathname.startsWith('/request-to-join/') ||
-    pathname.startsWith('/dev/')
+    pathname.startsWith('/dev/') ||
+    pathname.startsWith('/team')
   );
 }
 
