@@ -17,4 +17,5 @@ test('magic-link flow lands on /login?error=account_not_yet_linked for unlinked 
 
   // Unlinked user — callback redirects to /login with the friendly error.
   await expect(page).toHaveURL(/\/login\?error=account_not_yet_linked/);
+  await expect(page.getByText(/account.*set up/i)).toBeVisible();
 });
