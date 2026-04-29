@@ -44,7 +44,7 @@ export function AssignForm({
       <label className="flex flex-col gap-1">
         <span className="text-bone-muted text-xs tracking-widest uppercase">Athlete</span>
         <select name="athleteId" required defaultValue=""
-          className="border-hairline-strong w-full border bg-[#0c0c0c] px-3 py-2 text-bone">
+          className="border-hairline-strong w-full border bg-[#16140f] px-3 py-2 text-bone">
           <option value="" disabled>Pick an athlete…</option>
           {athletes.map((a) => <option key={a.id} value={a.id}>{a.name}</option>)}
         </select>

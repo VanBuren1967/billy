@@ -36,7 +36,7 @@ export function BlankProgramForm() {
       </Field>
       <Field label="Block type">
         <select name="blockType" required defaultValue="strength"
-          className="border-hairline-strong w-full border bg-[#0c0c0c] px-3 py-2 text-bone">
+          className="border-hairline-strong w-full border bg-[#16140f] px-3 py-2 text-bone">
           <option value="hypertrophy">Hypertrophy</option>
           <option value="strength">Strength</option>
           <option value="peak">Peak</option>

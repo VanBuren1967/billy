@@ -55,7 +55,7 @@ export default async function AppDashboard() {
         </p>
       </header>
 
-      <section className="border-hairline-strong border bg-[#0c0c0c] p-6">
+      <section className="border-hairline-strong border bg-[#16140f] p-6">
         <p className="text-gold text-xs tracking-widest uppercase">Today</p>
         {todaysWorkout ? (
           completedDayIds.has(todaysWorkout.id) ? (

@@ -50,7 +50,7 @@ function Chooser() {
 
 function ChoiceCard({ href, title, body }: { href: string; title: string; body: string }) {
   return (
-    <Link href={href} className="border-hairline-strong block border bg-[#0c0c0c] p-6 hover:border-gold">
+    <Link href={href} className="border-hairline-strong block border bg-[#16140f] p-6 hover:border-gold">
       <h3 className="text-bone font-serif text-xl">{title}</h3>
       <p className="text-bone-muted mt-2 text-sm">{body}</p>
     </Link>

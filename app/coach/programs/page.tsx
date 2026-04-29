@@ -69,7 +69,7 @@ function ProgramCard({ program: p }: { program: Awaited<ReturnType<typeof listPr
     general: 'text-bone-muted',
   }[p.blockType];
   return (
-    <li className="border-hairline-strong border bg-[#0c0c0c] p-6">
+    <li className="border-hairline-strong border bg-[#16140f] p-6">
       <div className="flex items-baseline justify-between">
         <p className={`text-xs tracking-widest uppercase ${blockColor}`}>{p.blockType}</p>
         {!p.isActive && <p className="text-bone-faint text-xs">Archived</p>}

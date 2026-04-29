@@ -122,7 +122,7 @@ function ExerciseBlock({
 }) {
   const prescription = ex.loadPct != null ? `${ex.loadPct}%` : ex.loadLbs != null ? `${ex.loadLbs} lb` : '—';
   return (
-    <section className="border-hairline-strong border bg-[#0c0c0c] p-4">
+    <section className="border-hairline-strong border bg-[#16140f] p-4">
       <header className="mb-3 flex items-baseline justify-between">
         <div>
           {ex.groupLabel && <p className="text-gold text-xs tracking-widest uppercase">{ex.groupLabel}</p>}
@@ -197,7 +197,7 @@ function NotesBlock({
   onSave: (patch: Partial<{ painNotes: string | null; generalNotes: string | null }>) => void;
 }) {
   return (
-    <section className="border-hairline-strong border bg-[#0c0c0c] p-4">
+    <section className="border-hairline-strong border bg-[#16140f] p-4">
       <h3 className="text-bone-muted mb-3 text-xs tracking-widest uppercase">Notes</h3>
       <label className="mb-3 flex flex-col gap-1">
         <span className="text-bone-faint text-xs">Pain (optional)</span>
@@ -226,7 +226,7 @@ function CompletionBar({
 }: { log: WorkoutLog; onComplete: () => void; onReopen: () => void }) {
   if (log.status === 'completed') {
     return (
-      <div className="flex items-baseline justify-between border-hairline-strong border bg-[#0c0c0c] p-4">
+      <div className="flex items-baseline justify-between border-hairline-strong border bg-[#16140f] p-4">
         <div>
           <p className="text-gold text-xs tracking-widest uppercase">Completed</p>
           <p className="text-bone-muted text-xs">
