@@ -1,3 +1,4 @@
+import { SubmitButton } from '@/components/submit-button';
 import { approveJoinRequest, declineJoinRequest } from './actions';
 
 type Request = {
@@ -37,21 +38,21 @@ export function RequestCard({ request }: { request: Request }) {
         <div className="mt-6 flex gap-3">
           <form action={approveJoinRequest}>
             <input type="hidden" name="requestId" value={request.id} />
-            <button
-              type="submit"
-              className="border-gold text-gold hover:bg-gold hover:text-ink-950 focus-visible:outline-gold border px-5 py-2 text-xs tracking-widest uppercase transition focus-visible:outline-2 focus-visible:outline-offset-2"
+            <SubmitButton
+              pendingLabel="Approving…"
+              className="border-gold text-gold hover:bg-gold hover:text-ink-950 focus-visible:outline-gold border px-5 py-2 text-xs tracking-widest uppercase transition focus-visible:outline-2 focus-visible:outline-offset-2 disabled:opacity-50"
             >
               Approve &amp; invite
-            </button>
+            </SubmitButton>
           </form>
           <form action={declineJoinRequest}>
             <input type="hidden" name="requestId" value={request.id} />
-            <button
-              type="submit"
-              className="border-hairline-strong text-bone-muted hover:text-bone focus-visible:outline-gold border px-5 py-2 text-xs tracking-widest uppercase transition focus-visible:outline-2 focus-visible:outline-offset-2"
+            <SubmitButton
+              pendingLabel="Declining…"
+              className="border-hairline-strong text-bone-muted hover:text-bone focus-visible:outline-gold border px-5 py-2 text-xs tracking-widest uppercase transition focus-visible:outline-2 focus-visible:outline-offset-2 disabled:opacity-50"
             >
               Decline
-            </button>
+            </SubmitButton>
           </form>
         </div>
       ) : (

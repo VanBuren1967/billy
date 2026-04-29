@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { createClient } from '@/lib/supabase/server';
+import { SubmitButton } from '@/components/submit-button';
 import { listRecentWorkoutLogs } from '@/lib/workouts/list-recent-logs';
 import { listRecentCheckIns } from '@/lib/check-ins/list-recent';
 
@@ -168,18 +169,24 @@ export default async function AthletePage({ params }: { params: Promise<{ id: st
                 <>
                   <p className="text-gold text-xs tracking-widest uppercase">✓ Published</p>
                   <form action={`/coach/athletes/${id}/profile/unpublish`} method="post">
-                    <button type="submit" className="text-bone-faint hover:text-rose-400 text-xs tracking-widest uppercase">
+                    <SubmitButton
+                      pendingLabel="Unpublishing…"
+                      className="text-bone-faint hover:text-rose-400 text-xs tracking-widest uppercase disabled:opacity-50"
+                    >
                       Unpublish
-                    </button>
+                    </SubmitButton>
                   </form>
                 </>
               ) : (
                 <>
                   <p className="text-bone-muted text-xs tracking-widest uppercase">Awaiting approval</p>
                   <form action={`/coach/athletes/${id}/profile/approve`} method="post">
-                    <button type="submit" className="border-gold text-gold border px-4 py-2 text-xs tracking-widest uppercase">
+                    <SubmitButton
+                      pendingLabel="Approving…"
+                      className="border-gold text-gold border px-4 py-2 text-xs tracking-widest uppercase disabled:opacity-50"
+                    >
                       Approve & publish
-                    </button>
+                    </SubmitButton>
                   </form>
                 </>
               )}
