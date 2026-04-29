@@ -117,32 +117,58 @@ export default async function CoachDashboard() {
         </div>
       </section>
 
-      <section className="border-hairline-strong border bg-[#16140f] p-6">
-        <div className="flex items-baseline justify-between">
-          <h2 className="text-bone font-serif text-xl">Donations &amp; revenue</h2>
-          <p className="text-bone-faint text-xs tracking-widest uppercase">Coming soon</p>
-        </div>
-        <p className="text-bone-muted mt-3 text-sm">
-          When Plan 7b ships (after your Stripe Connect onboarding), this card will show
-          total donations received, recent contributions, and per-athlete breakdowns.
-          Donations come from athletes&rsquo; public profiles on{' '}
-          <Link href="/team" className="text-gold underline-offset-4 hover:underline">/team</Link>.
-        </p>
-        <div className="mt-3 flex items-baseline gap-6">
-          <div>
-            <p className="text-bone-faint text-xs tracking-widest uppercase">Total collected</p>
-            <p className="text-bone font-serif text-3xl">$0</p>
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+        <section className="border-hairline-strong border bg-[#16140f] p-6">
+          <div className="flex items-baseline justify-between">
+            <h2 className="text-bone font-serif text-xl">Paying customers</h2>
+            <p className="text-bone-faint text-xs tracking-widest uppercase">Plan 8 — coming</p>
           </div>
-          <div>
-            <p className="text-bone-faint text-xs tracking-widest uppercase">This month</p>
-            <p className="text-bone font-serif text-3xl">$0</p>
+          <p className="text-bone-muted mt-3 text-sm">
+            Onboard paying coaching clients with monthly subscriptions. System will send paid-invoice
+            email on every successful charge and flag failed payments here.
+          </p>
+          <div className="mt-3 flex items-baseline gap-6">
+            <div>
+              <p className="text-bone-faint text-xs tracking-widest uppercase">Active subs</p>
+              <p className="text-bone font-serif text-3xl">0</p>
+            </div>
+            <div>
+              <p className="text-bone-faint text-xs tracking-widest uppercase">MRR</p>
+              <p className="text-bone font-serif text-3xl">$0</p>
+            </div>
+            <div>
+              <p className="text-bone-faint text-xs tracking-widest uppercase">Failed</p>
+              <p className="text-rose-400/80 font-serif text-3xl">0</p>
+            </div>
           </div>
-          <div>
-            <p className="text-bone-faint text-xs tracking-widest uppercase">Pending payouts</p>
-            <p className="text-bone font-serif text-3xl">$0</p>
+        </section>
+
+        <section className="border-hairline-strong border bg-[#16140f] p-6">
+          <div className="flex items-baseline justify-between">
+            <h2 className="text-bone font-serif text-xl">Youth team donations</h2>
+            <p className="text-bone-faint text-xs tracking-widest uppercase">Plan 7b — coming</p>
           </div>
-        </div>
-      </section>
+          <p className="text-bone-muted mt-3 text-sm">
+            Donations for athletes going to Nationals and beyond, from public profiles on{' '}
+            <Link href="/team" className="text-gold underline-offset-4 hover:underline">/team</Link>.
+            Donor gets a thank-you + auto-added to monthly team update list.
+          </p>
+          <div className="mt-3 flex items-baseline gap-6">
+            <div>
+              <p className="text-bone-faint text-xs tracking-widest uppercase">Total raised</p>
+              <p className="text-bone font-serif text-3xl">$0</p>
+            </div>
+            <div>
+              <p className="text-bone-faint text-xs tracking-widest uppercase">This month</p>
+              <p className="text-bone font-serif text-3xl">$0</p>
+            </div>
+            <div>
+              <p className="text-bone-faint text-xs tracking-widest uppercase">Donors</p>
+              <p className="text-bone font-serif text-3xl">0</p>
+            </div>
+          </div>
+        </section>
+      </div>
 
       <div className="flex flex-col gap-6">
         {/* 1. Missed workouts */}
