@@ -23,6 +23,26 @@ describe('savePublicProfileSchema', () => {
     expect(r.success).toBe(false);
   });
 
+  it('rejects http:// photo URLs (https only)', () => {
+    const r = savePublicProfileSchema.safeParse({
+      headline: 'h',
+      bio: 'b',
+      photoUrl: 'http://example.com/me.jpg',
+      recentMeetResults: [],
+    });
+    expect(r.success).toBe(false);
+  });
+
+  it('rejects data: photo URLs', () => {
+    const r = savePublicProfileSchema.safeParse({
+      headline: 'h',
+      bio: 'b',
+      photoUrl: 'data:image/png;base64,iVBORw0KGgo=',
+      recentMeetResults: [],
+    });
+    expect(r.success).toBe(false);
+  });
+
   it('accepts up to 10 meet results', () => {
     const meets = Array.from({ length: 10 }, (_, i) => ({
       meet: `Meet ${i + 1}`,

@@ -10,7 +10,14 @@ const meetResultSchema = z.object({
 export const savePublicProfileSchema = z.object({
   headline: z.string().trim().min(1).max(120),
   bio: z.string().trim().min(1).max(4000),
-  photoUrl: z.string().trim().url().max(500).optional().nullable(),
+  photoUrl: z
+    .string()
+    .trim()
+    .url()
+    .startsWith('https://', 'Photo URL must use https://')
+    .max(500)
+    .optional()
+    .nullable(),
   recentMeetResults: z.array(meetResultSchema).max(10),
 });
 export type SavePublicProfileInput = z.infer<typeof savePublicProfileSchema>;
