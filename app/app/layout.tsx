@@ -11,6 +11,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
           <div className="flex items-center gap-6 text-xs uppercase tracking-widest">
             <Link href="/app" className="text-bone-muted hover:text-bone">Today</Link>
             <Link href="/app/program" className="text-bone-muted hover:text-bone">Program</Link>
+            <Link href="/app/check-in" className="text-bone-muted hover:text-bone">Check-in</Link>
             <Link href="/auth/sign-out" className="text-bone-faint hover:text-bone-muted">Sign out</Link>
           </div>
         </div>

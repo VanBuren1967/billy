@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { createClient } from '@/lib/supabase/server';
 import { listRecentWorkoutLogs } from '@/lib/workouts/list-recent-logs';
+import { listRecentCheckIns } from '@/lib/check-ins/list-recent';
 
 export const metadata = { title: 'Athlete — Steele & Co.' };
 
@@ -28,6 +29,7 @@ export default async function AthletePage({ params }: { params: Promise<{ id: st
   const athlete = data as Athlete;
 
   const recentLogs = await listRecentWorkoutLogs(id, 10);
+  const recentCheckIns = await listRecentCheckIns(id, 6);
 
   return (
     <div className="flex flex-col gap-12">
@@ -101,6 +103,30 @@ export default async function AthletePage({ params }: { params: Promise<{ id: st
                     </p>
                   )}
                 </div>
+              </li>
+            ))}
+          </ul>
+        )}
+      </section>
+
+      <section className="flex flex-col gap-3">
+        <h2 className="text-bone-muted text-xs tracking-widest uppercase">Recent check-ins</h2>
+        {recentCheckIns.length === 0 ? (
+          <p className="text-bone-faint text-sm">No check-ins yet.</p>
+        ) : (
+          <ul className="border-hairline-strong border bg-[#16140f] divide-y divide-[#1a1814]">
+            {recentCheckIns.map((c) => (
+              <li key={c.id} className="px-4 py-3">
+                <div className="flex items-baseline justify-between">
+                  <p className="text-bone-faint text-xs">Week of {c.weekStarting}</p>
+                  <p className="text-bone-faint text-xs">{c.bodyweightLbs} lb</p>
+                </div>
+                <p className="text-bone tabular-nums mt-1 text-sm">
+                  Fatigue {c.fatigue} · Soreness {c.soreness} · Confidence {c.confidence} · Motivation {c.motivation}
+                  {c.meetReadiness != null && ` · Meet ${c.meetReadiness}`}
+                </p>
+                {c.painNotes && <p className="text-rose-400/80 mt-1 text-xs">Pain: {c.painNotes.slice(0, 100)}</p>}
+                {c.comments && <p className="text-bone-muted mt-1 text-xs">{c.comments.slice(0, 120)}</p>}
               </li>
             ))}
           </ul>

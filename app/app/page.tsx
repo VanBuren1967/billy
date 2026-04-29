@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { getCurrentAthlete } from '@/lib/athletes/get-current-athlete';
 import { getActiveProgram } from '@/lib/athletes/get-active-program';
 import { computeCurrentWeek, computeTodayDay } from '@/lib/athletes/program-time';
+import { getCurrentWeekCheckIn } from '@/lib/check-ins/get-current-week';
 import { createClient } from '@/lib/supabase/server';
 
 export const metadata = { title: 'Today · Steele & Co.' };
@@ -23,6 +24,8 @@ export default async function AppDashboard() {
       completedDayIds = new Set((logs ?? []).map((l) => l.program_day_id));
     }
   }
+
+  const { checkIn: currentCheckIn, weekStarting: ciWeekStarting } = await getCurrentWeekCheckIn();
 
   if (!tree) {
     return (
@@ -82,6 +85,28 @@ export default async function AppDashboard() {
           <>
             <h2 className="text-bone mt-2 font-serif text-2xl">Rest day</h2>
             <p className="text-bone-muted mt-2 text-sm">No workout scheduled today. Recover well.</p>
+          </>
+        )}
+      </section>
+
+      <section className="border-hairline-strong border bg-[#16140f] p-6">
+        <p className="text-gold text-xs tracking-widest uppercase">Check-in</p>
+        {currentCheckIn ? (
+          <>
+            <h2 className="text-bone mt-2 font-serif text-2xl">✓ Checked in</h2>
+            <p className="text-bone-muted mt-2 text-sm">Week of {ciWeekStarting}</p>
+            <Link href="/app/check-in" className="text-gold mt-3 inline-block text-xs tracking-widest uppercase">
+              Review / edit →
+            </Link>
+          </>
+        ) : (
+          <>
+            <h2 className="text-bone mt-2 font-serif text-2xl">This week&rsquo;s check-in</h2>
+            <p className="text-bone-muted mt-2 text-sm">Bodyweight + fatigue/soreness/confidence/motivation. Takes 30 seconds.</p>
+            <Link href="/app/check-in"
+              className="border-gold text-gold mt-4 inline-block border px-6 py-2 text-xs tracking-widest uppercase">
+              Submit check-in →
+            </Link>
           </>
         )}
       </section>
