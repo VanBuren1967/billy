@@ -37,24 +37,30 @@ export async function submitJoinRequest(
     };
   }
 
-  // Use the admin client because the public form is unauthenticated; the RLS
-  // policy already permits inserts from `anon`, but using the admin client here
-  // sidesteps cookie/anon-session edge cases.
   const admin = createAdminClient();
   const { error } = await admin.from('join_requests').insert({
     name: parsed.data.name,
     email: parsed.data.email,
     message: parsed.data.message || null,
   });
-  if (error) {
+
+  // 23505 = duplicate pending request for this email (see migration 0016).
+  // Treat as idempotent success: the prospect's earlier submission is in the
+  // queue, no need to insert a second row or send a second confirmation email.
+  const isDuplicate = error?.code === '23505';
+  if (error && !isDuplicate) {
     return { kind: 'error', message: 'Something went wrong. Please try again.' };
   }
 
-  try {
-    const tpl = requestReceivedEmail(parsed.data.name);
-    await sendEmail({ to: parsed.data.email, ...tpl });
-  } catch (e) {
-    Sentry.captureException(e, { tags: { feature: 'request-to-join', stage: 'confirmation_email' } });
+  if (!isDuplicate) {
+    try {
+      const tpl = requestReceivedEmail(parsed.data.name);
+      await sendEmail({ to: parsed.data.email, ...tpl });
+    } catch (e) {
+      Sentry.captureException(e, {
+        tags: { feature: 'request-to-join', stage: 'confirmation_email' },
+      });
+    }
   }
 
   redirect('/request-to-join/thanks');
