@@ -10,11 +10,11 @@ export const metadata: Metadata = {
 const FAQS = [
   {
     q: 'How is this different from a generic powerlifting template?',
-    a: 'Templates are written for an average athlete that doesn&apos;t exist. Programming here is built for your weak points, your schedule, your equipment, and your competition timeline &mdash; and it changes weekly based on what your check-ins and video say.',
+    a: "Templates are written for an average athlete that doesn't exist. Programming here is built for your weak points, your schedule, your equipment, and your competition timeline — and it changes weekly based on what your check-ins and video say.",
   },
   {
     q: 'Do I have to compete to be coached?',
-    a: 'No, but the methodology is built around competition. If you&apos;re training seriously and intend to compete eventually, the work transfers directly. If your only goal is general fitness, we&apos;re probably not the right fit.',
+    a: "No, but the methodology is built around competition. If you're training seriously and intend to compete eventually, the work transfers directly. If your only goal is general fitness, we're probably not the right fit.",
   },
   {
     q: 'Raw or equipped?',
@@ -26,19 +26,19 @@ const FAQS = [
   },
   {
     q: 'Do you take beginners?',
-    a: 'Athletes accepted are typically intermediate or advanced &mdash; they have at least a year of structured training and a clear competition trajectory. First-time competitors are welcome if they&apos;re committed.',
+    a: "Athletes accepted are typically intermediate or advanced — they have at least a year of structured training and a clear competition trajectory. First-time competitors are welcome if they're committed.",
   },
   {
     q: 'How much access do I get to the coach?',
-    a: 'Direct. Programming questions, attempt strategy, video review, check-in feedback &mdash; you talk to William, not a junior staffer.',
+    a: 'Direct. Programming questions, attempt strategy, video review, check-in feedback — you talk to William, not a junior staffer.',
   },
   {
     q: 'What about injury history?',
-    a: 'Programming accounts for injury history and active flare-ups. We&apos;ll work around what we have to. We don&apos;t replace medical care &mdash; if you need a PT or physician, see one.',
+    a: "Programming accounts for injury history and active flare-ups. We'll work around what we have to. We don't replace medical care — if you need a PT or physician, see one.",
   },
   {
     q: 'How do I get started?',
-    a: 'Submit an inquiry through the application form. If it looks like a fit, we&apos;ll set up a brief conversation and go from there.',
+    a: "Submit an inquiry through the application form. If it looks like a fit, we'll set up a brief conversation and go from there.",
   },
 ];
 
@@ -61,10 +61,7 @@ export default function FaqPage() {
           {FAQS.map((item, i) => (
             <div key={i} className="border-hairline-strong border-l-2 pl-5">
               <dt className="text-bone font-serif text-xl leading-snug">{item.q}</dt>
-              <dd
-                className="text-bone-muted mt-3 leading-relaxed"
-                dangerouslySetInnerHTML={{ __html: item.a }}
-              />
+              <dd className="text-bone-muted mt-3 leading-relaxed">{item.a}</dd>
             </div>
           ))}
         </dl>

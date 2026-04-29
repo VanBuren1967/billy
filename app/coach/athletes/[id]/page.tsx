@@ -142,13 +142,6 @@ export default async function AthletePage({ params }: { params: Promise<{ id: st
         </div>
       </dl>
 
-      <section className="border-hairline-strong border-2 p-6">
-        <p className="text-bone-faint text-xs tracking-widest uppercase">Coming soon</p>
-        <p className="text-bone-muted mt-2 text-sm">
-          Programs, workouts, and check-ins will appear here once Plan 3 ships.
-        </p>
-      </section>
-
       <section className="border-hairline-strong border bg-[#16140f] p-6">
         <div className="flex items-baseline justify-between">
           <h2 className="text-bone-muted text-xs tracking-widest uppercase">Public profile</h2>

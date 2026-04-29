@@ -32,7 +32,7 @@ const TIERS = [
       'Everything in Online',
       'In-person coaching sessions',
       'On-platform meet handling',
-      'Equipment fitting (raw &amp; equipped)',
+      'Equipment fitting (raw & equipped)',
       'Priority response',
     ],
     cta: 'Inquire',
@@ -42,7 +42,7 @@ const TIERS = [
     rate: 'Application-based',
     summary: 'Short-cycle peaking and competition-day handling for an upcoming meet.',
     features: [
-      'Peaking block (4&ndash;12 weeks)',
+      'Peaking block (4–12 weeks)',
       'Attempt strategy + opener calculation',
       'Federation-specific rules review',
       'Travel + cut planning if applicable',
@@ -79,18 +79,13 @@ export default function PricingPage() {
               )}
               <h2 className="text-bone font-serif text-2xl tracking-tight">{tier.name}</h2>
               <p className="text-gold mt-2 text-sm">{tier.rate}</p>
-              <p
-                className="text-bone-muted mt-4 text-sm leading-relaxed"
-                dangerouslySetInnerHTML={{ __html: tier.summary }}
-              />
+              <p className="text-bone-muted mt-4 text-sm leading-relaxed">{tier.summary}</p>
 
               <ul className="text-bone-muted mt-6 flex flex-col gap-2 text-sm">
                 {tier.features.map((f) => (
-                  <li
-                    key={f}
-                    className="border-hairline-strong border-l-2 pl-3"
-                    dangerouslySetInnerHTML={{ __html: f }}
-                  />
+                  <li key={f} className="border-hairline-strong border-l-2 pl-3">
+                    {f}
+                  </li>
                 ))}
               </ul>
 

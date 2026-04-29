@@ -20,7 +20,7 @@ const STEPS = [
   },
   {
     n: 'IV',
-    title: 'Train &amp; review',
+    title: 'Train & review',
     body: 'Log every session. Coach reviews video and check-ins weekly. Adjust as the data demands.',
   },
 ];
@@ -96,14 +96,8 @@ export default function Home() {
                 <p className="text-gold font-serif text-2xl" aria-label={`Step ${step.n}`}>
                   {step.n}
                 </p>
-                <h3
-                  className="text-bone mt-2 font-serif text-xl"
-                  dangerouslySetInnerHTML={{ __html: step.title }}
-                />
-                <p
-                  className="text-bone-muted mt-3 text-sm leading-relaxed"
-                  dangerouslySetInnerHTML={{ __html: step.body }}
-                />
+                <h3 className="text-bone mt-2 font-serif text-xl">{step.title}</h3>
+                <p className="text-bone-muted mt-3 text-sm leading-relaxed">{step.body}</p>
               </li>
             ))}
           </ol>
